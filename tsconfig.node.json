@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true  //如果模块是系统，或者 esModuleInterop 并且模块不是 es6/es2015 或 esnext，则为 true。解决导入系统模块时候的报错
+  },
+  "include": ["vite.config.ts"]
+}

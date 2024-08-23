@@ -1,0 +1,60 @@
+@import './variables.scss';
+
+html,body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box; /* 指定盒模型为 IE模型(怪异模式)更方便后面设置页面 */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+#app {
+  height: 100%;
+}
+
+/* 指定after和before伪元素 box-sizing 属性的值为inherit，应该从父元素继承，依旧为IE模型 */
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+
+
+/* 业务样式 */
+.grid-stack {
+  background: #00000000;
+}
+
+.grid-stack-item-content {
+  color: #2c3e50;
+  text-align: center;
+}
+
+
+.grid-stack-item-removing {
+  opacity: 0.5;
+}

@@ -1,0 +1,32 @@
+{
+  "icon": [
+    {
+      "url": "https://ai.taobao.com?pid=mm_54561194_2536750027_111828300388&union_lens=lensId%3APUB%401644727921%4021057ef3_09a7_17ef16c69e2_05aa%4001",
+      "type": "component",
+      "name": "日历",
+      "src": "",
+      "id": "4"
+    },
+    {
+      "url": "http://www.bilibili.com/",
+      "type": "icon",
+      "name": "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili",
+      "src": "https://files.codelife.cc/website/bilibili.svg",
+      "id": "3"
+    },
+    {
+      "url": "http://www.12306.cn",
+      "type": "icon",
+      "name": "12306",
+      "src": "https://files.codelife.cc/website/12306.svg",
+      "id": "2"
+    },
+    {
+      "url": "http://www.douyu.com/",
+      "type": "icon",
+      "name": "斗鱼",
+      "src": "https://files.codelife.cc/website/douyu.svg",
+      "id": "1"
+    }
+  ]
+}

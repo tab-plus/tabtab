@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    //ESNext是⼀个泛指, 它永远指向下⼀个版本. ⽐如当前最新版本是ES2021, 那么ESNext指的就是2022年6⽉将要发布的标准
+    "target": "esnext",
+    //默认 = 赋值的方式就是所谓的 [[Set]] 语义，字段声明的方式从 = 赋值的方式变更成了 Object.defineProperty，也就是将 class 声明中的字段语义从 [[Set]] 变更到 [[Define]]
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    //模块解析策略，ts默认用node的解析策略，即相对的方式导入
+    "moduleResolution": "node",
+    //启用 --strict相当于启用 --noImplicitAny, --noImplicitThis, --alwaysStrict， --strictNullChecks和 --strictFunctionTypes和--strictPropertyInitialization。
+    "strict": false,
+    "noImplicitAny": false,
+    // 允许编译器编译JS，JSX文件
+    "allowJs": false,
+    // 允许使用jsx 其中一种模式
+    "jsx": "preserve",
+    //是否输出src2.js.map文件
+    "sourceMap": true,
+    //是否允许把json文件当做模块进行解析
+    "resolveJsonModule": true,
+    //提供'--isolatedModules'标志时，所有文件都必须是模块。一定需要为true，可以通过添加空export {}来欺骗TypeScript检查器。不然注释它
+    //"isolatedModules": true,
+    //export=导出，由import from 导入是否被支持
+    "esModuleInterop": true,
+    //注入的库列表
+    "lib": ["esnext", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["typings/*"]
+    },
+    //忽略所有的声明文件（ *.d.ts）的类型检查。
+    "skipLibCheck": true
+  },
+  //include包含文件夹会被ts进行读取
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "typings", "auto-imports.d.ts", "type.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -1,0 +1,74 @@
+{
+  "searchList": [
+    {
+      "name": "百度",
+      "slinkLogo": "baidu",
+      "frontLink": "https://www.baidu.com/s?wd="
+    },
+    {
+      "name": "谷歌",
+      "slinkLogo": "google",
+      "frontLink": "https://www.google.com/search?q="
+    },
+    {
+      "name": "必应",
+      "slinkLogo": "bing",
+      "frontLink": "https://cn.bing.com/search?q="
+    },
+    {
+      "name": "duckduckgo",
+      "slinkLogo": "duck",
+      "frontLink": "https://duckduckgo.com/?t=min&q="
+    },
+    {
+      "name": "淘宝搜索",
+      "slinkLogo": "taobao",
+      "frontLink": "http://s.taobao.com/search?q="
+    },
+    {
+      "name": "天猫搜索",
+      "slinkLogo": "tianmao",
+      "frontLink": "http://list.tmall.com/search_product.htm?q="
+    },
+    {
+      "name": "京东商城",
+      "slinkLogo": "jingdong",
+      "frontLink": "http://search.jd.com/Search?keyword="
+    },
+    {
+      "name": "1688商城",
+      "slinkLogo": "1688",
+      "frontLink": "https://s.1688.com/selloffer/offer_search.htm?keywords="
+    },
+    {
+      "name": "知乎",
+      "slinkLogo": "zhihu",
+      "frontLink": "https://www.zhihu.com/search?type=content&q="
+    },
+    {
+      "name": "微博搜索",
+      "slinkLogo": "weibo",
+      "frontLink": "https://s.weibo.com/?Refer="
+    },
+    {
+      "name": "哔哩哔哩",
+      "slinkLogo": "bilibili",
+      "frontLink": "https://search.bilibili.com/all?keyword="
+    },
+    {
+      "name": "豆瓣",
+      "slinkLogo": "douban",
+      "frontLink": "https://www.douban.com/search?source=suggest&q="
+    },
+    {
+      "name": "优酷",
+      "slinkLogo": "youku",
+      "frontLink": "https://so.youku.com/search_video/q_"
+    },
+    {
+      "name": "Github",
+      "slinkLogo": "github",
+      "frontLink": "https://github.com/search?utf8=%E2%9C%93&q="
+    }
+  ]
+}

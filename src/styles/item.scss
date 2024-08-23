@@ -1,0 +1,282 @@
+.memoItem-bgColor {
+    height: 100%;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.bg-weather {
+    background: linear-gradient(45deg, #354564, #7f90ad);
+
+}
+
+.memoItem {}
+
+.memoItemOne {}
+
+.memoItemOne-bgColor {
+    background-color: #ffb716;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.memoItemHeader {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #ffb716;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.memoItemBody {
+    border-bottom: 1px solid rgb(225, 220, 220);
+    color: black;
+    padding: 5px;
+    display: flex;
+    justify-content: left;
+}
+
+.dateItem {
+    height: 100%;
+}
+
+// 4x4布局
+.dataItemFour {
+    border-radius: 20px;
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+// 1x1布局
+.dateItemOne {}
+
+.dateItemHeader {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #ff5a5d;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // height: 40px;
+}
+
+.dateItemBody {
+    color: black;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.num {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.day {
+    font-size: 10px;
+    color: gray;
+}
+
+.week {
+    font-size: 14px;
+
+}
+
+.ant-modal-body {
+    padding: 0;
+}
+
+.ant-picker-body {
+    margin: 20px;
+}
+
+.fixedBtn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 10;
+
+}
+
+.ant-menu-light {
+    max-height: 200px;
+}
+
+.hotSearchItem {
+    height: 100%;
+    border-radius: 20px;
+}
+.hotSearchItem-bgColor {
+    background: linear-gradient(45deg, #5d616b, #8a94a7);
+    // background: linear-gradient(45deg, #5d616b, #8a94a7);
+}
+
+// 热搜样式4x4
+.tab {
+    display: inline-block;
+    margin: 5px 8px;
+    padding: 3px 4px;
+    cursor: pointer;
+    font-size: 15px;
+    color: white;
+}
+
+.tab:hover {
+    // background-color: gray;
+    background-color: #5d616b;
+}
+
+.tab-content {
+    color: white;
+    padding: 5px;
+    display: flex;
+    justify-content: left;
+}
+
+.tab-pane {
+    width: 100%;
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-pane-item {
+    border-bottom: 1px solid rgb(225, 220, 220);
+    color: white;
+    padding: 5px;
+    display: flex;
+    justify-content: left;
+    overflow: hidden;
+    /* 确保超出部分被隐藏 */
+    white-space: nowrap;
+    /* 不允许换行 */
+    text-overflow: ellipsis;
+    /* 超出文本用省略号表示 */
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    /* 取消下划线 */
+    color: inherit;
+    /* 使链接颜色继承父元素的颜色 */
+    cursor: pointer;
+    /* 更改鼠标悬停时的光标样式 */
+}
+
+a:hover {
+    /* 悬停时链接颜色保持不变 */
+}
+
+
+
+.weatherItem {
+  
+}
+.weatherItemFour{
+    border-radius: 20px;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    color: white;
+    padding: 20px 30px;
+}
+
+.temperature {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.high,
+.aqi {
+    display: flex;
+}
+
+.aqi {
+    margin-top: 45px;
+}
+
+.weatherIcon {
+    width: 30px;
+    height: 30px;
+}
+
+.time {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-direction: column;
+    cursor: pointer;
+
+    .hour {
+        font-size: 60px;
+    }
+}
+
+.popup {
+    width: 50px;
+    opacity: 0;
+    transform: scale(0.8);
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background-color: rgb(45, 43, 43);
+    color: white;
+    border-radius: 5px;
+}
+
+.popup-box {
+    opacity: 0.8;
+    /* 元素及其内容的透明度为 50% */
+    padding: 10px;
+    cursor: pointer;
+}
+
+.popup-open {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+.oneBackground {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .oneWeek {
+        font-size: 14px;
+        color: #d83030;
+    }
+
+    .day {
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
