@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-27 18:53:21
+ * @LastEditTime: 2024-08-27 21:25:13
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -324,13 +324,13 @@ export default defineComponent({
     });
 
     function getAllElToMenu() {
+      console.log("给元素加上右键菜单");
       // 获取所有元素
       const gridElements = document.querySelectorAll('.grid-stack-item');
       // 遍历每个元素并进行操作
       for (let i = 0; i < gridElements.length; i++) {
         const gridElement = gridElements[i] as HTMLElement;
         gridElement!.addEventListener('contextmenu', (event) => {
-          console.log(event, "event");
           // event.preventDefault(); // 阻止默认右键菜单行为
           handleContextMenu(event, gridElement)
         });

@@ -1,3 +1,11 @@
+<!--
+ * @Author: panrunjun
+ * @Date: 2024-07-28 14:18:41
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2024-08-27 21:08:46
+ * @Description: 输入url添加icon
+ * @FilePath: \ytab-master\src\components\AddCustomize.vue
+-->
 <template>
     <div class="body">
         <a-form :model="formState" style="width: 500px;" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }"
@@ -14,9 +22,12 @@
                 <a-input v-model:value="formState.src" />
             </a-form-item>
 
-
             <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
                 <a-button type="primary" html-type="submit">确 定</a-button>
+            </a-form-item>
+            <a-form-item label="tip" name="tip">
+                <div>网页链接前带 <span class="tab-red">https://</span> or <span class="tab-red">http://</span> </div>
+                <div>eg:https://www.baidu.com</div>
             </a-form-item>
         </a-form>
     </div>
