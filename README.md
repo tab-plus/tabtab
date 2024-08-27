@@ -18,7 +18,6 @@
 - store：vuex文件夹
 - utils：工具文件夹
 - views：页面文件夹
-- wxParse：微信富文本解析器
 - json：json文件
 - layout：布局文件夹
 - styles：样式文件夹
