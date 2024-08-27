@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 21:46:10
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-18 11:45:26
+ * @LastEditTime: 2024-08-27 21:05:17
  * @Description: 添加快捷方式图标
  * @FilePath: \ytab-master\src\components\AddIcon.vue
 -->
@@ -24,7 +24,6 @@
             </div>
             <a-button class="add" size="mini" @click="handleAdd(item)">添加</a-button>
         </div>
-
     </div>
 </template>
 
