@@ -1,3 +1,11 @@
+<!--
+ * @Author: panrunjun
+ * @Date: 2024-07-22 21:46:02
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2024-08-27 18:53:21
+ * @Description: 
+ * @FilePath: \ytab-master\src\views\home\index.vue
+-->
 <template>
   <!-- 登录弹窗 -->
   <a-drawer v-model:visible="loginVisible" class="custom-class" title="登录" placement="right">
