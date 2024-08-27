@@ -2,12 +2,15 @@
  * @Author: panrunjun
  * @Date: 2024-08-18 16:04:26
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-22 17:44:15
+ * @LastEditTime: 2024-08-27 19:58:34
  * @Description: 获取位置
  * @FilePath: \ytab-master\src\utils\getLocation.ts
  */
 import axios from "axios";
 import { string } from "vue-types";
+const API_KEY = import.meta.env.VITE_GAUD_KEY; // 替换为你的 API 密钥
+const BASE_URL = import.meta.env.VITE_GAUD_BASE_API;
+
 interface Location {
     latitude:number, //纬度
     longitude:number, //经度
@@ -60,11 +63,11 @@ export async function getLocation(): Promise<Location> {
 export async function getCity(latitude,longitude) {
     if (latitude && longitude) {
         try {
-            const response = await axios.get(`https://restapi.amap.com/v3/geocode/regeo`, {
+            const response = await axios.get(`${BASE_URL}/geocode/regeo`, {
                 params: {
                     output: 'xml',
                     location: `${longitude},${latitude}`,
-                    key: 'a6ad0d21c77b23dba30b39eb128dccff',
+                    key: API_KEY,
                     radius: 1000,
                     extensions: 'all'
                 }

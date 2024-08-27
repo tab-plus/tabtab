@@ -2,12 +2,13 @@
  * @Author: panrunjun
  * @Date: 2024-08-02 19:39:09
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-21 20:31:58
- * @Description: 
+ * @LastEditTime: 2024-08-27 19:25:12
+ * @Description: 封装的请求
  * @FilePath: \ytab-master\src\utils\request.ts
  */
 import axios from "axios";
 import { message } from 'ant-design-vue';
+const baseUrl = import.meta.env.VITE_BASE_URL;
 //创建axios实例
 const service = axios.create({
 	// baseURL: "http://127.0.0.1:3034",
