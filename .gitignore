@@ -15,6 +15,7 @@ package-lock.json
 yarn.lock
 *.zip
 
+.env*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

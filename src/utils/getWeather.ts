@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-08-21 21:26:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-22 17:50:02
+ * @LastEditTime: 2024-08-27 19:33:56
  * @Description: 获取天气
  * @FilePath: \ytab-master\src\utils\getWeather.ts
  */
@@ -10,8 +10,8 @@
 import axios from "axios";
 
 // 假设你使用了一个天气 API，例如 OpenWeatherMap
-const API_KEY = 'ac95821472f94d9fbb3f50e93075e1b8'; // 替换为你的 API 密钥
-const BASE_URL = 'https://devapi.qweather.com/v7/weather';
+const API_KEY = import.meta.env.VITE_WEATHER_KEY; // 替换为你的 API 密钥
+const BASE_URL = import.meta.env.VITE_WEATHER_BASE_API;
 /**
  * @description: 异步函数，通过调用和风天气的接口获取城市的天气
  * @param {*} latitude

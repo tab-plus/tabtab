@@ -1,4 +1,4 @@
-### tatab
+# tatab
 
 ## git提交规范
 - feat：提交新功能
@@ -29,4 +29,30 @@
 - video标签中的poster属性，解决了视频正在下载时显示的图像，直到用户点击播放按钮。这边的优化我后期再做吧。举例：poster="https://files.codelife.cc/itab/defaultWallpaper/videos/00.jpg"
 - 样式调整
 - 组件增加
+
+## 如何部署到本地
+> 1.npm i
+> 2.最外层文件夹中新建开发环境的配置文件：.env.development
+    
+    ```
+    #开发环境配置文件
+
+    # url
+    VITE_BASE_URL = 'http://127.0.0.1:3034'
+
+    # 高德地图 key (官网免费获取)
+    VITE_GAUD_KEY = ''
+
+    # 高德地图 API
+    VITE_GAUD_BASE_API = 'https://restapi.amap.com/v3'
+
+    # 和风天气 key (官网免费获取)
+    VITE_WEATHER_KEY = ''
+
+    # 和风天气 API
+    VITE_WEATHER_BASE_API = 'https://devapi.qweather.com/v7/weather'
+
+
+> 3.运行npm run dev
+
 
