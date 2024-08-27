@@ -28,58 +28,69 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { ref } from 'vue';
 import { message } from 'ant-design-vue';
 import { v4 as uuidv4 } from 'uuid';
 import { get_allicon_list } from '@/api/icon';
 
-const route = useRoute();
-const iconList = ref([
-    {
-        name: '百度',
-        key: '3',
-        src: 'https://www.baidu.com/favicon.ico',
-        url: 'https://www.baidu.com',
-        content: '全球领先的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。'
-    },
-]);
-// 定义可以触发的事件
-const emits = defineEmits(['addNewWidget']);
+
+export default defineComponent({
+
+    emits: ['addNewWidget'], // 声明子组件可以触发的事件
+    setup(props, { emit }: { emit: Function }) {
+        const route = useRoute();
+        const iconList = ref([
+            {
+                name: '百度',
+                key: '3',
+                src: 'https://www.baidu.com/favicon.ico',
+                url: 'https://www.baidu.com',
+                content: '全球领先的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。'
+            },
+        ]);
+
+        const handleAdd = (item: any) => {
+            console.log(item);
+            const routeName = route.name;
+            const uniqueID = uuidv4();
+            let data = {
+                id: uniqueID,
+                name: item.name,
+                size: 4,
+                iconId: item.id,
+                type: 'icon',
+                url: item.url,
+                src: item.src
+            }
+            emit('addNewWidget', item.src, item.name, item.url, uniqueID);
+            // 1. 获取存储的数组
+            let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
+            console.log(garids.icon);
+            // 2. 修改数组（例如，添加新元素）
+            garids.icon.push(data);
+            // 3. 重新存储数组
+            localStorage.setItem(routeName as string, JSON.stringify(garids));
+            message.success(`添加成功`);
+        }
+
+        onMounted(() => {
+            get_allicon_list().then(res => {
+                iconList.value = res.data
+            })
+        })
+        return {
+            iconList,
+            handleAdd
+        }
+    }
+})
 
 
 // 暴露组件的属性和事件
-defineExpose({ iconList, emits });
+// defineExpose({ iconList, emits });
 
-const handleAdd = (item: any) => {
-    console.log(item);
-    const routeName = route.name;
-    const uniqueID = uuidv4();
-    let data = {
-        id: uniqueID,
-        name: item.name,
-        size: 4,
-        iconId:item.id,
-        type: 'icon',
-        url: item.url,
-        src: item.src
-    }
-    emits('addNewWidget', item.src, item.name, item.url, uniqueID);
-    // 1. 获取存储的数组
-    let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
-    console.log(garids.icon);
-    // 2. 修改数组（例如，添加新元素）
-    garids.icon.push(data);
-    // 3. 重新存储数组
-    localStorage.setItem(routeName as string, JSON.stringify(garids));
-    message.success(`添加成功`);
-}
 
-onMounted(() => {
-    get_allicon_list().then(res=>{
-        iconList.value = res.data
-    })
-})
 </script>
 
 <style lang="scss" scoped>

@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     ContentLayout: typeof import('./src/components/ContentLayout.vue')['default']
+    GenericModal: typeof import('./src/components/GenericModal.vue')['default']
     HotModal: typeof import('./src/components/home/HotModal.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     MemoModal: typeof import('./src/components/home/MemoModal.vue')['default']

@@ -32,6 +32,9 @@
         <a-calendar v-model:value="calendarValue" :fullscreen="false" @panelChange="onPanelChange" />
       </a-modal>
 
+      <!-- <GenericModal v-model:visible="calendarModal.isVisible.value" title="日历" @ok="() => { calendarModal.open() }">
+      </GenericModal> -->
+
       <!-- 备忘录 -->
       <a-modal width="60%" v-model:visible="memoModal.isVisible.value" footer="" title="备忘录" closable
         @ok="() => { memoModal.open() }">
@@ -114,7 +117,6 @@
 
 <script lang="ts">
 import SearchEngine from '@/components/SearchEngine.vue'
-import * as echarts from 'echarts';
 import { GridStack } from 'gridstack';
 import { useGridsStore } from '@/store/grids'
 import AddIcon from '@/components/AddIcon.vue'
@@ -136,13 +138,13 @@ import { getIconList } from '@/api/user';
 import { Icon } from '@/types/icon'
 import { getCity, getLocation } from '@/utils/getLocation'
 import axios from 'axios';
-import useUpdateItem from '@/utils/useUpdateItem';
+import useUpdateItem from '@/hooks/useUpdateItem';
 import { useModals } from '@/hooks/useModals';
 import { useWallpaperStore } from '@/store/wallpaper';
 import { useAppStore } from '@/store/app';
 import { add_visit } from '@/api';
-import { get } from 'http';
 import { getWeatherNow } from '@/utils/getWeather';
+// import GenericModal from '@/components/GenericModal';
 export const calendarModal = useModals('calendar');
 export const memoModal = useModals('memo');
 export const weatherModal = useModals('weather');
@@ -158,6 +160,7 @@ export default defineComponent({
     MemoModal,
     HotModal,
     WeatherModal,
+    // GenericModal
   },
   setup() {
     const { updateItemPlace,
@@ -1139,4 +1142,4 @@ main {
   margin-right: 10px;
 }
 </style>
-@/utils/exportLocalJSON
+@/utils/exportLocalJSON@/hooks/useUpdateItem

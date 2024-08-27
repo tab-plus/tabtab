@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-21 19:16:11
+ * @LastEditTime: 2024-08-23 15:58:34
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -56,36 +56,49 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { add_icon_ByUserId } from '@/api/icon';
+<script lang="ts">
+// import { add_icon_ByUserId } from '@/api/icon';
 import { message } from 'ant-design-vue';
 import { v4 as uuidv4 } from 'uuid';
-const route = useRoute();
-const weather = ref<any>()
-const city = ref<string>()
-weather.value = JSON.parse(localStorage.getItem('weather'))
-city.value = localStorage.getItem('city')
-// 定义可以触发的事件
-const emits = defineEmits(['addNewWidget']);
-const addComponent = (name: string) => {
-    const uniqueID = uuidv4();
-    message.success(`添加成功`);
-    let data = {
-        id: uniqueID,
-        name,
-        size: 4,
-        type: 'component'
 
+export default defineComponent({
+    emits: ['addNewWidget'], // 声明子组件可以触发的事件
+    setup(props,{ emit }: { emit: Function }) {
+        const route = useRoute();
+        const weather = ref<any>()
+        const city = ref<string>()
+        weather.value = JSON.parse(localStorage.getItem('weather'))
+        city.value = localStorage.getItem('city')
+
+        const addComponent = (name: string) => {
+            const uniqueID = uuidv4();
+            message.success(`添加成功`);
+            let data = {
+                id: uniqueID,
+                name,
+                size: 4,
+                type: 'component'
+
+            }
+            // 1. 获取存储的数组
+            let garids = JSON.parse(localStorage.getItem(route.name as string)) || [];
+            console.log(garids.icon);
+            // 2. 修改数组（例如，添加新元素）
+            garids.icon.push(data);
+            // 3. 重新存储数组
+            localStorage.setItem(route.name as string, JSON.stringify(garids));
+            emit('addNewWidget', data);
+        }
+
+        return {
+            weather,
+            city,
+            addComponent,
+        };
     }
-    // 1. 获取存储的数组
-    let garids = JSON.parse(localStorage.getItem(route.name as string)) || [];
-    console.log(garids.icon);
-    // 2. 修改数组（例如，添加新元素）
-    garids.icon.push(data);
-    // 3. 重新存储数组
-    localStorage.setItem(route.name as string, JSON.stringify(garids));
-    emits('addNewWidget', data);
-}
+})
+
+
 onMounted(() => {
     // 热搜
     const hotSearchElement = document.querySelector('.hotSearchItem');
