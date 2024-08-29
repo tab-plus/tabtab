@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-27 21:25:13
+ * @LastEditTime: 2024-08-29 11:31:49
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -157,7 +157,7 @@ export const calendarModal = useModals('calendar');
 export const memoModal = useModals('memo');
 export const weatherModal = useModals('weather');
 export const hotModal = useModals('hot');
-const asyncRoutes = useAppStore().getAsyncRoutes
+let asyncRoutes = useAppStore().getAsyncRoutes
 export default defineComponent({
   components: {
     SearchEngine,
@@ -990,12 +990,17 @@ export default defineComponent({
 
     // 导出JSON
     function exportJSON() {
-      if (asyncRoutes && asyncRoutes.length === 0) {
-        let asyncRoutes = []
-        asyncRoutes.push({ name: 'home' })
-      } else {
-        asyncRoutes.push({ name: 'home' })
+      console.log(asyncRoutes);
+      if (asyncRoutes === null) {
+        asyncRoutes = []
       }
+      asyncRoutes.push({ name: 'home' })
+      // if (asyncRoutes && asyncRoutes.length === 0) {
+      //   let asyncRoutes = []
+      //   asyncRoutes.push({ name: 'home' })
+      // } else {
+        // asyncRoutes.push({ name: 'home' })
+      // }
       let arr = ['home', 'ASYNC_ROUTES']
       for (let i = 0; i < asyncRoutes.length; i++) {
         const name = asyncRoutes[i].name;
@@ -1007,23 +1012,22 @@ export default defineComponent({
     // 导出JSON到云端
     function exportCloudJSON() {
       let iconArr = []
-      if (asyncRoutes && asyncRoutes.length === 0) {
-        let asyncRoutes = []
-        asyncRoutes.push({ name: 'home' })
-      } else {
-        asyncRoutes.push({ name: 'home' })
+
+      if (asyncRoutes === null) {
+        asyncRoutes = []
       }
-
-
+      asyncRoutes.push({ name: 'home' })
       for (let i = 0; i < asyncRoutes.length; i++) {
         const route = asyncRoutes[i];
         let newIconArr = JSON.parse(localStorage.getItem(route.name))
         for (let j = 0; j < newIconArr.icon.length; j++) {
           newIconArr.icon[j].routeName = route.name
         }
+        console.log(newIconArr.icon, "newIconArr.icon");
 
         iconArr.push(...newIconArr.icon)
       }
+      console.log(iconArr, "export_icon");
       export_icon(iconArr).then((res: any) => {
         if (res.code === 200) {
           message.success('导出成功')
