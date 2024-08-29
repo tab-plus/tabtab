@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-28 14:18:41
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-27 21:08:46
+ * @LastEditTime: 2024-08-29 14:55:54
  * @Description: 输入url添加icon
  * @FilePath: \ytab-master\src\components\AddCustomize.vue
 -->
@@ -11,7 +11,23 @@
         <a-form :model="formState" style="width: 500px;" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }"
             autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
             <a-form-item label="链接地址" name="url">
-                <a-input v-model:value="formState.url" />
+                <a-input v-model:value="urlValue">
+                    <template #addonBefore>
+                        <a-select v-model:value="httpValue" style="width: 90px">
+                            <a-select-option value="Http://">Http://</a-select-option>
+                            <a-select-option value="Https://">Https://</a-select-option>
+                        </a-select>
+                    </template>
+                    <template #addonAfter>
+                        <a-select v-model:value="comValue" style="width: 80px">
+                            <a-select-option value=".com">.com</a-select-option>
+                            <a-select-option value=".jp">.jp</a-select-option>
+                            <a-select-option value=".cn">.cn</a-select-option>
+                            <a-select-option value=".org">.org</a-select-option>
+                        </a-select>
+                    </template>
+                </a-input>
+                <!-- <a-input v-model:value="formState.url" /> -->
             </a-form-item>
 
             <a-form-item label="名称" name="name">
@@ -19,7 +35,7 @@
             </a-form-item>
 
             <a-form-item label="图标地址" name="src">
-                <a-input v-model:value="formState.src" />
+                <a-input placeholder="不填则自动获取" v-model:value="formState.src" />
             </a-form-item>
 
             <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
@@ -54,11 +70,19 @@ export default defineComponent({
             id: '',
             type: ''
         });
+        const urlValue = ref('');
+        const httpValue = ref('https://');
+        const comValue = ref('.com');
         const onFinish = (values: FormState) => {
             const uniqueID = uuidv4();
             console.log('Success:', values);
             values.id = uniqueID;
             values.type = 'icon';
+            values.url = `${httpValue.value}${urlValue.value}${comValue.value}`;
+            // 获取icon
+            if (values.src === '') {
+                values.src = values.url + '/favicon.ico'
+            }
             emit('addNewWidget', values);
             // 1. 获取存储的数组
             let garids = JSON.parse(localStorage.getItem(route.name as string)) || [];
@@ -70,6 +94,7 @@ export default defineComponent({
             formState.url = ''
             formState.name = ''
             formState.src = ''
+            urlValue.value = ''
         };
 
         const onFinishFailed = (errorInfo: any) => {
@@ -77,6 +102,9 @@ export default defineComponent({
         };
         return {
             formState,
+            urlValue,
+            httpValue,
+            comValue,
             onFinish,
             onFinishFailed,
         };
