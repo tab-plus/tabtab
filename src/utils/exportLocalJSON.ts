@@ -1,3 +1,11 @@
+/*
+ * @Author: panrunjun
+ * @Date: 2024-08-17 12:11:41
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2024-08-29 15:10:19
+ * @Description: 导出本地JSON文件
+ * @FilePath: \ytab-master\src\utils\exportLocalJSON.ts
+ */
 /**
  * 导出多个 localStorage 项为 JSON 文件
  * @param keyArr - localStorage 项的键名数组
@@ -29,7 +37,7 @@
 
     // 设置链接的属性
     link.href = url;
-    link.download = 'localStorageData.json'; // 设定下载文件名
+    link.download = 'tabTab.json'; // 设定下载文件名
 
     // 将链接添加到文档中（某些浏览器需要这样做）
     document.body.appendChild(link);

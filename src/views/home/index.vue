@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-29 11:31:49
+ * @LastEditTime: 2024-08-29 15:42:18
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -157,7 +157,6 @@ export const calendarModal = useModals('calendar');
 export const memoModal = useModals('memo');
 export const weatherModal = useModals('weather');
 export const hotModal = useModals('hot');
-let asyncRoutes = useAppStore().getAsyncRoutes
 export default defineComponent({
   components: {
     SearchEngine,
@@ -990,6 +989,7 @@ export default defineComponent({
 
     // 导出JSON
     function exportJSON() {
+     let asyncRoutes = JSON.parse(localStorage.getItem('ASYNC_ROUTES'))
       console.log(asyncRoutes);
       if (asyncRoutes === null) {
         asyncRoutes = []
@@ -1011,15 +1011,20 @@ export default defineComponent({
 
     // 导出JSON到云端
     function exportCloudJSON() {
+      let asyncRoutes = JSON.parse(localStorage.getItem('ASYNC_ROUTES'))
       let iconArr = []
-
       if (asyncRoutes === null) {
         asyncRoutes = []
       }
       asyncRoutes.push({ name: 'home' })
+      console.log(asyncRoutes,"asyncRoutes");
       for (let i = 0; i < asyncRoutes.length; i++) {
         const route = asyncRoutes[i];
+        console.log(route,"route");
+        
         let newIconArr = JSON.parse(localStorage.getItem(route.name))
+        console.log(newIconArr,"newIconArr");
+        
         for (let j = 0; j < newIconArr.icon.length; j++) {
           newIconArr.icon[j].routeName = route.name
         }
