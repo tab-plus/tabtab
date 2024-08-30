@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-29 15:42:18
+ * @LastEditTime: 2024-08-30 16:19:39
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -170,7 +170,8 @@ export default defineComponent({
     // GenericModal
   },
   setup() {
-    const { updateItemPlace,
+    const { 
+      updateItemPlace,
       changeWeather4,
       changeWeather1,
       changeHot4,
