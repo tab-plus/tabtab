@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ABadge: typeof import('ant-design-vue/es')['Badge']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACalendar: typeof import('ant-design-vue/es')['Calendar']
     ACard: typeof import('ant-design-vue/es')['Card']
@@ -30,6 +31,7 @@ declare module '@vue/runtime-core' {
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     AUpload: typeof import('ant-design-vue/es')['Upload']
+    CalendarModal: typeof import('./src/components/home/CalendarModal.vue')['default']
     ContentLayout: typeof import('./src/components/ContentLayout.vue')['default']
     ContextMenu: typeof import('./src/components/ContextMenu.vue')['default']
     GenericModal: typeof import('./src/components/GenericModal.vue')['default']

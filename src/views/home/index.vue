@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-30 16:19:39
+ * @LastEditTime: 2024-08-30 16:34:50
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -37,7 +37,8 @@
       <!-- 日历 -->
       <a-modal width="60%" v-model:visible="calendarModal.isVisible.value" footer="" title="日历" closable
         @ok="() => { calendarModal.open() }">
-        <a-calendar v-model:value="calendarValue" :fullscreen="false" @panelChange="onPanelChange" />
+        <!-- <a-calendar v-model:value="calendarValue" :fullscreen="false" @panelChange="onPanelChange" /> -->
+        <CalendarModal></CalendarModal>
       </a-modal>
 
       <!-- <GenericModal v-model:visible="calendarModal.isVisible.value" title="日历" @ok="() => { calendarModal.open() }">
@@ -133,6 +134,7 @@ import AddCustomize from '@/components/AddCustomize.vue';
 import MemoModal from '@/components/home/MemoModal.vue';
 import WeatherModal from '@/components/home/WeatherModal.vue';
 import HotModal from '@/components/home/HotModal.vue';
+import CalendarModal from '@/components/home/CalendarModal.vue';
 import Login from '@/components/Login.vue';
 import '@/styles/item.scss'
 import { Dayjs } from 'dayjs';
@@ -167,6 +169,7 @@ export default defineComponent({
     MemoModal,
     HotModal,
     WeatherModal,
+    CalendarModal
     // GenericModal
   },
   setup() {
