@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-30 16:34:50
+ * @LastEditTime: 2024-09-03 11:46:29
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -93,6 +93,13 @@
         <HotModal></HotModal>
       </a-modal>
 
+
+      <!-- 图库 -->
+      <a-modal width="60%" v-model:visible="pictureModal.isVisible.value" footer="" title="图库" closable
+        @ok="() => { pictureModal.open() }">
+        <PictureModal></PictureModal>
+      </a-modal>
+
     </div>
     <template #overlay>
       <a-menu>
@@ -134,6 +141,7 @@ import AddCustomize from '@/components/AddCustomize.vue';
 import MemoModal from '@/components/home/MemoModal.vue';
 import WeatherModal from '@/components/home/WeatherModal.vue';
 import HotModal from '@/components/home/HotModal.vue';
+import PictureModal from '@/components/home/PictureModal.vue';
 import CalendarModal from '@/components/home/CalendarModal.vue';
 import Login from '@/components/Login.vue';
 import '@/styles/item.scss'
@@ -159,6 +167,7 @@ export const calendarModal = useModals('calendar');
 export const memoModal = useModals('memo');
 export const weatherModal = useModals('weather');
 export const hotModal = useModals('hot');
+export const pictureModal = useModals('pictuer');
 export default defineComponent({
   components: {
     SearchEngine,
@@ -169,11 +178,12 @@ export default defineComponent({
     MemoModal,
     HotModal,
     WeatherModal,
-    CalendarModal
+    CalendarModal,
+    PictureModal,
     // GenericModal
   },
   setup() {
-    const { 
+    const {
       updateItemPlace,
       changeWeather4,
       changeWeather1,
@@ -567,6 +577,14 @@ export default defineComponent({
       // 可以在这里添加更多的处理逻辑
       weatherModal.open();
     };
+
+    /**
+     * 点击日历图标
+     */
+    const pictuerClick = () => {
+      console.log('pictuerClick!');
+      pictureModal.open()
+    };
     // 点击 icon 的处理函数
     const iconClick = (event) => {
       console.log('iconClick!');
@@ -623,6 +641,8 @@ export default defineComponent({
             addWeatherItem(v.id, v.size, v.x, v.y)
           } else if (v.name === '热搜') {
             addHotSearchItem(v.id, v.size, v.x, v.y)
+          } else if (v.name === '图库') {
+            addPictureItem(v.src, v.name, v.url, v.id, v.x, v.y)
           }
         }
       })
@@ -643,6 +663,13 @@ export default defineComponent({
           memoElement.addEventListener('click', memoClick);
         });
       }
+
+      // 图库
+      const pictureElements = document.querySelectorAll('.pictureItem');
+      pictureElements.forEach(pictureElement => {
+        // 为每个元素添加点击事件监听器
+        pictureElement.addEventListener('click', pictuerClick);
+      });
 
       // 天气
       const weatherElements = document.querySelectorAll('.weatherItem'); // 选择所有匹配的元素
@@ -765,6 +792,22 @@ export default defineComponent({
       }
 
     }
+
+    // 新增图库节点
+    function addPictureItem(src: string, name: string, url: string, id: string, x: number, y: number) {
+      const el = `
+        <div class="grid-stack-item">
+            <div class="pictureItem">
+                <div class="grid-stack-item-content flex flex-direction justify-around align-center">
+                  <img src="${src}" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md" />
+                  <p class="cl-ant-p sg-omit-sm text-white-sm">${name}</p>
+                </div>
+            </div>
+        </div>
+      `
+      grid.addWidget(el, { w: 1, h: 2, x: x, y: y, id: id });
+    }
+
 
     // 新增日历节点
     function addDateItem(id: string, size: number, x: number, y: number) {
@@ -993,7 +1036,7 @@ export default defineComponent({
 
     // 导出JSON
     function exportJSON() {
-     let asyncRoutes = JSON.parse(localStorage.getItem('ASYNC_ROUTES'))
+      let asyncRoutes = JSON.parse(localStorage.getItem('ASYNC_ROUTES'))
       console.log(asyncRoutes);
       if (asyncRoutes === null) {
         asyncRoutes = []
@@ -1003,7 +1046,7 @@ export default defineComponent({
       //   let asyncRoutes = []
       //   asyncRoutes.push({ name: 'home' })
       // } else {
-        // asyncRoutes.push({ name: 'home' })
+      // asyncRoutes.push({ name: 'home' })
       // }
       let arr = ['home', 'ASYNC_ROUTES']
       for (let i = 0; i < asyncRoutes.length; i++) {
@@ -1021,14 +1064,14 @@ export default defineComponent({
         asyncRoutes = []
       }
       asyncRoutes.push({ name: 'home' })
-      console.log(asyncRoutes,"asyncRoutes");
+      console.log(asyncRoutes, "asyncRoutes");
       for (let i = 0; i < asyncRoutes.length; i++) {
         const route = asyncRoutes[i];
-        console.log(route,"route");
-        
+        console.log(route, "route");
+
         let newIconArr = JSON.parse(localStorage.getItem(route.name))
-        console.log(newIconArr,"newIconArr");
-        
+        console.log(newIconArr, "newIconArr");
+
         for (let j = 0; j < newIconArr.icon.length; j++) {
           newIconArr.icon[j].routeName = route.name
         }
@@ -1116,6 +1159,7 @@ export default defineComponent({
       calendarModal,
       memoModal,
       weatherModal,
+      pictureModal,
       hotModal,
       haveIcon,
       iconVisible,

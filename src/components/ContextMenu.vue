@@ -2,8 +2,8 @@
  * @Author: panrunjun
  * @Date: 2024-08-30 09:38:24
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-30 11:59:09
- * @Description: 公共组件（右键弹窗）
+ * @LastEditTime: 2024-09-03 14:43:50
+ * @Description: 公共组件（右键弹窗，传入菜单项，点击菜单项，返回数据）
  * @FilePath: \ytab-master\src\components\ContextMenu.vue
 -->
 <template>
@@ -16,9 +16,11 @@
             <div v-if="showMenu" class="context-menu" :style="{ left: x + 'px', top: y + 'px' }">
                 <div class="menu-list">
                     <!-- 循环遍历菜单项，显示出来 -->
-                    <div @click="handleClick(item)" class="menu-item" v-for="(item) in menu" :key="item.label">
-                        {{ item.label }}
-                    </div>
+                    <template v-for="(item) in menu" :key="item.label">
+                        <div class="menu-item" @click="handleClick(item)">
+                            {{ item.label }}
+                        </div>
+                    </template>
                 </div>
             </div>
         </Teleport>
@@ -53,19 +55,33 @@ const handleClick = (item: any) => {
 <style scoped>
 .context-menu {
     position: absolute;
-    height: 100px;
-    width: 50px;
+    /* height: 100px; */
+    min-width: 90px;
     /* 黑色背景，70% 透明度 */
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 4px;
     /* 边框阴影 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     color: white;
+    z-index: 9999;
 }
 
 .menu-list {
     cursor: pointer;
+    margin: 5px;
+}
+
+.menu-item {
+    border-radius: 4px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 5px 10px;
+}
+
+.menu-item:hover{
+    background: rgba(0, 0, 0, 0.3);
 }
 </style>
   

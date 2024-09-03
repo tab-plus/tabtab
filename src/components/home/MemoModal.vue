@@ -1,7 +1,7 @@
 
 <template>
     <a-layout>
-        <a-layout-sider class="min-h-300" :style="{ overflow: 'auto' }" v-model:collapsed="collapsed" theme="light">
+        <a-layout-sider class="min-h-500" :style="{ overflow: 'auto' }" v-model:collapsed="collapsed" theme="light">
             <a-dropdown :trigger="['contextmenu']">
                 <a-menu v-model:selectedKeys="selectedKeys" mode="inline">
                     <template v-for="item in memoMenuList" :key="item.id">
@@ -190,7 +190,5 @@ export default defineComponent({
 .mr-1 {
     margin-right: 5px;
 }
-.min-h-300{
-    min-height: 500px;
-}
+
 </style>

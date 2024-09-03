@@ -1,6 +1,13 @@
 {
   "icon": [
     {
+      "url": "",
+      "type": "component",
+      "name": "图库",
+      "src": "https://img.zcool.cn/community/0160c05b3f32f5a80120b9590bc309.png@1280w_1l_2o_100sh.png",
+      "id": "5"
+    },
+    {
       "url": "https://ai.taobao.com?pid=mm_54561194_2536750027_111828300388&union_lens=lensId%3APUB%401644727921%4021057ef3_09a7_17ef16c69e2_05aa%4001",
       "type": "component",
       "name": "日历",

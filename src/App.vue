@@ -32,16 +32,21 @@ export default defineComponent({
       wallpaperStore.SET_CURRENTWALLPAPER(wallpaperStore.getAllPictureWallpaper[0]);
     };
 
-    
-    
-    function transBackground(): void {
-      
+
+
+    function transBackground(src?: string): void {
+
       if (useWallpaperStore().getCurrentWallpaper.attribute === 'picture') {
         // 设置的背景是图片的话
         const domApp = document.querySelector('#app') as HTMLElement;
-        domApp.style.background = `url(${useWallpaperStore().getCurrentWallpaper.url}) no-repeat`;
+        if (src) {
+          domApp.style.background = `url(${src}) no-repeat`;
+        } else {
+          domApp.style.background = `url(${useWallpaperStore().getCurrentWallpaper.url}) no-repeat`;
+        }
         domApp.style.backgroundSize = 'cover';
-        domApp.style.backgroundAttachment = 'fixed';
+          domApp.style.backgroundAttachment = 'fixed';
+
       } else {
         // 设置的背景是视频的话
       }
