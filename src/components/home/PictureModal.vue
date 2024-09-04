@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-03 20:26:54
+ * @LastEditTime: 2024-09-04 15:04:18
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -10,7 +10,7 @@
     <a-layout>
         <a-layout-sider width="150" class="site-layout-background min-h-500">
             <a-menu mode="inline" :selected-keys="[current]" @click="handleMenuClick">
-                <!-- <a-menu-item key="1">推荐</a-menu-item> -->
+                <a-menu-item key="1">推荐</a-menu-item>
                 <a-menu-item key="2">我的</a-menu-item>
                 <!-- <a-menu-item key="3">Content 3</a-menu-item> -->
             </a-menu>
@@ -18,7 +18,7 @@
         <a-layout>
 
             <a-layout-content>
-                <div v-if="current === '1'">Content 1 Displayed Here</div>
+                <div v-if="current === '1'">推荐</div>
                 <ContextMenu :menu="menu" @select="getSelect">
                     <div v-if="current === '2'">
                         <div class="container">
@@ -29,10 +29,10 @@
                                     <div class="mask-container">
                                         <div class="mask-component"
                                             @click="handleSelect('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')">
-                                            <check-outlined :style="{ fontSize: '20px' }" />
+                                            <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
                                         </div>
                                         <div class="mask-component" @click="handleLike()">
-                                            <like-outlined :style="{ fontSize: '20px' }" />
+                                            <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
                                             <!-- <div class="badge">99+</div> -->
                                         </div>
                                     </div>
@@ -40,7 +40,6 @@
 
                             </div>
                         </div>
-
                     </div>
                 </ContextMenu>
                 <!-- <div v-if="current === '3'">Content 3 Displayed Here</div> -->
@@ -53,6 +52,7 @@
 import { ref } from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue'
 import { message } from 'ant-design-vue';
+import { useWallpaperStore } from '@/store/wallpaper';
 import {
     CheckOutlined,
     LikeOutlined
@@ -65,7 +65,8 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const current = ref<string>('1');
-        const $transBackground = inject('$transBackground') as ((src: string) => void); //改变背景图
+        const $transBackground = inject('$transBackground') as (() => void); //改变背景图
+        const wallpaperStore = useWallpaperStore();
         // 处理菜单点击
         const handleMenuClick = async (e: { key: string }) => {
             current.value = e.key;
@@ -120,8 +121,15 @@ export default defineComponent({
             message.success('点赞成功')
         }
         const handleSelect = (src: string) => {
+            let data = {
+                url:src,
+                themeColor: '#fff',
+                name:"picture",
+                attribute:"picture"
+            }
             message.success('更换壁纸成功')
-            $transBackground(src);
+            wallpaperStore.SET_CURRENTWALLPAPER(data);
+            $transBackground();
         }
 
         return {
@@ -205,7 +213,7 @@ export default defineComponent({
 }
 
 .mask-component:hover {
-    background-color: rgba(212, 40, 40, 0.6) !important;
+    background-color: #8cb6fe;
 }
 
 
