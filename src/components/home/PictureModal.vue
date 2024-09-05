@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-04 15:04:18
+ * @LastEditTime: 2024-09-05 18:05:19
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -18,28 +18,67 @@
         <a-layout>
 
             <a-layout-content>
-                <div v-if="current === '1'">推荐</div>
+                <div v-if="current === '1'">
+                    <div class="container">
+                        <div class="component">
+                            <img src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="">
+                            <div class="mask">
+                                <div class="mask-container">
+                                    <div class="mask-component"
+                                        @click="handleSelect('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')">
+                                        <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                    </div>
+                                    <div class="mask-component" @click="handleLike()">
+                                        <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                        <!-- <div class="badge">99+</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <img src="https://www4.bing.com//th?id=OHR.ImpalaOxpecker_ZH-CN9652434873_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp&w=360&h=202"
+                                alt="">
+                            <div class="mask">
+                                <div class="mask-container">
+                                    <div class="mask-component"
+                                        @click="handleSelect('https://www4.bing.com//th?id=OHR.ImpalaOxpecker_ZH-CN9652434873_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp&w=360&h=202')">
+                                        <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                    </div>
+                                    <div class="mask-component" @click="handleLike()">
+                                        <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                        <!-- <div class="badge">99+</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <ContextMenu :menu="menu" @select="getSelect">
                     <div v-if="current === '2'">
-                        <div class="container">
-                            <div class="component">
-                                <img src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                                    alt="">
-                                <div class="mask">
-                                    <div class="mask-container">
-                                        <div class="mask-component"
-                                            @click="handleSelect('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')">
-                                            <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
-                                        </div>
-                                        <div class="mask-component" @click="handleLike()">
-                                            <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
-                                            <!-- <div class="badge">99+</div> -->
+                        <div>
+                            <div class="container">
+                                <div class="component">
+                                    <img src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                        alt="">
+                                    <div class="mask">
+                                        <div class="mask-container">
+                                            <div class="mask-component"
+                                                @click="handleSelect('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')">
+                                                <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                            </div>
+                                            <div class="mask-component" @click="handleLike()">
+                                                <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                        <!-- <div class="loginBox" >
+                            <div>登录后查看我的图库</div>
+                            <a-button type="primary" shape="round">去登录</a-button>
+                        </div> -->
                     </div>
                 </ContextMenu>
                 <!-- <div v-if="current === '3'">Content 3 Displayed Here</div> -->
@@ -57,6 +96,8 @@ import {
     CheckOutlined,
     LikeOutlined
 } from '@ant-design/icons-vue';
+import { uploadImage } from "@/api/upload";
+import { add_background } from '@/api/background';
 export default defineComponent({
     components: {
         ContextMenu,
@@ -67,6 +108,7 @@ export default defineComponent({
         const current = ref<string>('1');
         const $transBackground = inject('$transBackground') as (() => void); //改变背景图
         const wallpaperStore = useWallpaperStore();
+        const token = ref(localStorage.getItem('token'));
         // 处理菜单点击
         const handleMenuClick = async (e: { key: string }) => {
             current.value = e.key;
@@ -91,25 +133,28 @@ export default defineComponent({
                     console.log(file, "file--");
 
                     if (file) {
-                        // try {
-                        //   const formData = new FormData();
-                        //   formData.append('file', file);
-
-                        //   // 示例上传逻辑：使用 fetch API
-                        //   const response = await fetch('YOUR_UPLOAD_URL', {
-                        //     method: 'POST',
-                        //     body: formData,
-                        //   });
-
-                        //   if (!response.ok) throw new Error('Upload failed');
-
-                        //   // 假设响应是 JSON 格式
-                        //   const result = await response.json();
-
-                        //   message.success('Upload successful!');
-                        // } catch (error) {
-                        //   message.error('Upload failed.');
-                        // }
+                        uploadImage(file)
+                            .then(response => {
+                                console.log('上传成功', response);
+                                // message.success('上传成功')
+                                add_background({
+                                    url: response.data.url,
+                                    name: "picture",
+                                    attribute: "picture",
+                                    themeColor: "#fff"
+                                }).then((res: any) => {
+                                    console.log(res);
+                                    if (res.code === 200) {
+                                        message.success('上传成功')
+                                    } else {
+                                        message.error('上传失败')
+                                    }
+                                })
+                            })
+                            .catch(error => {
+                                console.error('上传失败', error);
+                                message.error('上传失败')
+                            });
                     }
                 });
 
@@ -122,10 +167,10 @@ export default defineComponent({
         }
         const handleSelect = (src: string) => {
             let data = {
-                url:src,
+                url: src,
                 themeColor: '#fff',
-                name:"picture",
-                attribute:"picture"
+                name: "picture",
+                attribute: "picture"
             }
             message.success('更换壁纸成功')
             wallpaperStore.SET_CURRENTWALLPAPER(data);
@@ -140,6 +185,7 @@ export default defineComponent({
             getSelect,
             handleLike,
             ContextMenu,
+            token,
         }
     }
 })
@@ -219,6 +265,16 @@ export default defineComponent({
 
 .component:hover .mask {
     opacity: 1;
+}
+
+.loginBox {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: gray;
 }
 </style>
   

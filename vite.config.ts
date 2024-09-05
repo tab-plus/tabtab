@@ -69,8 +69,8 @@ export default defineConfig({
       cors: true, // 类型： boolean | CorsOptions 为开发服务器配置 CORS。默认启用并允许任何源
       proxy: {
         '/api': {
-          // target: 'http://127.0.0.1:3034',
-          target: 'http://8.138.112.139:3034',
+          target: 'http://127.0.0.1:3034',
+          // target: 'http://8.138.112.139:3034',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         }
