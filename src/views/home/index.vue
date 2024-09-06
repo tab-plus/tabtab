@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-03 11:46:29
+ * @LastEditTime: 2024-09-06 17:16:43
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -97,7 +97,7 @@
       <!-- 图库 -->
       <a-modal width="60%" v-model:visible="pictureModal.isVisible.value" footer="" title="图库" closable
         @ok="() => { pictureModal.open() }">
-        <PictureModal></PictureModal>
+        <PictureModal @go-login="goLogin" ></PictureModal>
       </a-modal>
 
     </div>
@@ -210,7 +210,6 @@ export default defineComponent({
     // const clickedItem = ref<HTMLElement>(); //被点击的el
     const onclickItemClass = ref<string>(''); //右键的item
     const weather = ref<any>({}); //天气
-
     // 位置
     const latitude = ref<string>('');
     const longitude = ref<string>('');
@@ -254,6 +253,7 @@ export default defineComponent({
     const calendarValue = ref<Dayjs>();
     let grid: any;
     onMounted(async () => {
+
       // 异步获取备忘录列表
       await get_memo_list().then((res: any) => {
         console.log(res);
@@ -1143,6 +1143,10 @@ export default defineComponent({
       return false;
     };
 
+    const goLogin = () => {
+      loginVisible.value = true
+    }
+
 
 
 
@@ -1171,6 +1175,7 @@ export default defineComponent({
       exportJSON,
       beforeUpload,
       fileList,
+      goLogin,
       exportCloudJSON,
       importCloudJSON,
     };

@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-05 18:05:19
+ * @LastEditTime: 2024-09-06 17:42:41
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -20,65 +20,74 @@
             <a-layout-content>
                 <div v-if="current === '1'">
                     <div class="container">
-                        <div class="component">
-                            <img src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="">
-                            <div class="mask">
-                                <div class="mask-container">
-                                    <div class="mask-component"
-                                        @click="handleSelect('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')">
-                                        <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
-                                    </div>
-                                    <div class="mask-component" @click="handleLike()">
-                                        <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
-                                        <!-- <div class="badge">99+</div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <template v-for="item in backgroundListByRecommend" :key="item.name">
+                            <div class="component">
+                                <img :src=item.url
+                                    alt="">
+                                <div class="mask">
+                                    <div class="mask-header">
+                                        <div class="header-component" @click="handleDownload(item)">
+                                            <download-outlined :style="{ fontSize: '15px', color: 'white' }" />
+                                        </div>
+                                        <a-popconfirm title="确定要删除这个背景吗?" ok-text="Yes" cancel-text="No"
+                                            @confirm="deleteConfirm" @cancel="deleteCancel">
+                                            <div class="header-component" @click="handleDelete(item)">
+                                                <minus-outlined :style="{ fontSize: '15px', color: 'white' }" />
+                                            </div>
+                                        </a-popconfirm>
 
-                        <div class="component">
-                            <img src="https://www4.bing.com//th?id=OHR.ImpalaOxpecker_ZH-CN9652434873_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp&w=360&h=202"
-                                alt="">
-                            <div class="mask">
-                                <div class="mask-container">
-                                    <div class="mask-component"
-                                        @click="handleSelect('https://www4.bing.com//th?id=OHR.ImpalaOxpecker_ZH-CN9652434873_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp&w=360&h=202')">
-                                        <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
                                     </div>
-                                    <div class="mask-component" @click="handleLike()">
-                                        <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
-                                        <!-- <div class="badge">99+</div> -->
+                                    <div class="mask-container">
+                                        <div class="container-component"
+                                            @click="handleSelect(item)">
+                                            <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                        </div>
+                                        <!-- <div class="container-component" @click="handleLike()">
+                                            <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
                 <ContextMenu :menu="menu" @select="getSelect">
                     <div v-if="current === '2'">
-                        <div>
+                        <div v-show="isLogin">
                             <div class="container">
-                                <div class="component">
-                                    <img src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                                        alt="">
-                                    <div class="mask">
-                                        <div class="mask-container">
-                                            <div class="mask-component"
-                                                @click="handleSelect('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png')">
-                                                <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                <template v-for="item in backgroundListByUser" :key="item.name">
+                                    <div class="component">
+                                        <img :src=item.url alt="">
+                                        <div class="mask">
+                                            <div class="mask-header">
+                                                <div class="header-component" @click="handleDownload(item)">
+                                                    <download-outlined :style="{ fontSize: '15px', color: 'white' }" />
+                                                </div>
+                                                <a-popconfirm title="确定要删除这个背景吗?" ok-text="Yes" cancel-text="No"
+                                                    @confirm="deleteConfirm" @cancel="deleteCancel">
+                                                    <div class="header-component" @click="handleDelete(item)">
+                                                        <minus-outlined :style="{ fontSize: '15px', color: 'white' }" />
+                                                    </div>
+                                                </a-popconfirm>
+
                                             </div>
-                                            <div class="mask-component" @click="handleLike()">
-                                                <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                            <div class="mask-container">
+                                                <div class="container-component" @click="handleSelect(item)">
+                                                    <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                                </div>
+                                                <!-- <div class="container-component" @click="handleLike()">
+                                                    <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </template>
                             </div>
                         </div>
-                        <!-- <div class="loginBox" >
+                        <div class="loginBox" v-show="!isLogin">
                             <div>登录后查看我的图库</div>
-                            <a-button type="primary" shape="round">去登录</a-button>
-                        </div> -->
+                            <a-button type="primary" shape="round" @click="goLogin">去登录</a-button>
+                        </div>
                     </div>
                 </ContextMenu>
                 <!-- <div v-if="current === '3'">Content 3 Displayed Here</div> -->
@@ -92,32 +101,92 @@ import { ref } from 'vue';
 import ContextMenu from '@/components/ContextMenu.vue'
 import { message } from 'ant-design-vue';
 import { useWallpaperStore } from '@/store/wallpaper';
+import { v4 as uuidv4 } from 'uuid';
 import {
     CheckOutlined,
-    LikeOutlined
+    LikeOutlined,
+    MinusOutlined,
+    DownloadOutlined
 } from '@ant-design/icons-vue';
 import { uploadImage } from "@/api/upload";
-import { add_background } from '@/api/background';
+import { add_background, delete_background, get_background_list, get_background_recommend } from '@/api/background';
+import { Background } from '@/types/background';
+import { saveAs } from 'file-saver';
+import { defineEmits } from 'vue';
+import { useUserStore } from '@/store/user';
 export default defineComponent({
     components: {
         ContextMenu,
         CheckOutlined,
-        LikeOutlined
+        LikeOutlined,
+        MinusOutlined,
+        DownloadOutlined
     },
+
+    emits: ['go-login'], // 声明子组件可以触发的事件
     setup(props, { emit }) {
         const current = ref<string>('1');
         const $transBackground = inject('$transBackground') as (() => void); //改变背景图
         const wallpaperStore = useWallpaperStore();
-        const token = ref(localStorage.getItem('token'));
-        // 处理菜单点击
-        const handleMenuClick = async (e: { key: string }) => {
-            current.value = e.key;
-        };
+        const userStore = useUserStore();
+        const backgroundListByRecommend = ref([]);
+        const backgroundListByUser = ref([]);
+        const deleteName = ref('');
+        // 右键点击按钮
         const menu = ref([
-            { label: '上传图片', icon: 'copy' },
+            { label: '上传图片', icon: 'add' },
             // { label: '复制', icon: 'copy' }
         ])
 
+
+        /**
+       * @description: 处理菜单点击
+       */
+        const handleMenuClick = async (e: { key: string }) => {
+            current.value = e.key;
+            console.log(e.key);
+            if (e.key === '2') {
+                userStore.isLoggedIn ? getListByUser() : ''
+            }
+
+        };
+        // 计算监听状态
+        const isLogin = computed(() => userStore.isLoggedIn)
+
+        // 监听是否登录
+        watch(() => userStore.isLoggedIn, (newValue) => {
+            if (newValue) {
+                getListByUser()
+            }
+        })
+        /**
+        * @description: 获取用户图片数据
+        */
+        const getListByUser = () => {
+            get_background_list().then((res: any) => {
+                console.log(res);
+                if (res.code === 200) {
+                    backgroundListByUser.value = res.data
+                } else {
+                    message.error(res.message)
+                }
+            })
+        }
+
+        const getListByRecommend = () => {
+            get_background_recommend().then((res: any) => {
+                console.log(res);
+                if (res.code === 200) {
+                    backgroundListByRecommend.value = res.data
+                } else {
+                    message.error(res.message)
+                }
+            })
+        }
+
+        /**
+         * @description: 右键点击方法
+         */
         const getSelect = (e) => {
             console.log('eee', e)
             if (e.label === '上传图片') {
@@ -136,15 +205,17 @@ export default defineComponent({
                         uploadImage(file)
                             .then(response => {
                                 console.log('上传成功', response);
+                                const uniqueID = uuidv4();
                                 // message.success('上传成功')
                                 add_background({
-                                    url: response.data.url,
-                                    name: "picture",
+                                    url: response.data,
+                                    name: uniqueID,
                                     attribute: "picture",
                                     themeColor: "#fff"
                                 }).then((res: any) => {
                                     console.log(res);
                                     if (res.code === 200) {
+                                        getListByUser()
                                         message.success('上传成功')
                                     } else {
                                         message.error('上传失败')
@@ -161,31 +232,89 @@ export default defineComponent({
                 fileInput.click();
             }
         };
+
+        /**
+         * @description: 点赞
+         */
         const handleLike = () => {
             console.log('点赞成功');
             message.success('点赞成功')
         }
-        const handleSelect = (src: string) => {
-            let data = {
-                url: src,
-                themeColor: '#fff',
-                name: "picture",
-                attribute: "picture"
+        /**
+         * @description: 下载图片的方法
+         */
+        const handleDownload = async (item: Background) => {
+            const url = item.url; // 替换为图片的实际路径
+
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                saveAs(blob, 'background.jpg'); // 下载时的文件名
+            } catch (error) {
+                console.error('下载图片失败', error);
             }
+        }
+        /**
+         * @description: 删除获取name
+         */
+        const handleDelete = (item: Background) => {
+            deleteName.value = item.name
+
+        }
+        /**
+         * @description: 确认删除
+         */
+        const deleteConfirm = (e: MouseEvent) => {
+            delete_background(deleteName.value).then((res: any) => {
+                console.log(res);
+                if (res.code === 200) {
+                    getListByUser()
+                    message.success('删除成功')
+                } else {
+                    message.error('删除失败')
+                }
+            })
+        };
+        /**
+         * @description: 取消删除
+         */
+        const deleteCancel = (e: MouseEvent) => {
+        };
+        /**
+         * @description: 选这壁纸
+         */
+        const handleSelect = (item: Background) => {
             message.success('更换壁纸成功')
-            wallpaperStore.SET_CURRENTWALLPAPER(data);
+            wallpaperStore.SET_CURRENTWALLPAPER(item);
             $transBackground();
         }
+        /**
+         * @description:    去登录
+         */
+        const goLogin = () => {
+            emit('go-login');
+        }
+
+        onMounted(() => {
+            getListByRecommend()
+        })
 
         return {
             current,
             menu,
             handleMenuClick,
             handleSelect,
+            handleDownload,
+            handleDelete,
+            deleteConfirm,
+            deleteCancel,
             getSelect,
             handleLike,
+            goLogin,
             ContextMenu,
-            token,
+            backgroundListByUser,
+            backgroundListByRecommend,
+            isLogin,
         }
     }
 })
@@ -202,6 +331,7 @@ export default defineComponent({
     position: relative;
     display: flex;
     flex-wrap: wrap;
+    height: 500px;
 }
 
 .component {
@@ -239,14 +369,20 @@ export default defineComponent({
 
 }
 
+.mask-header {
+    color: white;
+    display: flex;
+    justify-content: end;
+}
+
 .mask-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100px;
 }
 
-.mask-component {
+.container-component {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -258,8 +394,26 @@ export default defineComponent({
     z-index: 22;
 }
 
-.mask-component:hover {
+
+
+.container-component:hover {
     background-color: #8cb6fe;
+}
+
+.header-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    // background-color: rgba(225, 220, 220, 0.6);
+    border-radius: 50%;
+    margin: 5px;
+    z-index: 22;
+}
+
+.header-component:hover {
+    background-color: #141416;
 }
 
 

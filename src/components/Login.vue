@@ -43,6 +43,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { login } from '@/api/user';
 import { LoginState } from '@/types/login';
 import  Register  from '@/components/Register.vue'
+import { useUserStore } from '@/store/user';
 interface LoginForm extends LoginState {
     remember: boolean;
 }
@@ -56,6 +57,7 @@ export default defineComponent({
 
     setup(props, { emit }: { emit: Function }) {
         const $message: { success: Function, error: Function } = inject('$message')!
+        const userStore = useUserStore()
         const loginState = reactive<LoginForm>({
             account: '',
             password: '',
@@ -68,7 +70,7 @@ export default defineComponent({
                 console.log(res);
                 if (res.code === 200) {
                     $message.success(res.message);
-                    localStorage.setItem('token', res.data.token);
+                    userStore.LOGIN(res.data.token)
                     emit('closeLogin');
                 } else {
                 }

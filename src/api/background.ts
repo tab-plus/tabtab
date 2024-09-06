@@ -1,19 +1,30 @@
+/*
+ * @Author: panrunjun
+ * @Date: 2024-09-05 18:02:19
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2024-09-06 17:39:14
+ * @Description: 背景接口
+ * @FilePath: \ytab-master\src\api\background.ts
+ */
 
 //我要用到的一些接口
+import { Background } from "@/types/background";
 import service from "@/utils/request";
-export function get_background_list(){
+export function get_background_list() {
     return service({
         url: "/background/get_background_list",
         method: "GET"
     })
 }
-interface AddBackground {
-    name:string,
-    url:string,
-    attribute:string,
-    themeColor:string,
+
+export function get_background_recommend() {
+    return service({
+        url: "/background/get_background_recommend",
+        method: "GET"
+    })
 }
-export function add_background(data:AddBackground){
+
+export function add_background(data: Background) {
     return service({
         url: "/background/add_background",
         method: "POST",
@@ -21,9 +32,9 @@ export function add_background(data:AddBackground){
     })
 }
 
-export function delete_background(name:string){
+export function delete_background(name: string) {
     return service({
-        url: "/background/delete_background?name="+name,
+        url: "/background/delete_background?name=" + name,
         method: "delete",
     })
 }

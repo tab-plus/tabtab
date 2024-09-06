@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-27 21:26:35
+ * @LastEditTime: 2024-09-06 17:12:29
  * @Description: 
  * @FilePath: \ytab-master\src\main.ts
  */
@@ -51,6 +51,11 @@ import { add_visit } from './api';
 // const result = await analyze('https://kodo.mboke.top/ytab/iyk7.mp4', { scale: 0.6 })
 // console.log(result)
 
+
+// 初始化获取登录状态
+import { useUserStore } from '@/store/user';
+const userStore = useUserStore();
+userStore.INIT_USER();
 const vm = app.use(router).mount('#app');
 
 // 访问量加1
