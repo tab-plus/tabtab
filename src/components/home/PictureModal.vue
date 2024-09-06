@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-06 17:42:41
+ * @LastEditTime: 2024-09-06 18:00:58
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -22,24 +22,15 @@
                     <div class="container">
                         <template v-for="item in backgroundListByRecommend" :key="item.name">
                             <div class="component">
-                                <img :src=item.url
-                                    alt="">
+                                <img :src=item.url alt="">
                                 <div class="mask">
                                     <div class="mask-header">
                                         <div class="header-component" @click="handleDownload(item)">
                                             <download-outlined :style="{ fontSize: '15px', color: 'white' }" />
                                         </div>
-                                        <a-popconfirm title="确定要删除这个背景吗?" ok-text="Yes" cancel-text="No"
-                                            @confirm="deleteConfirm" @cancel="deleteCancel">
-                                            <div class="header-component" @click="handleDelete(item)">
-                                                <minus-outlined :style="{ fontSize: '15px', color: 'white' }" />
-                                            </div>
-                                        </a-popconfirm>
-
                                     </div>
                                     <div class="mask-container">
-                                        <div class="container-component"
-                                            @click="handleSelect(item)">
+                                        <div class="container-component" @click="handleSelect(item)">
                                             <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
                                         </div>
                                         <!-- <div class="container-component" @click="handleLike()">
@@ -332,6 +323,36 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     height: 500px;
+    /* 当内容超出容器高度时，出现垂直滚动条 */
+    overflow-y: auto;
+}
+
+/* 滚动条整体 */
+.container::-webkit-scrollbar {
+    width: 5px;
+    /* 滚动条的宽度 */
+}
+
+/* 滚动条轨道 */
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* 滚动条轨道的背景色 */
+    border-radius: 10px;
+    /* 滚动条轨道的圆角 */
+}
+
+/* 滚动条滑块 */
+.container::-webkit-scrollbar-thumb {
+    background: #8cb6fe;
+    /* 滚动条滑块的颜色 */
+    border-radius: 10px;
+    /* 滚动条滑块的圆角 */
+}
+
+/* 滚动条滑块在悬停时的颜色 */
+.container::-webkit-scrollbar-thumb:hover {
+    background: #8cb6fe;
+    /* 滚动条滑块悬停时的颜色 */
 }
 
 .component {
@@ -429,6 +450,5 @@ export default defineComponent({
     align-items: center;
     flex-direction: column;
     color: gray;
-}
-</style>
+}</style>
   

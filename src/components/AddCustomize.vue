@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-28 14:18:41
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-29 14:55:54
+ * @LastEditTime: 2024-09-06 18:08:09
  * @Description: 输入url添加icon
  * @FilePath: \ytab-master\src\components\AddCustomize.vue
 -->
@@ -16,6 +16,7 @@
                         <a-select v-model:value="httpValue" style="width: 90px">
                             <a-select-option value="Http://">Http://</a-select-option>
                             <a-select-option value="Https://">Https://</a-select-option>
+                            <a-select-option value=""></a-select-option>
                         </a-select>
                     </template>
                     <template #addonAfter>
@@ -24,6 +25,7 @@
                             <a-select-option value=".jp">.jp</a-select-option>
                             <a-select-option value=".cn">.cn</a-select-option>
                             <a-select-option value=".org">.org</a-select-option>
+                            <a-select-option value=""></a-select-option>
                         </a-select>
                     </template>
                 </a-input>

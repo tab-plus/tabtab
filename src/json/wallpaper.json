@@ -2,19 +2,13 @@
   "img": [
     {
       "name": "iyk1",
-      "url": "https://png.pngtree.com/thumb_back/fh260/background/20190221/ourmid/pngtree-planet-technology-earth-moon-image_15588.jpg",
+      "url": "https://www4.bing.com//th?id=OHR.AlpineLakes_ZH-CN4537389724_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
       "themeColor": "rgb(64,57,51,0.3)",
       "attribute": "picture"
     },
     {
-      "name": "japan3",
-      "url": "https://pic.616pic.com/bg_w1180/00/13/24/jwwoUMZTg1.jpg",
-      "themeColor": "rgb(213,243,243,0.3)",
-      "attribute": "picture"
-    },
-    {
       "name": "4",
-      "url": "https://ts1.cn.mm.bing.net/th/id/R-C.f9a98bf4dfcc40d2d21b1236478814ac?rik=KmnRyWIqt3%2fF0Q&riu=http%3a%2f%2fpic.ntimg.cn%2f20130820%2f7858507_175657231189_2.jpg&ehk=%2bwyqIxbtdF9%2foY6CxXk8%2bAaJ2NSrmQqHsE8B6Vy2I1M%3d&risl=&pid=ImgRaw&r=0",
+      "url": "https://files.codelife.cc/wallhaven/full/5g/wallhaven-5ggol7.png?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp",
       "themeColor": "rgb(213,243,243,0.3)",
       "attribute": "picture"
     }

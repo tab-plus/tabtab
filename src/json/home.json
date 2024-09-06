@@ -17,15 +17,15 @@
     {
       "url": "http://www.bilibili.com/",
       "type": "icon",
-      "name": "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili",
+      "name": "哔哩哔哩",
       "src": "https://files.codelife.cc/website/bilibili.svg",
       "id": "3"
     },
     {
-      "url": "http://www.12306.cn",
+      "url": "https://hellomiku.com/index",
       "type": "icon",
-      "name": "12306",
-      "src": "https://files.codelife.cc/website/12306.svg",
+      "name": "hellomiku",
+      "src": "https://hellomiku.com/favicon.ico",
       "id": "2"
     },
     {
