@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-06 17:16:43
+ * @LastEditTime: 2024-09-10 15:18:50
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -35,7 +35,7 @@
         <section class="grid-stack beautiful-sm-scroll"></section>
       </main>
       <!-- 日历 -->
-      <a-modal width="60%" v-model:visible="calendarModal.isVisible.value" footer="" title="日历" closable
+      <a-modal :destroyOnClose="true" width="1200px" height="500px" v-model:visible="calendarModal.isVisible.value" footer="" title="日历" closable
         @ok="() => { calendarModal.open() }">
         <!-- <a-calendar v-model:value="calendarValue" :fullscreen="false" @panelChange="onPanelChange" /> -->
         <CalendarModal></CalendarModal>
@@ -75,7 +75,7 @@
             style="position:absolute;bottom: 0;left: 0;margin:10px;">+</a-button> -->
           <a-layout>
             <div v-if="selectedKeys.includes('1')">
-              <AddIcon @addNewWidget="addNewWidget"></AddIcon>
+              <AddIcon @addNewWidget="addComponent"></AddIcon>
             </div>
             <div v-if="selectedKeys.includes('2')">
               <AddComponent @addNewWidget="addComponent"></AddComponent>
@@ -97,7 +97,7 @@
       <!-- 图库 -->
       <a-modal width="60%" v-model:visible="pictureModal.isVisible.value" footer="" title="图库" closable
         @ok="() => { pictureModal.open() }">
-        <PictureModal @go-login="goLogin" ></PictureModal>
+        <PictureModal @go-login="goLogin"></PictureModal>
       </a-modal>
 
     </div>
@@ -153,7 +153,7 @@ import { exportMultipleLocalStorageItems } from '@/utils/exportLocalJSON';
 import { importJSONToLocalStorage } from '@/utils/importLocalJSON';
 import { message, UploadProps } from 'ant-design-vue';
 import { getIconList } from '@/api/user';
-import { Icon } from '@/types/icon'
+import { DateItem, HotSearchItem, Icon, PintureItem, WeatherItem } from '@/types/icon'
 import { getCity, getLocation } from '@/utils/getLocation'
 import axios from 'axios';
 import useUpdateItem from '@/hooks/useUpdateItem';
@@ -581,8 +581,8 @@ export default defineComponent({
     /**
      * 点击日历图标
      */
-    const pictuerClick = () => {
-      console.log('pictuerClick!');
+    const pictureClick = () => {
+      console.log('pictureClick!');
       pictureModal.open()
     };
     // 点击 icon 的处理函数
@@ -636,13 +636,13 @@ export default defineComponent({
           if (v.name === '备忘录') {
             addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y)
           } else if (v.name === '日历') {
-            addDateItem(v.id, v.size, v.x, v.y)
+            addDateItem(v)
           } else if (v.name === '天气') {
-            addWeatherItem(v.id, v.size, v.x, v.y)
+            addWeatherItem(v)
           } else if (v.name === '热搜') {
-            addHotSearchItem(v.id, v.size, v.x, v.y)
+            addHotSearchItem(v)
           } else if (v.name === '图库') {
-            addPictureItem(v.src, v.name, v.url, v.id, v.x, v.y)
+            addPictureItem(v)
           }
         }
       })
@@ -668,7 +668,7 @@ export default defineComponent({
       const pictureElements = document.querySelectorAll('.pictureItem');
       pictureElements.forEach(pictureElement => {
         // 为每个元素添加点击事件监听器
-        pictureElement.addEventListener('click', pictuerClick);
+        pictureElement.addEventListener('click', pictureClick);
       });
 
       // 天气
@@ -730,15 +730,20 @@ export default defineComponent({
     }
     // 给子组件用的方法
     function addComponent(v: any) {
+      console.log(v, "v--");
+
       if (v.name === '备忘录') {
         addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y)
       } else if (v.name === '日历') {
-        addDateItem(v.id, v.size, v.x, v.y)
+        addDateItem(v)
       } else if (v.name === '天气') {
-        addWeatherItem(v.id, v.size, v.x, v.y)
+        addWeatherItem(v)
       } else if (v.name === '热搜') {
-        addHotSearchItem(v.id, v.size, v.x, v.y)
-      } else {
+        addHotSearchItem(v)
+      } else if (v.name === '图库') {
+        addPictureItem(v)
+      }
+      else {
         addNewWidget(v.src, v.name, v.url, v.id, v.x, v.y)
       }
       getAllElToMenu()
@@ -794,25 +799,31 @@ export default defineComponent({
     }
 
     // 新增图库节点
-    function addPictureItem(src: string, name: string, url: string, id: string, x: number, y: number) {
+    function addPictureItem(v: PintureItem) {
       const el = `
         <div class="grid-stack-item">
             <div class="pictureItem">
                 <div class="grid-stack-item-content flex flex-direction justify-around align-center">
-                  <img src="${src}" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md" />
-                  <p class="cl-ant-p sg-omit-sm text-white-sm">${name}</p>
+                  <img src="${v.src}" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md" />
+                  <p class="cl-ant-p sg-omit-sm text-white-sm">${v.name}</p>
                 </div>
             </div>
         </div>
       `
-      grid.addWidget(el, { w: 1, h: 2, x: x, y: y, id: id });
+      grid.addWidget(el, { w: 1, h: 2, x: v.x, y: v.y, id: v.id });
+      // 日历
+      const pictureElements = document.querySelectorAll('.pictureItem');
+      pictureElements.forEach(pictureElement => {
+        // 为每个元素添加点击事件监听器
+        pictureElement.addEventListener('click', pictureClick);
+      });
     }
 
 
     // 新增日历节点
-    function addDateItem(id: string, size: number, x: number, y: number) {
+    function addDateItem(v: DateItem) {
       let el = ''
-      if (size === 1) {
+      if (v.size === 1) {
         el = `
             <div class="grid-stack-item">
                 <div class="dateItem">
@@ -826,7 +837,7 @@ export default defineComponent({
                 </div>
             </div>
           `
-        grid.addWidget(el, { id: id, x: x, y: y, w: 1, h: 2 });
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         // 日历
         const dateElements = document.querySelectorAll('.dateItem');
         dateElements.forEach(dateElement => {
@@ -850,7 +861,7 @@ export default defineComponent({
           </div>
         </div>
       `
-        grid.addWidget(el, { id: id, x: x, y: y, w: 2, h: 4 });
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 2, h: 4 });
         // 日历
         const dateElements = document.querySelectorAll('.dateItem');
         dateElements.forEach(dateElement => {
@@ -861,8 +872,8 @@ export default defineComponent({
     }
 
     // 新增天气节点
-    function addWeatherItem(id: string, size: number, x: number, y: number) {
-      if (size === 1) {
+    function addWeatherItem(v: WeatherItem) {
+      if (v.size === 1) {
         const el = `
         <div class="grid-stack-item">
             <div class="weatherItem">
@@ -874,7 +885,7 @@ export default defineComponent({
             </div>
         </div>
       `
-        grid.addWidget(el, { id: id, x: x, y: y, w: 1, h: 2 });
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         const weatherElements = document.querySelectorAll('.weatherItem'); // 选择所有匹配的元素
         if (weatherElements) {
           weatherElements.forEach(weatherElement => {
@@ -882,7 +893,7 @@ export default defineComponent({
             weatherElement.addEventListener('click', weatherClick);
           });
         }
-      } else if (size === 4) {
+      } else if (v.size === 4) {
         const el = `
         <div class="grid-stack-item">
           <div class="grid-stack-item-content">
@@ -906,7 +917,7 @@ export default defineComponent({
           </div>
         </div>
       `
-        grid.addWidget(el, { id: id, w: 2, h: 4 });
+        grid.addWidget(el, { id: v.id, w: 2, h: 4, x: v.x, y: v.y });
         const weatherElements = document.querySelectorAll('.weatherItem'); // 选择所有匹配的元素
         if (weatherElements) {
           weatherElements.forEach(weatherElement => {
@@ -918,8 +929,8 @@ export default defineComponent({
     }
 
     // 新增热搜节点
-    async function addHotSearchItem(id: string, size: number, x: number, y: number) {
-      if (size === 1) {
+    async function addHotSearchItem(v: HotSearchItem) {
+      if (v.size === 1) {
         const el = `
         <div class="grid-stack-item">
             <div class="hotSearchItem">
@@ -932,7 +943,7 @@ export default defineComponent({
         </div>
       `
 
-        grid.addWidget(el, { id: id, x: x, y: y, w: 1, h: 2 });
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         const hotSearchElements = document.querySelectorAll('.hotSearchItem'); // 选择所有匹配的元素
         if (hotSearchElements) {
           hotSearchElements.forEach(hotSearchElement => {
@@ -940,7 +951,7 @@ export default defineComponent({
             hotSearchElement.addEventListener('click', hotModal.open);
           });
         }
-      } else if (size === 4) {
+      } else if (v.size === 4) {
         const baiduItems = baiduHotList.value && baiduHotList.value.length > 0
           ? baiduHotList.value.map((item: any, index: number) =>
             `<div class="cl-ant-p sg-omit-sm text-white-sm tab-pane-item" rel="noopener noreferrer"><span>${index + 1}.</span><a target="_blank" href="${item.url}">${item.name}</a></div>`
@@ -983,7 +994,7 @@ export default defineComponent({
               </div>
             </div>
           `
-        grid.addWidget(el, { id: id, w: 2, h: 4 });
+        grid.addWidget(el, { id: v.id, w: 2, h: 4, x: v.x, y: v.y, });
 
       }
     }
@@ -1211,5 +1222,5 @@ main {
   right: 0;
   margin-right: 10px;
 }
+
 </style>
-@/utils/exportLocalJSON@/hooks/useUpdateItem

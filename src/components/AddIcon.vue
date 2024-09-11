@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 21:46:10
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-27 21:05:17
+ * @LastEditTime: 2024-09-06 18:53:23
  * @Description: 添加快捷方式图标
  * @FilePath: \ytab-master\src\components\AddIcon.vue
 -->
@@ -58,11 +58,11 @@ export default defineComponent({
                 name: item.name,
                 size: 4,
                 iconId: item.id,
-                type: 'icon',
+                type: item.type,
                 url: item.url,
                 src: item.src
             }
-            emit('addNewWidget', item.src, item.name, item.url, uniqueID);
+            emit('addNewWidget', data);
             // 1. 获取存储的数组
             let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
             console.log(garids.icon);

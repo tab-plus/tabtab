@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-06 18:00:58
+ * @LastEditTime: 2024-09-10 10:39:49
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -66,9 +66,6 @@
                                                 <div class="container-component" @click="handleSelect(item)">
                                                     <check-outlined :style="{ fontSize: '20px', color: 'white' }" />
                                                 </div>
-                                                <!-- <div class="container-component" @click="handleLike()">
-                                                    <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
-                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -146,6 +143,7 @@ export default defineComponent({
 
         // 监听是否登录
         watch(() => userStore.isLoggedIn, (newValue) => {
+            console.log(newValue,1111);
             if (newValue) {
                 getListByUser()
             }
@@ -450,5 +448,6 @@ export default defineComponent({
     align-items: center;
     flex-direction: column;
     color: gray;
-}</style>
+}
+</style>
   

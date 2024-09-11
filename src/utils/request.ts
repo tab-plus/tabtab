@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-08-02 19:39:09
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-05 16:07:22
+ * @LastEditTime: 2024-09-10 10:37:41
  * @Description: 封装的请求
  * @FilePath: \ytab-master\src\utils\request.ts
  */
@@ -44,6 +44,7 @@ service.interceptors.response.use((res) => {
         return Promise.resolve(res.data);
     } else if (code === 401) {
         // 请求失败
+        localStorage.removeItem("token");
         message.error('请先登录');
     } else {
         // 请求失败
