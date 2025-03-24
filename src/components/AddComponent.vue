@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-23 15:58:34
+ * @LastEditTime: 2025-03-18 12:10:45
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -58,17 +58,18 @@
 
 <script lang="ts">
 // import { add_icon_ByUserId } from '@/api/icon';
+import { ref, defineComponent } from 'vue';
 import { message } from 'ant-design-vue';
 import { v4 as uuidv4 } from 'uuid';
 
 export default defineComponent({
-    emits: ['addNewWidget'], // 声明子组件可以触发的事件
-    setup(props,{ emit }: { emit: Function }) {
+    emits: ['addNewWidget', 'handleClose'], // 声明子组件可以触发的事件
+    setup(props, { emit }: { emit: Function }) {
         const route = useRoute();
-        const weather = ref<any>()
-        const city = ref<string>()
-        weather.value = JSON.parse(localStorage.getItem('weather'))
-        city.value = localStorage.getItem('city')
+        const weather = ref<any>();
+        const city = ref<string>();
+        weather.value = JSON.parse(localStorage.getItem('weather'));
+        city.value = localStorage.getItem('city');
 
         const addComponent = (name: string) => {
             const uniqueID = uuidv4();
@@ -88,6 +89,7 @@ export default defineComponent({
             // 3. 重新存储数组
             localStorage.setItem(route.name as string, JSON.stringify(garids));
             emit('addNewWidget', data);
+            emit('handleClose');
         }
 
         return {

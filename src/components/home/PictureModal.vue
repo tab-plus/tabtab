@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-10 10:39:49
+ * @LastEditTime: 2025-03-14 17:38:33
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -143,7 +143,7 @@ export default defineComponent({
 
         // 监听是否登录
         watch(() => userStore.isLoggedIn, (newValue) => {
-            console.log(newValue,1111);
+            console.log(newValue, 1111);
             if (newValue) {
                 getListByUser()
             }
@@ -177,48 +177,52 @@ export default defineComponent({
          * @description: 右键点击方法
          */
         const getSelect = (e) => {
-            console.log('eee', e)
-            if (e.label === '上传图片') {
-                // 触发文件选择对话框
-                const fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.accept = 'image/*';
-                fileInput.style.display = 'none';
-                document.body.appendChild(fileInput);
+            console.log('eee', isLogin)
+            if (isLogin.value) {
+                if (e.label === '上传图片') {
+                    // 触发文件选择对话框
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'image/*';
+                    fileInput.style.display = 'none';
+                    document.body.appendChild(fileInput);
 
-                fileInput.addEventListener('change', async (event) => {
-                    const file = (event.target as HTMLInputElement).files?.[0];
-                    console.log(file, "file--");
+                    fileInput.addEventListener('change', async (event) => {
+                        const file = (event.target as HTMLInputElement).files?.[0];
+                        console.log(file, "file--");
 
-                    if (file) {
-                        uploadImage(file)
-                            .then(response => {
-                                console.log('上传成功', response);
-                                const uniqueID = uuidv4();
-                                // message.success('上传成功')
-                                add_background({
-                                    url: response.data,
-                                    name: uniqueID,
-                                    attribute: "picture",
-                                    themeColor: "#fff"
-                                }).then((res: any) => {
-                                    console.log(res);
-                                    if (res.code === 200) {
-                                        getListByUser()
-                                        message.success('上传成功')
-                                    } else {
-                                        message.error('上传失败')
-                                    }
+                        if (file) {
+                            uploadImage(file)
+                                .then(response => {
+                                    console.log('上传成功', response);
+                                    const uniqueID = uuidv4();
+                                    // message.success('上传成功')
+                                    add_background({
+                                        url: response.data,
+                                        name: uniqueID,
+                                        attribute: "picture",
+                                        themeColor: "#fff"
+                                    }).then((res: any) => {
+                                        console.log(res);
+                                        if (res.code === 200) {
+                                            getListByUser()
+                                            message.success('上传成功')
+                                        } else {
+                                            message.error('上传失败')
+                                        }
+                                    })
                                 })
-                            })
-                            .catch(error => {
-                                console.error('上传失败', error);
-                                message.error('上传失败')
-                            });
-                    }
-                });
+                                .catch(error => {
+                                    console.error('上传失败', error);
+                                    message.error('上传失败')
+                                });
+                        }
+                    });
 
-                fileInput.click();
+                    fileInput.click();
+                }
+            }else{
+                message.warning('请先登录')
             }
         };
 

@@ -66,13 +66,14 @@ export default defineComponent({
   width: 706px;
   height: 54px;
   border-radius: 100px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   position: relative;
 
   .search {
     width: 580px;
     height: 50px;
+    background-color: transparent;
   }
 
   .search-logo {
@@ -108,6 +109,7 @@ export default defineComponent({
     height: 300px;
     overflow: auto;
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
 
     .card {
       width: 28%;

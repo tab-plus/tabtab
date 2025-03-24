@@ -78,3 +78,24 @@ div:focus {
 .tab-pointer {
   cursor: pointer;
 }
+
+// 全局滚动条
+::-webkit-scrollbar {
+  width: 8px; /* 设置滚动条宽度 */
+  height: 8px; /* 设置滚动条高度 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.5); /* 滚动条滑块颜色 */
+  border-radius: 10px; /* 滚动条滑块圆角 */
+}
+
+::-webkit-scrollbar-track {
+  // background: rgba(200, 200, 200, 1); /* 滚动条轨道背景颜色 */
+  border-radius: 10px; /* 滚动条轨道圆角 */
+}
+
+/* 当鼠标悬停在滚动条上时的样式 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(200, 200, 200, 1);
+}

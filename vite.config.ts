@@ -2,21 +2,19 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-21 20:31:52
+ * @LastEditTime: 2025-03-18 10:34:59
  * @Description: 
  * @FilePath: \ytab-master\vite.config.ts
  */
-import path, {resolve} from "path"
+import path, { resolve } from "path"
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'  //svg雪碧图插件
 import AutoImport from 'unplugin-auto-import/vite'  //第三方库声明文件自动插入
-
 
 export default defineConfig({
   base: './',   //等同于vue-cli中publicPath基础路由，静态资源引用前正确路径
@@ -51,7 +49,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
-      path: "path-browserify",  //解决在浏览器中使用类似node原生path模块的问题
+      path: "path-browserify" //解决在浏览器中使用类似node原生path模块的问题
     }
   },
   css: {
@@ -62,20 +60,20 @@ export default defineConfig({
       }
     }
   },
-    server: {
-      hmr: { overlay: false }, // 禁用或配置 HMR 连接 设置 server.hmr.overlay 为 false 可以禁用服务器错误遮罩层
-      port: 5008, // 指定服务器端口;
-      open: true, // 服务器启动时自动在浏览器中打开应用程序；
-      cors: true, // 类型： boolean | CorsOptions 为开发服务器配置 CORS。默认启用并允许任何源
-      proxy: {
-        '/api': {
-          target: 'http://127.0.0.1:3034',
-          // target: 'http://8.138.112.139:3034',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        }
-      },
+  server: {
+    hmr: { overlay: false }, // 禁用或配置 HMR 连接 设置 server.hmr.overlay 为 false 可以禁用服务器错误遮罩层
+    port: 5008, // 指定服务器端口;
+    open: true, // 服务器启动时自动在浏览器中打开应用程序；
+    cors: true, // 类型： boolean | CorsOptions 为开发服务器配置 CORS。默认启用并允许任何源
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3034',
+        // target: 'http://8.138.112.139:3034',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
     },
+  },
   //打包相关配置
   build: {
     //target: 'es2015',
@@ -102,7 +100,8 @@ export default defineConfig({
     }
   },
   // 默认情况下，不在 node_modules 中的，链接的包不会被预构建。使用此选项可强制预构建链接的包。比如强制构建'moment-mini'的包
-  // optimizeDeps: {
-  //   include: ['moment-mini']
-  // }
-})
+  optimizeDeps: {
+    // include: ['moment-mini']
+    exclude: ['@vue/repl']
+  }
+});

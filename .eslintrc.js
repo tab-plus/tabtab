@@ -1,3 +1,11 @@
+/*
+ * @Author: panrunjun
+ * @Date: 2024-07-22 21:46:02
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2025-03-17 20:02:10
+ * @Description: 
+ * @FilePath: \ytab-master\.eslintrc.js
+ */
 module.exports = {
   env: {
     browser: true,
@@ -25,6 +33,7 @@ module.exports = {
     'linebreak-style': 'off', // 取消换行符\n或\r\n的验证
     'no-param-reassign': 'off', // 允许对函数参数进行再赋值
     'consistent-return': 'off', // 关闭函数中return的检测
+    'indent': 'off',
   },
   settings: {
     'import/resolver': {

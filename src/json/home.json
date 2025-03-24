@@ -4,7 +4,7 @@
       "url": "",
       "type": "component",
       "name": "图库",
-      "src": "https://img.zcool.cn/community/0160c05b3f32f5a80120b9590bc309.png@1280w_1l_2o_100sh.png",
+      "src": "http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=iphone.png&version_id=null",
       "id": "5"
     },
     {

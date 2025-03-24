@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-08-30 16:33:34
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-10 18:03:46
+ * @LastEditTime: 2025-03-18 16:04:25
  * @Description: 日历组件
  * @FilePath: \ytab-master\src\components\home\CalendarModal.vue
 -->
@@ -11,16 +11,10 @@
     <a-col :span="16">
       <div class="calendar">
         <a-calendar v-model:value="selectDate" @select="onSelect" @panelChange="onPanelChange">
-          <template #headerRender="{ value: current, type, onChange, onTypeChange }">
+          <template #headerRender="{ value: current,  onChange,  }">
             <div style="padding: 10px">
               <!-- <div style="margin-bottom: 10px">Custom header</div> -->
-              <a-row type="flex" justify="space-between">
-                <a-col>
-                  <a-radio-group size="small" :value="type" @change="e => onTypeChange(e.target.value)">
-                    <a-radio-button value="month">Month</a-radio-button>
-                    <a-radio-button value="year">Year</a-radio-button>
-                  </a-radio-group>
-                </a-col>
+              <a-row type="flex">
                 <a-col>
                   <a-select size="small" :dropdown-match-select-width="false" class="my-year-select"
                     :value="String(current.year())" @change="newYear => {
@@ -81,7 +75,7 @@
                 <div class="number">{{ index + 1 }}</div>
                 <span>{{ item.content }}</span>
               </div>
-              <span class="deleteBox" @click="deleteText(item.id)"><minus-outlined /></span>
+              <span class="deleteBox" @click="deleteText(item.id)">-</span>
             </div>
             <a-divider />
           </template>
@@ -432,7 +426,7 @@ export default defineComponent({
   width: 18px;
   background-color: #ff5a5d;
   border-radius: 50%;
-  line-height: 18px;
+  line-height: 14px;
   font-size: 20px;
   color: white;
 }
