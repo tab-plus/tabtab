@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 21:46:10
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-18 14:46:54
+ * @LastEditTime: 2025-03-24 17:39:42
  * @Description: 添加快捷方式图标
  * @FilePath: \ytab-master\src\components\AddIcon.vue
 -->
@@ -63,13 +63,7 @@ export default defineComponent({
                 src: item.src
             }
             emit('addNewWidget', data);
-            // 1. 获取存储的数组
-            let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
-            console.log(garids.icon);
-            // 2. 修改数组（例如，添加新元素）
-            garids.icon.push(data);
-            // 3. 重新存储数组
-            localStorage.setItem(routeName as string, JSON.stringify(garids));
+          
             message.success(`添加成功`);
             emit('handleClose');
         }

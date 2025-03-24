@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-19 14:57:43
+ * @LastEditTime: 2025-03-24 17:41:24
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -64,7 +64,7 @@
         <section class="grid-stack beautiful-sm-scroll"></section>
         <!-- 底部菜单栏 -->
         <div class="bottom">
-          <Dock @handleAdd="bottomAdd()"></Dock>
+          <Dock @handleAdd="bottomAdd"></Dock>
         </div>
       </main>
       <!-- 日历 -->
@@ -291,6 +291,7 @@ export const memoModal = useModals("memo");
 export const weatherModal = useModals("weather");
 export const hotModal = useModals("hot");
 export const pictureModal = useModals("pictuer");
+import { useBottomIconStore } from "@/store/bottomIcon";
 export default defineComponent({
   components: {
     SearchEngine,
@@ -321,6 +322,8 @@ export default defineComponent({
     } = useUpdateItem();
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
+    const bottomIconStore = useBottomIconStore();
+
     // 使用计算属性来同步 store 的 setting 属性
     const settingVisible = computed(() => useStore.setting);
     const $message: { success: Function } = inject("$message")!;
@@ -351,7 +354,8 @@ export default defineComponent({
       el: ref(),
       id: "0",
     });
-    // 使用不同的 id 来管理不同的模态框
+    // 是否是底部的icon,0 不是 1 是
+    const isBottom = ref(0);
 
     // 获取当前日期
     const today = dayjs();
@@ -868,6 +872,18 @@ export default defineComponent({
     // 给子组件用的方法
     function addComponent(v: any) {
       console.log(v, "v--");
+      if (isBottom) {
+        addBottom(v);
+        return;
+      }
+      const routeName = route.name;
+      // 1. 获取存储的数组
+      let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
+      console.log(garids.icon);
+      // 2. 修改数组（例如，添加新元素）
+      garids.icon.push(v);
+      // 3. 重新存储数组
+      localStorage.setItem(routeName as string, JSON.stringify(garids));
 
       if (v.name === "备忘录") {
         addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y);
@@ -1193,6 +1209,11 @@ export default defineComponent({
       grid.addWidget(el, { w: 1, h: 2, x: x, y: y, id: id });
     }
 
+    // 给底部添加icon
+    function addBottom(data: any) {
+      bottomIconStore.ADD_ICON(data);
+    }
+
     // 获取热搜数据
     async function getHotSearch() {
       try {
@@ -1337,7 +1358,9 @@ export default defineComponent({
     };
 
     // 底部菜单栏添加icon
-    const bottomAdd = () => {
+    const bottomAdd = (num: number) => {
+      console.log(num, "bottomAdd called with num");
+      isBottom.value = num;
       iconVisible.value = true;
     };
 

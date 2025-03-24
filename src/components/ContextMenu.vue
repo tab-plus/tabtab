@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-08-30 09:38:24
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-03 14:43:50
+ * @LastEditTime: 2025-03-24 17:11:14
  * @Description: 公共组件（右键弹窗，传入菜单项，点击菜单项，返回数据）
  * @FilePath: \ytab-master\src\components\ContextMenu.vue
 -->
@@ -29,10 +29,11 @@
   
 <script setup lang="ts">
 import useContextMenu from '@/hooks/useContextMenu';
+import { PropType } from 'vue';
 const props = defineProps({
     // 接收传递进来的菜单项
     menu: {
-        type: Array,
+        type: Array as PropType<Array<{ label: string; icon: string }>>,
         default: () => [],
     },
 });

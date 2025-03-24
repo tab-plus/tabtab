@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-06 17:12:29
+ * @LastEditTime: 2025-03-24 16:42:56
  * @Description: 
  * @FilePath: \ytab-master\src\main.ts
  */
@@ -54,9 +54,14 @@ import { add_visit } from './api';
 
 // 初始化获取登录状态
 import { useUserStore } from '@/store/user';
+import { useBottomIconStore } from '@/store/bottomIcon';
 const userStore = useUserStore();
 userStore.INIT_USER();
 const vm = app.use(router).mount('#app');
+
+// 初始化bottomIcon
+const bottomIconStore = useBottomIconStore();
+bottomIconStore.INIT_LIST();
 
 // 访问量加1
 add_visit().then(res => {

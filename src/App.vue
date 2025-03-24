@@ -2,69 +2,83 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-04 18:00:14
+ * @LastEditTime: 2025-03-24 16:40:14
  * @Description: 
  * @FilePath: \ytab-master\src\App.vue
 -->
 <template>
   <router-view />
-  <video autoplay muted loop :src="$pinia.state.value.wallpaper.currentWallpaper.url" id="video"
-    v-show="$pinia.state.value.wallpaper.currentWallpaper.atrribute === 'video'"></video>
+  <video
+    autoplay
+    muted
+    loop
+    :src="$pinia.state.value.wallpaper.currentWallpaper.url"
+    id="video"
+    v-show="$pinia.state.value.wallpaper.currentWallpaper.atrribute === 'video'"
+  ></video>
 </template>
 <script lang="ts">
-import DataBeforeGuard from '@/dataBeforeGuard';
-import { useWallpaperStore } from '@/store/wallpaper';
+import DataBeforeGuard from "@/dataBeforeGuard";
+import { useWallpaperStore } from "@/store/wallpaper";
 export default defineComponent({
   data() {
     return {
-      sk: 'haha'
-    }
+      sk: "haha",
+    };
   },
   provide() {
     return {
-      '$message': this.$message,
-    }
+      $message: this.$message,
+    };
   },
 
   setup() {
     const wallpaperStore = useWallpaperStore();
+    // 初始化bottomIcon
     const setCurrentWallpaper = () => {
-      console.log(localStorage.getItem('CURRENTWALLPAPER'), "--");
-      const value = localStorage.getItem('CURRENTWALLPAPER');
+      console.log(localStorage.getItem("CURRENTWALLPAPER"), "--");
+      const value = localStorage.getItem("CURRENTWALLPAPER");
       console.log(value);
 
       // wallpaperStore.SET_CURRENTWALLPAPER(wallpaperStore.getAllPictureWallpaper[0]);
       if (value === null) {
-        wallpaperStore.SET_CURRENTWALLPAPER(wallpaperStore.getAllPictureWallpaper[0]);
+        wallpaperStore.SET_CURRENTWALLPAPER(
+          wallpaperStore.getAllPictureWallpaper[0]
+        );
       } else {
         try {
           const parsedValue = JSON.parse(value);
-          const isEmpty = Object.prototype.toString.call(parsedValue) === '[object Object]' && Object.keys(parsedValue).length === 0;
+          const isEmpty =
+            Object.prototype.toString.call(parsedValue) === "[object Object]" &&
+            Object.keys(parsedValue).length === 0;
           // 判断是否空对象
           if (isEmpty) {
             console.log("空对象");
-            wallpaperStore.SET_CURRENTWALLPAPER(wallpaperStore.getAllPictureWallpaper[0]);
+            wallpaperStore.SET_CURRENTWALLPAPER(
+              wallpaperStore.getAllPictureWallpaper[0]
+            );
           } else {
-            console.log("不是空对象",localStorage.getItem('CURRENTWALLPAPER'));
-            wallpaperStore.SET_CURRENTWALLPAPER(JSON.parse(localStorage.getItem('CURRENTWALLPAPER')));
+            console.log("不是空对象", localStorage.getItem("CURRENTWALLPAPER"));
+            wallpaperStore.SET_CURRENTWALLPAPER(
+              JSON.parse(localStorage.getItem("CURRENTWALLPAPER"))
+            );
           }
         } catch (e) {
-          console.log('解析错误，值不是有效的 JSON 对象');
+          console.log("解析错误，值不是有效的 JSON 对象");
         }
       }
-
     };
-
 
     // 修改背景
     function transBackground(): void {
-      if (useWallpaperStore().getCurrentWallpaper.attribute === 'picture') {
+      if (useWallpaperStore().getCurrentWallpaper.attribute === "picture") {
         // 设置的背景是图片的话
-        const domApp = document.querySelector('#app') as HTMLElement;
-        domApp.style.background = `url(${useWallpaperStore().getCurrentWallpaper.url}) no-repeat`;
-        domApp.style.backgroundSize = 'cover';
-        domApp.style.backgroundAttachment = 'fixed';
-
+        const domApp = document.querySelector("#app") as HTMLElement;
+        domApp.style.background = `url(${
+          useWallpaperStore().getCurrentWallpaper.url
+        }) no-repeat`;
+        domApp.style.backgroundSize = "cover";
+        domApp.style.backgroundAttachment = "fixed";
       } else {
         // 设置的背景是视频的话
       }
@@ -78,11 +92,11 @@ export default defineComponent({
       transBackground();
     });
 
-    provide('$transBackground', transBackground);
+    provide("$transBackground", transBackground);
     return {
       setCurrentWallpaper,
     };
-  }
+  },
 });
 </script>
 <style lang="scss">

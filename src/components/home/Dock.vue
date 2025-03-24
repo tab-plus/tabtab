@@ -1,53 +1,66 @@
 <template>
   <div id="dock">
-    <vue-draggable
-      id="icon-container"
-      v-model="iconList"
-      @mousemove="handleMouseMove"
-      @mouseleave="handleMouseLeave"
-      @start="onStart"
-    >
-      <li
-        v-for="(icon, index) in iconList"
-        :key="icon.name"
-        :style="{ '--scale': scales[index] }"
+    <ContextMenu :menu="menu" @select="getSelect">
+      <vue-draggable
+        id="icon-container"
+        v-model="iconList"
+        @mousemove="handleMouseMove"
+        @mouseleave="handleMouseLeave"
+        @start="onStart"
       >
-        <img :src="icon.src" :alt="icon.name" @click="selectIcon(icon)" />
-      </li>
-    </vue-draggable>
+        <li
+          v-for="(icon, index) in iconList"
+          :key="icon.name"
+          :style="{ '--scale': scales[index] }"
+        >
+          <img
+            :src="icon.src"
+            :alt="icon.name"
+            @click="selectIcon(icon)"
+            @contextmenu.prevent="handleRightClick(icon.id)"
+          />
+        </li>
+      </vue-draggable>
+    </ContextMenu>
   </div>
 </template>
   
 
-  <script setup>
+  <script setup lang="ts">
 import { ref, reactive, defineEmits } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
-import addImage from "@/assets/images/add.png";
+import { useBottomIconStore } from "@/store/bottomIcon";
+import ContextMenu from "@/components/ContextMenu.vue";
+import { message } from "ant-design-vue";
+const bottomIconStore = useBottomIconStore();
 
 const emit = defineEmits(["handleAdd"]);
-const iconList = ref([
-  {
-    url: "https://www.baidu.com",
-    type: "icon",
-    name: "百度",
-    src: "https://www.baidu.com/favicon.ico",
-  },
-  {
-    url: "https://chat.qwen.ai",
-    type: "icon",
-    name: "千问",
-    src: "https://assets.alicdn.com/g/qwenweb/qwen-webui-fe/0.0.53/favicon.png",
-  },
-  {
-    url: "",
-    type: "add",
-    name: "add",
-    src: addImage,
-    disabled: true,
-  },
-]);
+const rightId = ref(""); //右键弹窗选择的id
+// 右键点击按钮
+const menu = ref([{ label: "删除", icon: "delete" }]);
 
-const scales = reactive(Array(iconList.value.length).fill(1));
+// 右键弹窗的选择
+function getSelect(e) {
+  console.log(e);
+  if (e.label === "删除") {
+    if (rightId.value === "add") {
+      message.error("添加icon不能删除");
+      return;
+    }
+    bottomIconStore.DELETE_ICON(rightId.value);
+  }
+}
+
+// 右键的方法
+function handleRightClick(id: string) {
+  console.log(id, 11);
+  rightId.value = id;
+}
+
+// 获取store实例
+let iconList = bottomIconStore.iconList;
+
+const scales = reactive(Array(iconList.length).fill(1));
 
 const curve = (x, multiple = 1) =>
   multiple * Math.exp((-x * x) / 200 / 200) + 1;
@@ -68,7 +81,7 @@ const handleMouseLeave = () => {
 const selectIcon = (icon) => {
   console.log(icon);
   if (icon.type === "add") {
-    emit("handleAdd");
+    emit("handleAdd", 1);
   } else {
     window.open(icon.url);
   }
