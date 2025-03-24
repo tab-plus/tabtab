@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-24 19:54:59
+ * @LastEditTime: 2025-03-24 17:41:24
  * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -61,19 +61,7 @@
 
       <!-- 主要内容 -->
       <main v-show="haveIcon">
-        <!-- <section class="grid-stack beautiful-sm-scroll"></section> -->
-        <div>
-          <VueDraggable id="icon-container" :animation="150" v-model="iconList" @start="onStart">
-            <div
-              class="icon-box"
-              v-for="(icon) in iconList.icon"
-              :key="icon.id"
-            >
-              <img class="icon-img" :src="icon.src" :alt="icon.name" />
-            </div>
-          </VueDraggable>
-        </div>
-
+        <section class="grid-stack beautiful-sm-scroll"></section>
         <!-- 底部菜单栏 -->
         <div class="bottom">
           <Dock @handleAdd="bottomAdd"></Dock>
@@ -303,8 +291,6 @@ export const memoModal = useModals("memo");
 export const weatherModal = useModals("weather");
 export const hotModal = useModals("hot");
 export const pictureModal = useModals("pictuer");
-
-import { VueDraggable } from "vue-draggable-plus";
 import { useBottomIconStore } from "@/store/bottomIcon";
 export default defineComponent({
   components: {
@@ -319,7 +305,6 @@ export default defineComponent({
     WeatherModal,
     CalendarModal,
     PictureModal,
-    VueDraggable,
     Dock,
     // GenericModal
   },
@@ -338,13 +323,6 @@ export default defineComponent({
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
     const bottomIconStore = useBottomIconStore();
-
-    const iconList = JSON.parse(localStorage.getItem("home")) || [];
-    //移动事件
-    const onStart = (event) => {
-      //被拖拽的元素
-      console.log(event);
-    };
 
     // 使用计算属性来同步 store 的 setting 属性
     const settingVisible = computed(() => useStore.setting);
@@ -1415,8 +1393,6 @@ export default defineComponent({
       exportCloudJSON,
       importCloudJSON,
       bottomAdd,
-      iconList,
-      onStart
     };
   },
 });
@@ -1454,20 +1430,5 @@ main {
   height: 100px;
   background-color: transparent;
   z-index: 999;
-}
-
-#icon-container {
-  // height: 60px;
-  background-color: rgba(200, 200, 200, 0.5);
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap; /* 超出后换行 */
-}
-
-.icon-img {
-  width: 60px;
-  height: 60px;
-  margin: 20px;
-  border-radius: 5px;
 }
 </style>
