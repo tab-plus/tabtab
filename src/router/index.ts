@@ -41,6 +41,12 @@ export const constantRoutes: RouterTy = [
         component: () => import('@/views/test.vue'),
         meta: { title: '测试', icon: 'CoffeeOutlined' },
       },
+      {
+        path: 'copy',
+        name: 'copy',
+        component: () => import('@/views/copy.vue'),
+        meta: { title: 'copy', icon: 'CoffeeOutlined' },
+      },
     
     ]
   }

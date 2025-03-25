@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-16 20:51:14
+ * @LastEditTime: 2025-03-24 20:28:30
  * @Description: 获取icon
  * @FilePath: \ytab-master\src\store\grids.ts
  */
@@ -22,6 +22,7 @@ export const useGridsStore = defineStore('grids', {
   actions: {
     SYNC_SELECTED_GRIDS(name: string) {
       console.log(name,"name");
+      name = "home"
       this.$patch((state) => {
         state.selectedGrids = JSON.parse(localStorage.getItem(name))
       })

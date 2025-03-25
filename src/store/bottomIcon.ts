@@ -2,31 +2,33 @@
  * @Author: panrunjun
  * @Date: 2024-09-06 16:52:38
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-24 17:34:11
+ * @LastEditTime: 2025-03-25 11:08:04
  * @Description: bottomIcon store
  * @FilePath: \ytab-master\src\store\bottomIcon.ts
  */
 import { defineStore } from 'pinia'
 import addImage from "@/assets/images/add.png";
-
+import {
+    Icon,
+} from "@/types/icon";
 export const useBottomIconStore = defineStore('bottomIcon', {
     state: () => {
         return {
-            iconList: [],// 底部图标列表
-
+            iconList: <Array<Icon>>[],// 底部图标列表
         }
     },
     getters: {
         getList: (state) => state.iconList,
     },
     actions: {
-        LOGIN(token) {
-            this.isLoggedIn = true
-            // this.userInfo = user
-            localStorage.setItem('token', token)
-            // localStorage.setItem('auth', JSON.stringify({ isLoggedIn: true, user }))
+        // 更新 iconList
+        UPDATE_ICON_LIST(newIconList: Array<Icon>) {
+            console.log(newIconList,"newIconList");
+            
+            this.iconList = newIconList;
+            localStorage.setItem('bottomIcon', JSON.stringify(this.iconList));
         },
-        ADD_ICON(data: any) {
+        ADD_ICON(data: Icon) {
             // store
             this.iconList.unshift(data);
             // 本地
@@ -47,10 +49,6 @@ export const useBottomIconStore = defineStore('bottomIcon', {
 
 
         },
-        LOGOUT() {
-            this.isLoggedIn = false
-            localStorage.removeItem('token')
-        },
         INIT_LIST() {
             let list = JSON.parse(localStorage.getItem("bottomIcon")) || [];
             if (list.length === 0) {
@@ -60,7 +58,7 @@ export const useBottomIconStore = defineStore('bottomIcon', {
                     name: "add",
                     src: addImage,
                     disabled: true,
-                    id:"add"
+                    id: "add"
                 });
             }
             localStorage.setItem("bottomIcon", JSON.stringify(list));

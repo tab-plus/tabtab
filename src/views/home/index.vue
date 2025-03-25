@@ -2,8 +2,8 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-24 19:54:59
- * @Description: 
+ * @LastEditTime: 2025-03-25 11:25:15
+ * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
 <template>
@@ -62,16 +62,8 @@
       <!-- 主要内容 -->
       <main v-show="haveIcon">
         <!-- <section class="grid-stack beautiful-sm-scroll"></section> -->
-        <div>
-          <VueDraggable id="icon-container" :animation="150" v-model="iconList" @start="onStart">
-            <div
-              class="icon-box"
-              v-for="(icon) in iconList.icon"
-              :key="icon.id"
-            >
-              <img class="icon-img" :src="icon.src" :alt="icon.name" />
-            </div>
-          </VueDraggable>
+        <div class="main-icon">
+          <MainIcon></MainIcon>
         </div>
 
         <!-- 底部菜单栏 -->
@@ -295,7 +287,6 @@ import { useWallpaperStore } from "@/store/wallpaper";
 import { useAppStore } from "@/store/app";
 import { add_visit } from "@/api";
 import { getWeatherNow } from "@/utils/getWeather";
-import { userInfo } from "os";
 import { useUserStore } from "@/store/user";
 // import GenericModal from '@/components/GenericModal';
 export const calendarModal = useModals("calendar");
@@ -303,9 +294,9 @@ export const memoModal = useModals("memo");
 export const weatherModal = useModals("weather");
 export const hotModal = useModals("hot");
 export const pictureModal = useModals("pictuer");
-
-import { VueDraggable } from "vue-draggable-plus";
+import MainIcon from "@/components/home/MainIcon.vue";
 import { useBottomIconStore } from "@/store/bottomIcon";
+import { useMainIconStore } from "@/store/mainIcon";
 export default defineComponent({
   components: {
     SearchEngine,
@@ -319,7 +310,7 @@ export default defineComponent({
     WeatherModal,
     CalendarModal,
     PictureModal,
-    VueDraggable,
+    MainIcon,
     Dock,
     // GenericModal
   },
@@ -338,13 +329,7 @@ export default defineComponent({
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
     const bottomIconStore = useBottomIconStore();
-
-    const iconList = JSON.parse(localStorage.getItem("home")) || [];
-    //移动事件
-    const onStart = (event) => {
-      //被拖拽的元素
-      console.log(event);
-    };
+    const mainIconStore = useMainIconStore();
 
     // 使用计算属性来同步 store 的 setting 属性
     const settingVisible = computed(() => useStore.setting);
@@ -442,17 +427,6 @@ export default defineComponent({
         cellHeight: "50px",
         minRow: 1,
       });
-      // 禁止调整大小
-      grid.enableResize(false);
-
-      //监听到dragstop
-      grid.on("dragstop", (event: any, element: any) => {
-        console.log(element, "element");
-        const node = element.gridstackNode;
-        console.log(node, "移动");
-        updateItemPlace({ id: node.id, x: node.x, y: node.y });
-        $message.success(`成功移动至${node.y / 2 + 1}行${node.x + 1}列`);
-      });
 
       // 获取经纬度
       if (
@@ -498,22 +472,8 @@ export default defineComponent({
       // await getHotSearch()
 
       // 初始化icon
-      initIconList();
+      // initIconList();
     });
-
-    function getAllElToMenu() {
-      console.log("给元素加上右键菜单");
-      // 获取所有元素
-      const gridElements = document.querySelectorAll(".grid-stack-item");
-      // 遍历每个元素并进行操作
-      for (let i = 0; i < gridElements.length; i++) {
-        const gridElement = gridElements[i] as HTMLElement;
-        gridElement!.addEventListener("contextmenu", (event) => {
-          // event.preventDefault(); // 阻止默认右键菜单行为
-          handleContextMenu(event, gridElement);
-        });
-      }
-    }
 
     // 递归函数，用于检查节点及其所有子孙节点的类名
     function checkForItem(node: Node | null): string {
@@ -564,23 +524,15 @@ export default defineComponent({
             if (itemName == "date") {
               clickedItem!.el.remove();
               changeDate1(dayOfWeekText, clickedItem, grid);
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else if (itemName == "memo") {
               clickedItem!.el.remove();
               changeMemo1(clickedItem, grid);
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else if (itemName == "hot") {
               clickedItem!.el.remove();
               changeHot1(clickedItem, grid);
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else if (itemName == "weather") {
               clickedItem!.el.remove();
               changeWeather1(clickedItem, grid);
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else {
               message.error("icon图标不能改变大小");
             }
@@ -592,12 +544,9 @@ export default defineComponent({
             if (itemName == "date") {
               clickedItem!.el.remove();
               changeDate4(dayOfWeekText, clickedItem, grid);
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else if (itemName == "memo") {
               clickedItem!.el.remove();
               changeMemo4(memoMenuList.value, clickedItem, grid);
-              getAllElToMenu();
             } else if (itemName == "hot") {
               clickedItem!.el.remove();
               changeHot4(
@@ -607,13 +556,9 @@ export default defineComponent({
                 zhihuHotList,
                 weiboHotList
               );
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else if (itemName == "weather") {
               clickedItem!.el.remove();
               changeWeather4(clickedItem, grid);
-              // 遍历给所有加上方法
-              getAllElToMenu();
             } else {
               message.error("icon图标不能改变大小");
             }
@@ -798,7 +743,7 @@ export default defineComponent({
       // 获取icon
       useGridsStore().getSelectedGrids.icon.forEach((v) => {
         if (v.type === "icon") {
-          addNewWidget(v.src, v.name, v.url, v.id, v.x, v.y);
+          // addNewWidget(v.src, v.name, v.url, v.id, v.x, v.y);
         } else if (v.type === "component") {
           if (v.name === "备忘录") {
             addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y);
@@ -889,24 +834,16 @@ export default defineComponent({
       }
 
       // 给所有按钮加上右键弹窗方法
-      getAllElToMenu();
     }
     // 给子组件用的方法
     function addComponent(v: any) {
       console.log(v, "v--");
-      if (isBottom) {
+      if (isBottom.value) {
         addBottom(v);
+        // 复原isBottom
+        isBottom.value = 0;
         return;
       }
-      const routeName = route.name;
-      // 1. 获取存储的数组
-      let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
-      console.log(garids.icon);
-      // 2. 修改数组（例如，添加新元素）
-      garids.icon.push(v);
-      // 3. 重新存储数组
-      localStorage.setItem(routeName as string, JSON.stringify(garids));
-
       if (v.name === "备忘录") {
         addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y);
       } else if (v.name === "日历") {
@@ -918,9 +855,8 @@ export default defineComponent({
       } else if (v.name === "图库") {
         addPictureItem(v);
       } else {
-        addNewWidget(v.src, v.name, v.url, v.id, v.x, v.y);
+        mainIconStore.ADD_ICON(v);
       }
-      getAllElToMenu();
     }
 
     // 新增备忘录节点
@@ -952,7 +888,6 @@ export default defineComponent({
           </div>
         </div>
         `;
-        grid.addWidget(el, { id: id, x: x, y: y, w: 1, h: 2 });
         const memoElements = document.querySelectorAll(".memoItem"); // 选择所有匹配的元素
         if (memoElements) {
           memoElements.forEach((memoElement) => {
@@ -971,7 +906,6 @@ export default defineComponent({
           </div>
         </div>
       `;
-        grid.addWidget(el, { id: id, w: 2, h: 4 });
         const memoElements = document.querySelectorAll(".memoItem"); // 选择所有匹配的元素
         if (memoElements) {
           memoElements.forEach((memoElement) => {
@@ -994,7 +928,6 @@ export default defineComponent({
             </div>
         </div>
       `;
-      grid.addWidget(el, { w: 1, h: 2, x: v.x, y: v.y, id: v.id });
       // 日历
       const pictureElements = document.querySelectorAll(".pictureItem");
       pictureElements.forEach((pictureElement) => {
@@ -1020,7 +953,6 @@ export default defineComponent({
                 </div>
             </div>
           `;
-        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         // 日历
         const dateElements = document.querySelectorAll(".dateItem");
         dateElements.forEach((dateElement) => {
@@ -1046,7 +978,6 @@ export default defineComponent({
           </div>
         </div>
       `;
-        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 2, h: 4 });
         // 日历
         const dateElements = document.querySelectorAll(".dateItem");
         dateElements.forEach((dateElement) => {
@@ -1070,7 +1001,6 @@ export default defineComponent({
             </div>
         </div>
       `;
-        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
         if (weatherElements) {
           weatherElements.forEach((weatherElement) => {
@@ -1102,7 +1032,6 @@ export default defineComponent({
           </div>
         </div>
       `;
-        grid.addWidget(el, { id: v.id, w: 2, h: 4, x: v.x, y: v.y });
         const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
         if (weatherElements) {
           weatherElements.forEach((weatherElement) => {
@@ -1128,7 +1057,6 @@ export default defineComponent({
         </div>
       `;
 
-        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         const hotSearchElements = document.querySelectorAll(".hotSearchItem"); // 选择所有匹配的元素
         if (hotSearchElements) {
           hotSearchElements.forEach((hotSearchElement) => {
@@ -1203,32 +1131,7 @@ export default defineComponent({
               </div>
             </div>
           `;
-        grid.addWidget(el, { id: v.id, w: 2, h: 4, x: v.x, y: v.y });
       }
-    }
-
-    // 新增icon节点
-    function addNewWidget(
-      src: string,
-      name: string,
-      url: string,
-      id: string,
-      x: number,
-      y: number
-    ) {
-      const el = `
-        <div class="grid-stack-item">
-          <a href="${url}" target="_blank">
-            <div class="iconItem">
-                <div class="grid-stack-item-content flex flex-direction justify-around align-center">
-                  <img src="${src}" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md" />
-                  <p class="cl-ant-p sg-omit-sm text-white-sm">${name}</p>
-                </div>
-            </div>
-          </a>
-        </div>
-      `;
-      grid.addWidget(el, { w: 1, h: 2, x: x, y: y, id: id });
     }
 
     // 给底部添加icon
@@ -1387,7 +1290,6 @@ export default defineComponent({
     };
 
     return {
-      addNewWidget,
       addComponent,
       memoVisible,
       calendarValue,
@@ -1415,8 +1317,6 @@ export default defineComponent({
       exportCloudJSON,
       importCloudJSON,
       bottomAdd,
-      iconList,
-      onStart
     };
   },
 });
@@ -1456,18 +1356,7 @@ main {
   z-index: 999;
 }
 
-#icon-container {
-  // height: 60px;
-  background-color: rgba(200, 200, 200, 0.5);
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap; /* 超出后换行 */
-}
-
-.icon-img {
-  width: 60px;
-  height: 60px;
-  margin: 20px;
-  border-radius: 5px;
+.main-icon {
+  height: 100%;
 }
 </style>

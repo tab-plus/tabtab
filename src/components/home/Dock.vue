@@ -4,9 +4,14 @@
       <vue-draggable
         id="icon-container"
         v-model="iconList"
+        group="icon"
         @mousemove="handleMouseMove"
         @mouseleave="handleMouseLeave"
         @start="onStart"
+        @end="onEnd"
+        @update="onUpdate"
+        @remove="onRemove"
+        @add="onAdd"
       >
         <li
           v-for="(icon, index) in iconList"
@@ -32,6 +37,7 @@ import { VueDraggable } from "vue-draggable-plus";
 import { useBottomIconStore } from "@/store/bottomIcon";
 import ContextMenu from "@/components/ContextMenu.vue";
 import { message } from "ant-design-vue";
+import { Icon } from "@/types/icon";
 const bottomIconStore = useBottomIconStore();
 
 const emit = defineEmits(["handleAdd"]);
@@ -58,9 +64,9 @@ function handleRightClick(id: string) {
 }
 
 // 获取store实例
-let iconList = bottomIconStore.iconList;
+const iconList = ref<Array<Icon>>(bottomIconStore.iconList);
 
-const scales = reactive(Array(iconList.length).fill(1));
+const scales = reactive(Array(iconList.value.length).fill(1));
 
 const curve = (x, multiple = 1) =>
   multiple * Math.exp((-x * x) / 200 / 200) + 1;
@@ -92,6 +98,32 @@ const onStart = (event) => {
   //被拖拽的元素
   console.log(event);
 };
+
+// 拖动结束时保存排序到store
+const onEnd = (event) => {
+  // 更新 store 中的 iconList 顺序
+};
+// icon位置更新
+const onUpdate = (event) => {
+  console.log("update for bottom");
+  // 更新 store 中的 iconList 顺序
+  bottomIconStore.UPDATE_ICON_LIST(iconList.value);
+};
+
+const onRemove = (event) => {
+  console.log("remove for bottom");
+  // 更新 store 中的 iconList 顺序
+  bottomIconStore.UPDATE_ICON_LIST(iconList.value);
+};
+
+const onAdd = (event) => {
+  console.log("add for main");
+  // 更新 store 中的 iconList 顺序
+  bottomIconStore.UPDATE_ICON_LIST(iconList.value);
+};
+
+
+
 </script>
   
 
