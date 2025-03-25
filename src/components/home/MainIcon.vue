@@ -26,12 +26,28 @@
               <p class="cl-ant-p sg-omit-sm text-white-sm">{{ icon.name }}</p>
             </div>
             <div v-else-if="icon.type === 'component'" class="one-box">
-              <div v-if="icon.name === '备忘录'">
+              <div v-if="icon.name == '备忘录'">
                 <div v-if="icon.size === 1">
                   <MemoOne></MemoOne>
                 </div>
                 <div v-else-if="icon.size === 4">
                   <MemoFour></MemoFour>
+                </div>
+              </div>
+              <div v-else-if="icon.name == '日历'">
+                <div v-if="icon.size === 1">
+                  <CalendarOne></CalendarOne>
+                </div>
+                <div v-else-if="icon.size === 4">
+                  <CalendarFour></CalendarFour>
+                </div>
+              </div>
+              <div v-else-if="icon.name == '热搜'">
+                <div v-if="icon.size === 1">
+                  <HotOne></HotOne>
+                </div>
+                <div v-else-if="icon.size === 4">
+                  <HotFour></HotFour>
                 </div>
               </div>
             </div>
@@ -51,10 +67,16 @@ import { message } from "ant-design-vue";
 import { Icon } from "@/types/icon";
 import MemoOne from "@/components/elements/memo/One.vue";
 import MemoFour from "@/components/elements/memo/Four.vue";
+
+import CalendarOne from "@/components/elements/calendar/One.vue";
+import CalendarFour from "@/components/elements/calendar/Four.vue";
+
+import HotOne from "@/components/elements/hot/One.vue";
+import HotFour from "@/components/elements/hot/Four.vue";
 const mainIconStore = useMainIconStore();
 const route = useRoute();
 
-const emit = defineEmits(["openPicture", "openMemo"]);
+const emit = defineEmits(["openPicture", "openMemo", "openCalendar"]);
 
 mainIconStore.INIT_LIST(route.name as string); //初始化
 
@@ -125,6 +147,14 @@ const selectIcon = (icon) => {
     console.log(111);
 
     emit("openMemo");
+  } else if (icon.name === "日历") {
+    console.log(111);
+
+    emit("openCalendar");
+  } else if (icon.name === "热搜") {
+    console.log(111);
+
+    // emit("openCalendar");
   } else {
     window.open(icon.url);
   }

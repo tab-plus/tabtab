@@ -2,14 +2,14 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 15:59:55
+ * @LastEditTime: 2025-03-25 16:30:00
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\memo\Four.vue
 -->
 <template>
   <div class="item memoItem-bgColor">
     <div class="memoItemHeader">备忘录</div>
-    <div class="memoItemBody">
+    <div class="body">
       <div
         class="cl-ant-p sg-omit-sm text-white-sm memoItem"
         v-for="(item, index) in memoMenuList"
@@ -56,7 +56,7 @@ getList();
   margin: 20px;
   border: 0px;
 }
-.memoItemBody {
+.body {
     height: 120px;
 }
 
@@ -67,5 +67,24 @@ getList();
   padding: 5px;
   display: flex;
   justify-content: left;
+}
+
+
+
+.memoItemHeader {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #ffb716;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.memoItem-bgColor {
+    height: 100%;
+    background-color: white;
+    border-radius: 20px;
 }
 </style>

@@ -1,94 +1,10 @@
-.memoItem-bgColor {
-    height: 100%;
-    background-color: white;
-    border-radius: 20px;
-}
 
 .bg-weather {
     background: linear-gradient(45deg, #354564, #7f90ad);
 
 }
 
-.memoItem {}
 
-.memoItemOne {}
-
-.memoItemOne-bgColor {
-    background-color: #ffb716;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.memoItemHeader {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: #ffb716;
-    color: white;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.dateItem {
-    height: 100%;
-}
-
-// 4x4布局
-.dataItemFour {
-    border-radius: 20px;
-    background-color: white;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-// 1x1布局
-.dateItemOne {}
-
-.dateItemHeader {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: #ff5a5d;
-    color: white;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // height: 40px;
-}
-
-.dateItemBody {
-    color: black;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.num {
-    font-size: 40px;
-    font-weight: bold;
-}
-
-.day {
-    font-size: 10px;
-    color: gray;
-}
-
-.week {
-    font-size: 14px;
-
-}
 
 .ant-modal-body {
     padding: 0;
@@ -110,73 +26,8 @@
     max-height: 200px;
 }
 
-.hotSearchItem {
-    height: 100%;
-    border-radius: 20px;
-}
-.hotSearchItem-bgColor {
-    background: linear-gradient(45deg, #5d616b, #8a94a7);
-    // background: linear-gradient(45deg, #5d616b, #8a94a7);
-}
 
-// 热搜样式4x4
-.tab {
-    display: inline-block;
-    margin: 5px 8px;
-    padding: 3px 4px;
-    cursor: pointer;
-    font-size: 15px;
-    color: white;
-}
 
-.tab:hover {
-    // background-color: gray;
-    background-color: #5d616b;
-}
-
-.tab-content {
-    color: white;
-    padding: 5px;
-    display: flex;
-    justify-content: left;
-}
-
-.tab-pane {
-    width: 100%;
-    display: none;
-}
-
-.tab-pane.active {
-    display: block;
-}
-
-.tab-pane-item {
-    border-bottom: 1px solid rgb(225, 220, 220);
-    color: white;
-    padding: 5px;
-    display: flex;
-    justify-content: left;
-    overflow: hidden;
-    /* 确保超出部分被隐藏 */
-    white-space: nowrap;
-    /* 不允许换行 */
-    text-overflow: ellipsis;
-    /* 超出文本用省略号表示 */
-}
-
-a {
-    display: block;
-    text-decoration: none;
-    /* 取消下划线 */
-    color: inherit;
-    /* 使链接颜色继承父元素的颜色 */
-    cursor: pointer;
-    /* 更改鼠标悬停时的光标样式 */
-}
-
-a:hover {
-    /* 悬停时链接颜色保持不变 */
-}
 
 
 
