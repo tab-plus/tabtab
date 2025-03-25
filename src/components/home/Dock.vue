@@ -13,7 +13,7 @@
         @remove="onRemove"
         @add="onAdd"
       >
-        <li
+        <div
           v-for="(icon, index) in iconList"
           :key="icon.name"
           :style="{ '--scale': scales[index] }"
@@ -24,7 +24,7 @@
             @click="selectIcon(icon)"
             @contextmenu.prevent="handleRightClick(icon.id)"
           />
-        </li>
+    </div>
       </vue-draggable>
     </ContextMenu>
   </div>
@@ -73,9 +73,9 @@ const curve = (x, multiple = 1) =>
 
 const handleMouseMove = (e) => {
   const container = e.currentTarget;
-  const items = container.querySelectorAll("li");
-  items.forEach((li, index) => {
-    const centroid = li.offsetLeft + li.offsetWidth / 2;
+  const items = container.querySelectorAll("div");
+  items.forEach((div, index) => {
+    const centroid = div.offsetLeft + div.offsetWidth / 2;
     scales[index] = curve(e.clientX - centroid);
   });
 };
@@ -96,7 +96,19 @@ const selectIcon = (icon) => {
 //移动事件
 const onStart = (event) => {
   //被拖拽的元素
-  console.log(event);
+  console.log("start for bottom");
+  // 在开始拖动之前，清除所有样式
+  // scales.fill(1);
+  // event.target.style.height = "60px";
+  // event.target.style.width = "60px";
+  // event.target.style.backgroundColor = "red";
+  const draggedItem = event.item || event.draggedItem; // 获取拖拽元素
+  const icon = draggedItem.querySelector("img"); // 获取 icon 元素
+  if (icon) {
+    icon.style.width = "60px";
+    icon.style.height = "60px";
+  }
+  console.log(event.target.style);
 };
 
 // 拖动结束时保存排序到store
@@ -121,9 +133,6 @@ const onAdd = (event) => {
   // 更新 store 中的 iconList 顺序
   bottomIconStore.UPDATE_ICON_LIST(iconList.value);
 };
-
-
-
 </script>
   
 
@@ -146,13 +155,13 @@ const onAdd = (event) => {
   align-items: flex-end;
 }
 
-#icon-container > li {
+#icon-container > div {
   list-style: none;
   margin: 0.4em 1em;
   transition: transform 0.2s ease; /* smooth transition for scaling */
 }
 
-#icon-container > li > img {
+#icon-container > div > img {
   width: calc(var(--scale) * 50px);
   border-radius: calc(var(--scale) * 15px);
   overflow: hidden;
