@@ -98,10 +98,6 @@ const onStart = (event) => {
   //被拖拽的元素
   console.log("start for bottom");
   // 在开始拖动之前，清除所有样式
-  // scales.fill(1);
-  // event.target.style.height = "60px";
-  // event.target.style.width = "60px";
-  // event.target.style.backgroundColor = "red";
   const draggedItem = event.item || event.draggedItem; // 获取拖拽元素
   const icon = draggedItem.querySelector("img"); // 获取 icon 元素
   if (icon) {

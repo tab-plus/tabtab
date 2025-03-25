@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-06 16:52:38
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 11:24:01
+ * @LastEditTime: 2025-03-25 15:17:46
  * @Description: mainIcon store
  * @FilePath: \ytab-master\src\store\mainIcon.ts
  */
@@ -27,6 +27,18 @@ export const useMainIconStore = defineStore('mainIcon', {
             this.iconList = newIconList;
             localStorage.setItem(this.routerName, JSON.stringify(this.iconList));
         },
+
+        UPDATE_ICON_SIZE(iconId: string, size: number) {
+            // 找到 id 对应元素的索引
+            let index = this.iconList.findIndex(item => item.id === iconId);
+
+            // 如果找到了该元素，替换为 newData
+            if (index !== -1) {
+                this.iconList[index].size = size;
+            }
+
+            localStorage.setItem(this.routerName, JSON.stringify(this.iconList));
+        },
         // 添加图标
         ADD_ICON(data: Icon) {
             // store
@@ -38,11 +50,15 @@ export const useMainIconStore = defineStore('mainIcon', {
         },
         // 删除图标
         DELETE_ICON(idToRemove: string) {
+            console.log("删除的id:", idToRemove);
+
             // 找到 id 对应元素的索引
             let index = this.iconList.findIndex(item => item.id === idToRemove);
 
             // 如果找到了该元素，使用 splice 删除
             if (index !== -1) {
+                console.log("删除的下标：", index);
+
                 this.iconList.splice(index, 1);
             }
 

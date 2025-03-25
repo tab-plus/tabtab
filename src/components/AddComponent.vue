@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-18 12:10:45
+ * @LastEditTime: 2025-03-25 13:43:43
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -73,7 +73,6 @@ export default defineComponent({
 
         const addComponent = (name: string) => {
             const uniqueID = uuidv4();
-            message.success(`添加成功`);
             let data = {
                 id: uniqueID,
                 name,
@@ -83,13 +82,13 @@ export default defineComponent({
             }
             // 1. 获取存储的数组
             let garids = JSON.parse(localStorage.getItem(route.name as string)) || [];
-            console.log(garids.icon);
             // 2. 修改数组（例如，添加新元素）
-            garids.icon.push(data);
+            garids.push(data);
             // 3. 重新存储数组
             localStorage.setItem(route.name as string, JSON.stringify(garids));
             emit('addNewWidget', data);
             emit('handleClose');
+            message.success(`添加成功`);
         }
 
         return {

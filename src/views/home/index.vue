@@ -63,7 +63,7 @@
       <main v-show="haveIcon">
         <!-- <section class="grid-stack beautiful-sm-scroll"></section> -->
         <div class="main-icon">
-          <MainIcon></MainIcon>
+          <MainIcon @openPicture="pictureModal.open()" @openMemo="memoModal.open()"></MainIcon>
         </div>
 
         <!-- 底部菜单栏 -->
@@ -266,16 +266,13 @@ import Setting from "@/components/home/Setting.vue";
 import "@/styles/item.scss";
 import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import { get_memo_list } from "@/api/memo";
 import { delete_icon_ByUserId, export_icon, import_icon } from "@/api/icon";
 import { exportMultipleLocalStorageItems } from "@/utils/exportLocalJSON";
 import { importJSONToLocalStorage } from "@/utils/importLocalJSON";
 import { message, UploadProps } from "ant-design-vue";
-import { getIconList } from "@/api/user";
 import {
   DateItem,
   HotSearchItem,
-  Icon,
   PintureItem,
   WeatherItem,
 } from "@/types/icon";
@@ -400,28 +397,6 @@ export default defineComponent({
     const calendarValue = ref<Dayjs>();
     let grid: any;
     onMounted(async () => {
-      // 异步获取备忘录列表
-      await get_memo_list().then((res: any) => {
-        console.log(res);
-        if (res == undefined) return;
-        if (res.code === 200) {
-          let count = 0; // 计数器，用于限制推入的元素个数
-          if (res.data.length > 0) {
-            for (let i = 0; i < res.data.length; i++) {
-              if (count < 4) {
-                const title = res.data[i].title;
-                memoMenuList.value.push(title);
-                count++; // 每推入一个元素，计数器加一
-              } else {
-                break; // 如果已经推入了4个元素，退出循环
-              }
-            }
-          }
-        } else {
-          memoMenuList.value = [];
-        }
-      });
-
       grid = GridStack.init({
         float: false,
         cellHeight: "50px",
@@ -1288,6 +1263,8 @@ export default defineComponent({
       isBottom.value = num;
       iconVisible.value = true;
     };
+
+
 
     return {
       addComponent,

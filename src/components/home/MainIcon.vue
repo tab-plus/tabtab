@@ -13,16 +13,33 @@
     >
       <div class="icon-box" v-for="icon in iconList" :key="icon.id">
         <ContextMenu :menu="menu" @select="getSelect">
-          <img
-            class="icon-img"
-            :src="icon.src"
-            :alt="icon.name"
+          <div
             @click="selectIcon(icon)"
+            class="box"
             @contextmenu.prevent="handleRightClick(icon.id)"
-          />
+          >
+            <div
+              v-if="icon.type === 'icon' || icon.name === '图库'"
+              class="img-box"
+            >
+              <img class="icon-img" :src="icon.src" :alt="icon.name" />
+              <p class="cl-ant-p sg-omit-sm text-white-sm">{{ icon.name }}</p>
+            </div>
+            <div v-else-if="icon.type === 'component'" class="one-box">
+              <div v-if="icon.name === '备忘录'">
+                <div v-if="icon.size === 1">
+                  <MemoOne></MemoOne>
+                </div>
+                <div v-else-if="icon.size === 4">
+                  <MemoFour></MemoFour>
+                </div>
+              </div>
+            </div>
+          </div>
         </ContextMenu>
       </div>
     </VueDraggable>
+    <div></div>
   </div>
 </template>
 
@@ -32,8 +49,12 @@ import { useMainIconStore } from "@/store/mainIcon";
 import ContextMenu from "@/components/ContextMenu.vue";
 import { message } from "ant-design-vue";
 import { Icon } from "@/types/icon";
+import MemoOne from "@/components/elements/memo/One.vue";
+import MemoFour from "@/components/elements/memo/Four.vue";
 const mainIconStore = useMainIconStore();
 const route = useRoute();
+
+const emit = defineEmits(["openPicture", "openMemo"]);
 
 mainIconStore.INIT_LIST(route.name as string); //初始化
 
@@ -85,20 +106,28 @@ function handleRightClick(id: string) {
 
 // 右键弹窗的选择
 function getSelect(e) {
-  console.log(e);
+  console.log("删除：", e);
   if (e.label === "删除") {
-    if (rightId.value === "add") {
-      message.error("添加icon不能删除");
-      return;
-    }
     mainIconStore.DELETE_ICON(rightId.value);
+  } else if (e.label === "1x1") {
+    mainIconStore.UPDATE_ICON_SIZE(rightId.value, 1);
+  } else if (e.label === "4x4") {
+    mainIconStore.UPDATE_ICON_SIZE(rightId.value, 4);
   }
 }
 
 // 选择图标方法
 const selectIcon = (icon) => {
   console.log(icon);
-  window.open(icon.url);
+  if (icon.name === "图库") {
+    emit("openPicture");
+  } else if (icon.name === "备忘录") {
+    console.log(111);
+
+    emit("openMemo");
+  } else {
+    window.open(icon.url);
+  }
 };
 </script>
 
@@ -109,11 +138,26 @@ const selectIcon = (icon) => {
   align-items: flex-end;
   flex-wrap: wrap; /* 超出后换行 */
 }
+.box {
+  cursor: pointer;
+}
+.img-box {
+  margin: 20px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+}
 
 .icon-img {
   width: 60px;
   height: 60px;
-  margin: 20px;
   border-radius: 5px;
+}
+
+.one-box {
+  /* margin: 20px; */
 }
 </style>
