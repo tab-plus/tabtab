@@ -11,35 +11,16 @@
       "frontLink": "https://www.google.com/search?q="
     },
     {
+      "name": "hellomiku",
+      "slinkLogo": "hellomiku",
+      "frontLink": "https://hellomiku.com/index"
+    },
+    {
       "name": "必应",
       "slinkLogo": "bing",
       "frontLink": "https://cn.bing.com/search?q="
     },
-    {
-      "name": "duckduckgo",
-      "slinkLogo": "duck",
-      "frontLink": "https://duckduckgo.com/?t=min&q="
-    },
-    {
-      "name": "淘宝搜索",
-      "slinkLogo": "taobao",
-      "frontLink": "http://s.taobao.com/search?q="
-    },
-    {
-      "name": "天猫搜索",
-      "slinkLogo": "tianmao",
-      "frontLink": "http://list.tmall.com/search_product.htm?q="
-    },
-    {
-      "name": "京东商城",
-      "slinkLogo": "jingdong",
-      "frontLink": "http://search.jd.com/Search?keyword="
-    },
-    {
-      "name": "1688商城",
-      "slinkLogo": "1688",
-      "frontLink": "https://s.1688.com/selloffer/offer_search.htm?keywords="
-    },
+    
     {
       "name": "知乎",
       "slinkLogo": "zhihu",
@@ -59,11 +40,6 @@
       "name": "豆瓣",
       "slinkLogo": "douban",
       "frontLink": "https://www.douban.com/search?source=suggest&q="
-    },
-    {
-      "name": "优酷",
-      "slinkLogo": "youku",
-      "frontLink": "https://so.youku.com/search_video/q_"
     },
     {
       "name": "Github",

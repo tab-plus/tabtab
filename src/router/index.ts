@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-09 17:17:30
+ * @LastEditTime: 2025-03-25 12:06:02
  * @Description: 
  * @FilePath: \ytab-master\src\router\index.ts
  */
@@ -35,11 +35,17 @@ export const constantRoutes: RouterTy = [
       //   component: () => import('@/views/designer/index.vue'),
       //   meta: { title: '产品设计', icon: 'LikeOutlined' },
       // },
-      // {
-      //   path: 'rest',
-      //   name: 'rest',
-      //   component: () => import('@/views/rest/index.vue'),
-      //   meta: { title: '摸鱼🐟', icon: 'CoffeeOutlined' },
+      {
+        path: 'test',
+        name: 'test',
+        component: () => import('@/views/test.vue'),
+        meta: { title: '测试', icon: 'CoffeeOutlined' },
+      },
+      // { 
+      //   path: 'copy',
+      //   name: 'copy',
+      //   component: () => import('@/views/copy.vue'),
+      //   meta: { title: 'copy', icon: 'CoffeeOutlined' },
       // },
     
     ]

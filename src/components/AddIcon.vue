@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 21:46:10
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-27 21:05:17
+ * @LastEditTime: 2025-03-24 17:39:42
  * @Description: 添加快捷方式图标
  * @FilePath: \ytab-master\src\components\AddIcon.vue
 -->
@@ -36,7 +36,7 @@ import { get_allicon_list } from '@/api/icon';
 
 export default defineComponent({
 
-    emits: ['addNewWidget'], // 声明子组件可以触发的事件
+    emits: ['addNewWidget','handleClose'], // 声明子组件可以触发的事件
     setup(props, { emit }: { emit: Function }) {
         const route = useRoute();
         const iconList = ref([
@@ -58,19 +58,14 @@ export default defineComponent({
                 name: item.name,
                 size: 4,
                 iconId: item.id,
-                type: 'icon',
+                type: item.type,
                 url: item.url,
                 src: item.src
             }
-            emit('addNewWidget', item.src, item.name, item.url, uniqueID);
-            // 1. 获取存储的数组
-            let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
-            console.log(garids.icon);
-            // 2. 修改数组（例如，添加新元素）
-            garids.icon.push(data);
-            // 3. 重新存储数组
-            localStorage.setItem(routeName as string, JSON.stringify(garids));
+            emit('addNewWidget', data);
+          
             message.success(`添加成功`);
+            emit('handleClose');
         }
 
         onMounted(() => {
@@ -98,7 +93,7 @@ export default defineComponent({
     flex-wrap: wrap;
     justify-content: space-between;
     height: 500px;
-
+    overflow-y: auto; 
 }
 
 .box {

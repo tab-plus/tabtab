@@ -1,27 +1,32 @@
 <template>
   <div id="sidebar" class="sd flex flex-direction justify-center align-center">
-    <div class="sd-top"></div>
+    <div class="sd-top">111</div>
     <div class="sd-mid flex flex-direction justify-around align-center">
       <Link :to="resolvePath(routes[0].path, item.path)" v-for="item in routes[0].children" :key="item.path">
-        <a-dropdown :trigger="['contextmenu']" :overlayStyle="{'width': '80px'}">
-          <div class="sd-mid-div flex flex-direction justify-around align-center"
-            :class="{ active: selectedRouteName === item.name }" @click.stop="chooseBlock(item.name)">
-            <AntdIcon :name="item.meta?.icon" :style="atdIconSelected(item.name)"></AntdIcon>
-            <span class="sg-omit-sm" :class="{ active: selectedRouteName === item.name }">{{ item.meta?.title }}</span>
-          </div>
-          <template #overlay>
-            <a-menu>
-              <a-menu-item key="1">编辑</a-menu-item>
-              <a-menu-item key="2" @click.stop="deleteRoute(item)">删除</a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
+      <a-dropdown :trigger="['contextmenu']" :overlayStyle="{ 'width': '80px' }">
+        <div class="sd-mid-div flex flex-direction justify-around align-center"
+          :class="{ active: selectedRouteName === item.name }" @click.stop="chooseBlock(item.name)">
+          <AntdIcon :name="item.meta?.icon" :style="atdIconSelected(item.name)"></AntdIcon>
+          <span class="sg-omit-sm" :class="{ active: selectedRouteName === item.name }">{{ item.meta?.title }}</span>
+          <div class="sd-top">111</div>
+        </div>
+        <div class="sd-top">111</div>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="1">编辑</a-menu-item>
+            <a-menu-item key="2" @click.stop="deleteRoute(item)">删除</a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
       </Link>
       <AddGroupBtn>
         <AntdIcon :name="'PlusSquareOutlined'" :style="'font-size: 20px; color: #40a9ff'"></AntdIcon>
       </AddGroupBtn>
     </div>
-    <div class="sd-bottom"></div>
+    <div class="sd-bottom" @click="openSetting()">
+      <setting-outlined :style="'font-size: 20px; color: #ffff'" />
+      <div style="margin-top: 5px;">设置</div>
+    </div>
   </div>
 </template>
 
@@ -32,10 +37,14 @@ import Link from './Link.vue';
 import AddGroupBtn from '@/components/AddGroupBtn.vue';
 import { isExternal, calcContrastColor } from '@/utils/validate';
 import { useWallpaperStore } from '@/store/wallpaper';
+import { useUserStore } from '@/store/user';
 import { RouterRowTy } from '~/router'
 import router from '@/router'
-
+import {
+  SettingOutlined
+} from '@ant-design/icons-vue';
 export default defineComponent({
+
   data() {
     return {
       sidebarThemeColor: useWallpaperStore().getCurrentWallpaperThemeColor,
@@ -43,6 +52,7 @@ export default defineComponent({
     };
   },
   components: {
+    SettingOutlined,
     Link,
     AddGroupBtn
   },
@@ -54,7 +64,7 @@ export default defineComponent({
       return 'font-size: 20px; color: #eeeeee';
     },
     deleteRoute(item: RouterRowTy) {
-      if(item.name === 'home') {
+      if (item.name === 'home') {
         this.$message.error('主页无法删除');
       } else {
         router.removeRoute(item.name!)
@@ -66,7 +76,7 @@ export default defineComponent({
   },
   setup() {
     const appStore = useAppStore();
-
+    const useStore = useUserStore();
     const routes = computed(() => appStore.routes);
 
     // 二级子路由需要拼接path 例如：/noob-guide/account-login
@@ -85,6 +95,11 @@ export default defineComponent({
     const chooseBlock = (routeName: string) => {
       selectedRouteName.value = routeName!;
     };
+
+    const openSetting = () => {
+      console.log(useStore.setting);
+      useStore.OPEN_SETTING()
+    }
 
     // const openKeys = ref<string[]>(["sub1"]);
     // const selectedKeys = ref<string[]>(["1"]);
@@ -105,6 +120,7 @@ export default defineComponent({
       routes,
       resolvePath,
       chooseBlock,
+      openSetting,
       selectedRouteName
     };
   }
@@ -143,5 +159,13 @@ export default defineComponent({
       }
     }
   }
+}
+
+.sd-bottom {
+  position: absolute;
+  bottom: 20px;
+  font-size: 10px;
+  cursor: pointer;
+  ;
 }
 </style>

@@ -1,3 +1,11 @@
+<!--
+ * @Author: panrunjun
+ * @Date: 2024-07-22 21:46:02
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2024-09-06 18:21:00
+ * @Description: icon
+ * @FilePath: \ytab-master\src\icons\SvgIcon.vue
+-->
 <template>
   <svg aria-hidden="true" class="svg-icon">
     <use :xlink:href="symbolId" :fill="color" />
@@ -25,6 +33,8 @@ export default defineComponent({
   },
   setup(props) {
     const symbolId = computed(() => `#${props.prefix}-${props.name}`);
+    console.log(symbolId,111);
+    
     return { symbolId };
   }
 });

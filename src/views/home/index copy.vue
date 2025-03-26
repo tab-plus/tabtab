@@ -2,8 +2,8 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 16:53:16
- * @Description: 首页
+ * @LastEditTime: 2025-03-24 17:41:24
+ * @Description: 
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
 <template>
@@ -61,14 +61,7 @@
 
       <!-- 主要内容 -->
       <main v-show="haveIcon">
-        <div class="main-icon">
-          <MainIcon
-            @openPicture="pictureModal.open()"
-            @openMemo="memoModal.open()"
-            @openCalendar="calendarModal.open()"
-          ></MainIcon>
-        </div>
-
+        <section class="grid-stack beautiful-sm-scroll"></section>
         <!-- 底部菜单栏 -->
         <div class="bottom">
           <Dock @handleAdd="bottomAdd"></Dock>
@@ -269,13 +262,16 @@ import Setting from "@/components/home/Setting.vue";
 import "@/styles/item.scss";
 import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+import { get_memo_list } from "@/api/memo";
 import { delete_icon_ByUserId, export_icon, import_icon } from "@/api/icon";
 import { exportMultipleLocalStorageItems } from "@/utils/exportLocalJSON";
 import { importJSONToLocalStorage } from "@/utils/importLocalJSON";
 import { message, UploadProps } from "ant-design-vue";
+import { getIconList } from "@/api/user";
 import {
   DateItem,
   HotSearchItem,
+  Icon,
   PintureItem,
   WeatherItem,
 } from "@/types/icon";
@@ -287,6 +283,7 @@ import { useWallpaperStore } from "@/store/wallpaper";
 import { useAppStore } from "@/store/app";
 import { add_visit } from "@/api";
 import { getWeatherNow } from "@/utils/getWeather";
+import { userInfo } from "os";
 import { useUserStore } from "@/store/user";
 // import GenericModal from '@/components/GenericModal';
 export const calendarModal = useModals("calendar");
@@ -294,9 +291,7 @@ export const memoModal = useModals("memo");
 export const weatherModal = useModals("weather");
 export const hotModal = useModals("hot");
 export const pictureModal = useModals("pictuer");
-import MainIcon from "@/components/home/MainIcon.vue";
 import { useBottomIconStore } from "@/store/bottomIcon";
-import { useMainIconStore } from "@/store/mainIcon";
 export default defineComponent({
   components: {
     SearchEngine,
@@ -310,7 +305,6 @@ export default defineComponent({
     WeatherModal,
     CalendarModal,
     PictureModal,
-    MainIcon,
     Dock,
     // GenericModal
   },
@@ -329,7 +323,6 @@ export default defineComponent({
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
     const bottomIconStore = useBottomIconStore();
-    const mainIconStore = useMainIconStore();
 
     // 使用计算属性来同步 store 的 setting 属性
     const settingVisible = computed(() => useStore.setting);
@@ -400,10 +393,43 @@ export default defineComponent({
     const calendarValue = ref<Dayjs>();
     let grid: any;
     onMounted(async () => {
+      // 异步获取备忘录列表
+      await get_memo_list().then((res: any) => {
+        console.log(res);
+        if (res == undefined) return;
+        if (res.code === 200) {
+          let count = 0; // 计数器，用于限制推入的元素个数
+          if (res.data.length > 0) {
+            for (let i = 0; i < res.data.length; i++) {
+              if (count < 4) {
+                const title = res.data[i].title;
+                memoMenuList.value.push(title);
+                count++; // 每推入一个元素，计数器加一
+              } else {
+                break; // 如果已经推入了4个元素，退出循环
+              }
+            }
+          }
+        } else {
+          memoMenuList.value = [];
+        }
+      });
+
       grid = GridStack.init({
         float: false,
         cellHeight: "50px",
         minRow: 1,
+      });
+      // 禁止调整大小
+      grid.enableResize(false);
+
+      //监听到dragstop
+      grid.on("dragstop", (event: any, element: any) => {
+        console.log(element, "element");
+        const node = element.gridstackNode;
+        console.log(node, "移动");
+        updateItemPlace({ id: node.id, x: node.x, y: node.y });
+        $message.success(`成功移动至${node.y / 2 + 1}行${node.x + 1}列`);
       });
 
       // 获取经纬度
@@ -450,8 +476,22 @@ export default defineComponent({
       // await getHotSearch()
 
       // 初始化icon
-      // initIconList();
+      initIconList();
     });
+
+    function getAllElToMenu() {
+      console.log("给元素加上右键菜单");
+      // 获取所有元素
+      const gridElements = document.querySelectorAll(".grid-stack-item");
+      // 遍历每个元素并进行操作
+      for (let i = 0; i < gridElements.length; i++) {
+        const gridElement = gridElements[i] as HTMLElement;
+        gridElement!.addEventListener("contextmenu", (event) => {
+          // event.preventDefault(); // 阻止默认右键菜单行为
+          handleContextMenu(event, gridElement);
+        });
+      }
+    }
 
     // 递归函数，用于检查节点及其所有子孙节点的类名
     function checkForItem(node: Node | null): string {
@@ -502,15 +542,23 @@ export default defineComponent({
             if (itemName == "date") {
               clickedItem!.el.remove();
               changeDate1(dayOfWeekText, clickedItem, grid);
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else if (itemName == "memo") {
               clickedItem!.el.remove();
               changeMemo1(clickedItem, grid);
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else if (itemName == "hot") {
               clickedItem!.el.remove();
               changeHot1(clickedItem, grid);
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else if (itemName == "weather") {
               clickedItem!.el.remove();
               changeWeather1(clickedItem, grid);
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else {
               message.error("icon图标不能改变大小");
             }
@@ -522,9 +570,12 @@ export default defineComponent({
             if (itemName == "date") {
               clickedItem!.el.remove();
               changeDate4(dayOfWeekText, clickedItem, grid);
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else if (itemName == "memo") {
               clickedItem!.el.remove();
               changeMemo4(memoMenuList.value, clickedItem, grid);
+              getAllElToMenu();
             } else if (itemName == "hot") {
               clickedItem!.el.remove();
               changeHot4(
@@ -534,9 +585,13 @@ export default defineComponent({
                 zhihuHotList,
                 weiboHotList
               );
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else if (itemName == "weather") {
               clickedItem!.el.remove();
               changeWeather4(clickedItem, grid);
+              // 遍历给所有加上方法
+              getAllElToMenu();
             } else {
               message.error("icon图标不能改变大小");
             }
@@ -717,20 +772,267 @@ export default defineComponent({
     // 日历切换方法
     const onPanelChange = (value: Dayjs, mode: string) => {};
 
-   
+    async function initIconList() {
+      // 获取icon
+      useGridsStore().getSelectedGrids.icon.forEach((v) => {
+        if (v.type === "icon") {
+          addNewWidget(v.src, v.name, v.url, v.id, v.x, v.y);
+        } else if (v.type === "component") {
+          if (v.name === "备忘录") {
+            addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y);
+          } else if (v.name === "日历") {
+            addDateItem(v);
+          } else if (v.name === "天气") {
+            addWeatherItem(v);
+          } else if (v.name === "热搜") {
+            addHotSearchItem(v);
+          } else if (v.name === "图库") {
+            addPictureItem(v);
+          }
+        }
+      });
+
+      // 日历
+      const dateElements = document.querySelectorAll(".dateItem");
+      dateElements.forEach((dateElement) => {
+        // 为每个元素添加点击事件监听器
+        dateElement.addEventListener("click", calendarClick);
+      });
+
+      // 备忘录
+      const memoElements = document.querySelectorAll(".memoItem"); // 选择所有匹配的元素
+      if (memoElements) {
+        memoElements.forEach((memoElement) => {
+          // 为每个元素添加点击事件监听器
+          memoElement.addEventListener("click", memoClick);
+        });
+      }
+
+      // 图库
+      const pictureElements = document.querySelectorAll(".pictureItem");
+      pictureElements.forEach((pictureElement) => {
+        // 为每个元素添加点击事件监听器
+        pictureElement.addEventListener("click", pictureClick);
+      });
+
+      // 天气
+      const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
+      if (weatherElements) {
+        weatherElements.forEach((weatherElement) => {
+          // 为每个元素添加点击事件监听器
+          weatherElement.addEventListener("click", weatherClick);
+        });
+      }
+
+      // icon
+      const iconElements = document.querySelectorAll(".iconItem"); // 选择所有匹配的元素
+      if (iconElements) {
+        iconElements.forEach((iconElement) => {
+          // 为每个元素添加点击事件监听器
+          iconElement.addEventListener("click", iconClick);
+        });
+      }
+
+      // 热搜
+      const hotSearchElements = document.querySelectorAll(".hotSearchItem"); // 选择所有匹配的元素
+      if (hotSearchElements) {
+        hotSearchElements.forEach((hotSearchElement) => {
+          // 为每个元素添加点击事件监听器
+          hotSearchElement.addEventListener("click", hotModal.open);
+        });
+      }
+
+      // 获取所有的tab元素
+      const tabs = document.querySelectorAll(".tab");
+      // 获取所有的tab内容元素
+      const tabContents = document.querySelectorAll(".tab-pane");
+      // 默认显示第一个tab的内容
+      if (tabContents.length > 0 && tabs.length > 0) {
+        tabContents[0].classList.add("active");
+        // 为每个tab添加悬浮事件监听
+        tabs.forEach((tab) => {
+          tab.addEventListener("mouseover", () => {
+            const tabId = tab.getAttribute("data-tab");
+
+            // 隐藏所有tab内容
+            tabContents.forEach((content) => {
+              content.classList.remove("active");
+            });
+
+            // 显示对应的tab内容
+            const activeContent = document.getElementById(tabId!);
+            activeContent!.classList.add("active");
+          });
+        });
+      }
+
+      // 给所有按钮加上右键弹窗方法
+      getAllElToMenu();
+    }
     // 给子组件用的方法
     function addComponent(v: any) {
       console.log(v, "v--");
-      if (isBottom.value) {
+      if (isBottom) {
         addBottom(v);
-        // 复原isBottom
-        isBottom.value = 0;
         return;
       }
-      mainIconStore.ADD_ICON(v);
+      const routeName = route.name;
+      // 1. 获取存储的数组
+      let garids = JSON.parse(localStorage.getItem(routeName as string)) || [];
+      console.log(garids.icon);
+      // 2. 修改数组（例如，添加新元素）
+      garids.icon.push(v);
+      // 3. 重新存储数组
+      localStorage.setItem(routeName as string, JSON.stringify(garids));
+
+      if (v.name === "备忘录") {
+        addMemoItem(v.id, memoMenuList.value, v.size, v.x, v.y);
+      } else if (v.name === "日历") {
+        addDateItem(v);
+      } else if (v.name === "天气") {
+        addWeatherItem(v);
+      } else if (v.name === "热搜") {
+        addHotSearchItem(v);
+      } else if (v.name === "图库") {
+        addPictureItem(v);
+      } else {
+        addNewWidget(v.src, v.name, v.url, v.id, v.x, v.y);
+      }
+      getAllElToMenu();
     }
 
+    // 新增备忘录节点
+    function addMemoItem(
+      id: string,
+      arr: Array<string>,
+      size: number,
+      x: number,
+      y: number
+    ) {
+      const items = arr
+        .map(
+          (item) =>
+            `<div class="cl-ant-p sg-omit-sm text-white-sm memoItemBody">${item}</div>`
+        )
+        .join("");
+      if (size === 1) {
+        const el = `
+        <div class="grid-stack-item">
+          <div class="memoItem">
+              <div calss="memoItemOne">
+                  <div class="grid-stack-item-content flex flex-direction justify-around align-center">
+                  <div class="memoItemOne-bgColor">
+                      备忘录
+                  </div>
+                  <p class="cl-ant-p sg-omit-sm text-white-sm">备忘录</p>
+                  </div>
+              </div>
+          </div>
+        </div>
+        `;
+        grid.addWidget(el, { id: id, x: x, y: y, w: 1, h: 2 });
+        const memoElements = document.querySelectorAll(".memoItem"); // 选择所有匹配的元素
+        if (memoElements) {
+          memoElements.forEach((memoElement) => {
+            // 为每个元素添加点击事件监听器
+            memoElement.addEventListener("click", memoClick);
+          });
+        }
+      } else if (size === 4) {
+        const el = `
+        <div class="grid-stack-item" >
+          <div class="grid-stack-item-content">
+            <div class="memoItem memoItem-bgColor" >
+              <div class="memoItemHeader">备忘录</div>
+              ${items}
+              </div>
+          </div>
+        </div>
+      `;
+        grid.addWidget(el, { id: id, w: 2, h: 4 });
+        const memoElements = document.querySelectorAll(".memoItem"); // 选择所有匹配的元素
+        if (memoElements) {
+          memoElements.forEach((memoElement) => {
+            // 为每个元素添加点击事件监听器
+            memoElement.addEventListener("click", memoClick);
+          });
+        }
+      }
+    }
 
+    // 新增图库节点
+    function addPictureItem(v: PintureItem) {
+      const el = `
+        <div class="grid-stack-item">
+            <div class="pictureItem">
+                <div class="grid-stack-item-content flex flex-direction justify-around align-center">
+                  <img src="${v.src}" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md" />
+                  <p class="cl-ant-p sg-omit-sm text-white-sm">${v.name}</p>
+                </div>
+            </div>
+        </div>
+      `;
+      grid.addWidget(el, { w: 1, h: 2, x: v.x, y: v.y, id: v.id });
+      // 日历
+      const pictureElements = document.querySelectorAll(".pictureItem");
+      pictureElements.forEach((pictureElement) => {
+        // 为每个元素添加点击事件监听器
+        pictureElement.addEventListener("click", pictureClick);
+      });
+    }
+
+    // 新增日历节点
+    function addDateItem(v: DateItem) {
+      let el = "";
+      if (v.size === 1) {
+        el = `
+            <div class="grid-stack-item">
+                <div class="dateItem">
+                    <div class="grid-stack-item-content flex flex-direction justify-around align-center">
+                      <div class="oneBackground">
+                        <div class="oneWeek">${dayOfWeekText}</div>
+                        <div class="day">${dayjs(new Date()).format("DD")}</div>
+                      </div>
+                      <p class="cl-ant-p sg-omit-sm text-white-sm">日历</p>
+                    </div>
+                </div>
+            </div>
+          `;
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
+        // 日历
+        const dateElements = document.querySelectorAll(".dateItem");
+        dateElements.forEach((dateElement) => {
+          // 为每个元素添加点击事件监听器
+          dateElement.addEventListener("click", calendarClick);
+        });
+      } else {
+        el = `
+        <div class="grid-stack-item">
+          <div class="grid-stack-item-content">
+            <div class="dateItem">
+              <div class="dataItemFour">
+                <div class="dateItemHeader">${dayjs(new Date()).format(
+                  "YYYY年M月"
+                )}</div>
+                <div class="dateItemBody" >
+                  <div class="num">${dayjs(new Date()).format("DD")}</div>
+                  <div class="day">第205天 第30周</div> 
+                  <div class="week">六月二十八 ${dayOfWeekText}</div>    
+                </div>  
+              </div>
+            </div> 
+          </div>
+        </div>
+      `;
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 2, h: 4 });
+        // 日历
+        const dateElements = document.querySelectorAll(".dateItem");
+        dateElements.forEach((dateElement) => {
+          // 为每个元素添加点击事件监听器
+          dateElement.addEventListener("click", calendarClick);
+        });
+      }
+    }
 
     // 新增天气节点
     function addWeatherItem(v: WeatherItem) {
@@ -746,6 +1048,7 @@ export default defineComponent({
             </div>
         </div>
       `;
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
         const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
         if (weatherElements) {
           weatherElements.forEach((weatherElement) => {
@@ -777,6 +1080,7 @@ export default defineComponent({
           </div>
         </div>
       `;
+        grid.addWidget(el, { id: v.id, w: 2, h: 4, x: v.x, y: v.y });
         const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
         if (weatherElements) {
           weatherElements.forEach((weatherElement) => {
@@ -787,6 +1091,123 @@ export default defineComponent({
       }
     }
 
+    // 新增热搜节点
+    async function addHotSearchItem(v: HotSearchItem) {
+      if (v.size === 1) {
+        const el = `
+        <div class="grid-stack-item">
+            <div class="hotSearchItem">
+                    <div class="grid-stack-item-content flex flex-direction justify-around align-center">
+                        <img src="https://files.codelife.cc/icons/topsearch.svg" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md  hotSearchItem-bgColor" />
+                        <p class="cl-ant-p sg-omit-sm text-white-sm">热搜</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      `;
+
+        grid.addWidget(el, { id: v.id, x: v.x, y: v.y, w: 1, h: 2 });
+        const hotSearchElements = document.querySelectorAll(".hotSearchItem"); // 选择所有匹配的元素
+        if (hotSearchElements) {
+          hotSearchElements.forEach((hotSearchElement) => {
+            // 为每个元素添加点击事件监听器
+            hotSearchElement.addEventListener("click", hotModal.open);
+          });
+        }
+      } else if (v.size === 4) {
+        const baiduItems =
+          baiduHotList.value && baiduHotList.value.length > 0
+            ? baiduHotList.value
+                .map(
+                  (item: any, index: number) =>
+                    `<div class="cl-ant-p sg-omit-sm text-white-sm tab-pane-item" rel="noopener noreferrer"><span>${
+                      index + 1
+                    }.</span><a target="_blank" href="${item.url}">${
+                      item.name
+                    }</a></div>`
+                )
+                .join("")
+            : '<div class="text-white-sm">暂无数据</div>';
+        const zhihuItems =
+          zhihuHotList.value && zhihuHotList.value.length > 0
+            ? zhihuHotList.value
+                .map(
+                  (item: any, index: number) =>
+                    `<div class="cl-ant-p sg-omit-sm text-white-sm tab-pane-item" rel="noopener noreferrer"><span>${
+                      index + 1
+                    }.</span><a target="_blank" href="${item.url}">${
+                      item.name
+                    }</a></div>`
+                )
+                .join("")
+            : '<div class="text-white-sm">暂无数据</div>';
+
+        const weiboItems =
+          weiboHotList.value && weiboHotList.value.length > 0
+            ? weiboHotList.value
+                .map(
+                  (item: any, index: number) =>
+                    `<div class="cl-ant-p sg-omit-sm text-white-sm tab-pane-item" rel="noopener noreferrer"><span>${
+                      index + 1
+                    }.</span><a target="_blank" href="${item.url}">${
+                      item.name
+                    }</a></div>`
+                )
+                .join("")
+            : '<div class="text-white-sm">暂无数据</div>';
+
+        const el = `
+            <div class="grid-stack-item">
+              <div class="grid-stack-item-content">
+                <div class="hotSearchItem hotSearchItem-bgColor" >
+                    <div class="tab-container">
+                      <div class="tab" data-tab="tab1">百度</div>
+                      <div class="tab" data-tab="tab2">知乎</div>
+                      <div class="tab" data-tab="tab3">微博</div>
+                    </div>
+                    <div class="tab-content">
+                      <div class="tab-pane" id="tab1">
+                        ${baiduItems}
+                      </div>
+                      <div class="tab-pane" id="tab2">
+                        ${zhihuItems}
+                      </div>
+                      <div class="tab-pane" id="tab3">
+                        ${weiboItems}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        grid.addWidget(el, { id: v.id, w: 2, h: 4, x: v.x, y: v.y });
+      }
+    }
+
+    // 新增icon节点
+    function addNewWidget(
+      src: string,
+      name: string,
+      url: string,
+      id: string,
+      x: number,
+      y: number
+    ) {
+      const el = `
+        <div class="grid-stack-item">
+          <a href="${url}" target="_blank">
+            <div class="iconItem">
+                <div class="grid-stack-item-content flex flex-direction justify-around align-center">
+                  <img src="${src}" style="width: 60px; height: 60px; border-radius: 15px;" class="shadow-md" />
+                  <p class="cl-ant-p sg-omit-sm text-white-sm">${name}</p>
+                </div>
+            </div>
+          </a>
+        </div>
+      `;
+      grid.addWidget(el, { w: 1, h: 2, x: x, y: y, id: id });
+    }
 
     // 给底部添加icon
     function addBottom(data: any) {
@@ -944,6 +1365,7 @@ export default defineComponent({
     };
 
     return {
+      addNewWidget,
       addComponent,
       memoVisible,
       calendarValue,
@@ -1008,9 +1430,5 @@ main {
   height: 100px;
   background-color: transparent;
   z-index: 999;
-}
-
-.main-icon {
-  height: 100%;
 }
 </style>

@@ -2,30 +2,17 @@
  * @Author: panrunjun
  * @Date: 2024-07-28 14:18:41
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-08-29 14:55:54
+ * @LastEditTime: 2025-03-18 12:03:11
  * @Description: 输入url添加icon
  * @FilePath: \ytab-master\src\components\AddCustomize.vue
 -->
 <template>
     <div class="body">
-        <a-form :model="formState" style="width: 500px;" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }"
-            autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
+        <a-form :model="formState" style="width: 500px;" name="basic" :label-col="{ span: 8 }"
+            :wrapper-col="{ span: 16 }" autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
             <a-form-item label="链接地址" name="url">
                 <a-input v-model:value="urlValue">
-                    <template #addonBefore>
-                        <a-select v-model:value="httpValue" style="width: 90px">
-                            <a-select-option value="Http://">Http://</a-select-option>
-                            <a-select-option value="Https://">Https://</a-select-option>
-                        </a-select>
-                    </template>
-                    <template #addonAfter>
-                        <a-select v-model:value="comValue" style="width: 80px">
-                            <a-select-option value=".com">.com</a-select-option>
-                            <a-select-option value=".jp">.jp</a-select-option>
-                            <a-select-option value=".cn">.cn</a-select-option>
-                            <a-select-option value=".org">.org</a-select-option>
-                        </a-select>
-                    </template>
+
                 </a-input>
                 <!-- <a-input v-model:value="formState.url" /> -->
             </a-form-item>
@@ -42,14 +29,13 @@
                 <a-button type="primary" html-type="submit">确 定</a-button>
             </a-form-item>
             <a-form-item label="tip" name="tip">
-                <div>网页链接前带 <span class="tab-red">https://</span> or <span class="tab-red">http://</span> </div>
-                <div>eg:https://www.baidu.com</div>
+                <div>https://www.baidu.com</div>
             </a-form-item>
         </a-form>
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, ref,reactive } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 interface FormState {
     url: string;
@@ -59,7 +45,7 @@ interface FormState {
     type: string;
 }
 export default defineComponent({
-    emits: ['addNewWidget'], // 声明子组件可以触发的事件
+    emits: ['addNewWidget','handleClose'], // 声明子组件可以触发的事件
     setup(props, { emit }: { emit: Function }) {
         const route = useRoute();
         const $message: { success: Function } = inject('$message')!
@@ -71,14 +57,12 @@ export default defineComponent({
             type: ''
         });
         const urlValue = ref('');
-        const httpValue = ref('https://');
-        const comValue = ref('.com');
         const onFinish = (values: FormState) => {
             const uniqueID = uuidv4();
             console.log('Success:', values);
             values.id = uniqueID;
             values.type = 'icon';
-            values.url = `${httpValue.value}${urlValue.value}${comValue.value}`;
+            values.url = `${urlValue.value}`;
             // 获取icon
             if (values.src === '') {
                 values.src = values.url + '/favicon.ico'
@@ -91,10 +75,11 @@ export default defineComponent({
             // 3. 重新存储数组
             localStorage.setItem(route.name as string, JSON.stringify(garids));
             $message.success(`添加成功`);
-            formState.url = ''
-            formState.name = ''
-            formState.src = ''
-            urlValue.value = ''
+            formState.url = '';
+            formState.name = '';
+            formState.src = '';
+            urlValue.value = '';
+            emit('handleClose');
         };
 
         const onFinishFailed = (errorInfo: any) => {
@@ -103,10 +88,8 @@ export default defineComponent({
         return {
             formState,
             urlValue,
-            httpValue,
-            comValue,
             onFinish,
-            onFinishFailed,
+            onFinishFailed
         };
     },
 });
@@ -121,5 +104,3 @@ export default defineComponent({
     padding: 10px;
 }
 </style>
-  
-  
