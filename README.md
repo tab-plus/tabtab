@@ -1,6 +1,16 @@
+<!--
+ * @Author: panrunjun
+ * @Date: 2024-08-27 18:52:41
+ * @LastEditors: Do not edit
+ * @LastEditTime: 2025-03-26 13:47:19
+ * @Description: 
+ * @FilePath: \ytab-master\README.md
+-->
 # tatab
 ## 项目介绍
-一个支持个性化定制的浏览器插件
+一个支持个性化定制的浏览器网页
+
+![image](http://106.52.154.20:9000/tabs/1742968051974-tab.png)
 
 ## 如何部署到本地
 > 1.npm i
