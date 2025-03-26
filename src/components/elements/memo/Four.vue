@@ -15,7 +15,7 @@
           class="cl-ant-p sg-omit-sm text-white-sm memoItem"
           v-for="(item, index) in memoStore.memoList.slice(0, 4)"
           :key="index"
-        >
+        > 
           {{ item.title }}
         </div>
       </template>
