@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 16:53:16
+ * @LastEditTime: 2025-03-26 15:10:44
  * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -89,7 +89,6 @@
           }
         "
       >
-        <!-- <a-calendar v-model:value="calendarValue" :fullscreen="false" @panelChange="onPanelChange" /> -->
         <CalendarModal></CalendarModal>
       </a-modal>
 
@@ -219,7 +218,7 @@
           <AntdIcon :name="'SwapOutlined'" :style="'font-size: 14px'" />
           切换壁纸
         </a-menu-item>
-        <a-menu-item key="2" @click="iconVisible = true">
+        <a-menu-item key="2" @click="handleAddIcon()">
           <AntdIcon :name="'PlusOutlined'" :style="'font-size: 14px'" />
           添加图标或组件
         </a-menu-item>
@@ -355,12 +354,7 @@ export default defineComponent({
     const city = ref<string>("");
     // 导入文件
     const fileList = ref<UploadProps["fileList"]>([]);
-    const clickedItem = reactive({
-      x: "0",
-      y: "0",
-      el: ref(),
-      id: "0",
-    });
+
     // 是否是底部的icon,0 不是 1 是
     const isBottom = ref(0);
 
@@ -388,7 +382,6 @@ export default defineComponent({
       key: string;
       title: string;
     };
-    const memoMenuList = ref<Array<string>>([]);
 
     // 添加组件菜单
     const iconMenuList = ref<Array<iconMemu>>([
@@ -453,258 +446,10 @@ export default defineComponent({
       // initIconList();
     });
 
-    // 递归函数，用于检查节点及其所有子孙节点的类名
-    function checkForItem(node: Node | null): string {
-      // 如果节点为空，返回空字符串
-      if (!node) return "";
-
-      // 如果当前节点是元素节点
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const element = node as Element;
-
-        // 检查当前节点的类名是否匹配 'dateItem' 或 'memoItem'
-        if (element.className.match(/\bdateItem\d*\b/)) {
-          return "date";
-        } else if (element.className.match(/\bmemoItem\d*\b/)) {
-          return "memo";
-        } else if (element.className.match(/\bhotSearchItem\d*\b/)) {
-          return "hot";
-        } else if (element.className.match(/\bweatherItem\d*\b/)) {
-          return "weather";
-        }
-      }
-
-      // 递归检查所有子节点
-      const childNodes = Array.from(node.childNodes);
-      for (const childNode of childNodes) {
-        const result = checkForItem(childNode);
-        if (result) {
-          return result; // 如果子节点中找到匹配的类名，直接返回
-        }
-      }
-
-      // 如果没有找到匹配的类名，返回空字符串
-      return "";
-    }
-
-    // 创建一个右键弹窗元素里的子元素
-    function createBox(content: string) {
-      const box = document.createElement("div");
-      box.className = "popup-box";
-      box.textContent = content;
-      box.addEventListener("click", (event) => {
-        if (content == "1x1") {
-          console.log(clickedItem.el, "clickedItem.value");
-          // 开始递归检查
-          if (clickedItem.el) {
-            let itemName = checkForItem(clickedItem.el);
-            console.log(itemName, "bool");
-            if (itemName == "date") {
-              clickedItem!.el.remove();
-              changeDate1(dayOfWeekText, clickedItem, grid);
-            } else if (itemName == "memo") {
-              clickedItem!.el.remove();
-              changeMemo1(clickedItem, grid);
-            } else if (itemName == "hot") {
-              clickedItem!.el.remove();
-              changeHot1(clickedItem, grid);
-            } else if (itemName == "weather") {
-              clickedItem!.el.remove();
-              changeWeather1(clickedItem, grid);
-            } else {
-              message.error("icon图标不能改变大小");
-            }
-          }
-        } else if (content == "4x4") {
-          if (clickedItem.el) {
-            let itemName = checkForItem(clickedItem.el);
-            console.log(itemName, "bool");
-            if (itemName == "date") {
-              clickedItem!.el.remove();
-              changeDate4(dayOfWeekText, clickedItem, grid);
-            } else if (itemName == "memo") {
-              clickedItem!.el.remove();
-              changeMemo4(memoMenuList.value, clickedItem, grid);
-            } else if (itemName == "hot") {
-              clickedItem!.el.remove();
-              changeHot4(
-                clickedItem,
-                grid,
-                baiduHotList,
-                zhihuHotList,
-                weiboHotList
-              );
-            } else if (itemName == "weather") {
-              clickedItem!.el.remove();
-              changeWeather4(clickedItem, grid);
-            } else {
-              message.error("icon图标不能改变大小");
-            }
-          }
-
-          // grid.update(clickedItem.el, { w: 2, h: 4 });
-        } else if (content == "删除") {
-          console.log(clickedItem!.el);
-          clickedItem!.el.remove();
-          // 1. 获取存储的数组
-          let garids =
-            JSON.parse(localStorage.getItem(route.name as string)) || [];
-          console.log(garids.icon);
-          // 2. 删除数组（例如，添加新元素）
-          const filteredArr = garids.icon.filter(
-            (item) => item.id !== clickedItem.id
-          );
-          console.log(filteredArr, filteredArr);
-          garids.icon = filteredArr;
-          // 3. 重新存储数组
-          localStorage.setItem(route.name as string, JSON.stringify(garids));
-          message.success("删除成功");
-        }
-      });
-      return box;
-    }
-
-    // 打开icon右键菜单
-    const openContextMenu = (posX: number, posY: number) => {
-      isContextMenuOpen.value = true;
-      // 在这里打开弹窗的逻辑，可以根据 posX 和 posY 定位弹窗
-      console.log("打开右键菜单在", posX, posY);
-      // 创建一个弹窗元素
-      const container = document.createElement("div");
-      container.className = "popup";
-      container.style.position = "absolute";
-      container.style.left = posX + "px";
-      container.style.top = posY + "px";
-
-      const box1 = createBox("1x1");
-      // const box2 = createBox('1x2');
-      const box3 = createBox("4x4");
-      const box4 = createBox("删除");
-
-      container.appendChild(box1);
-      // container.appendChild(box2);
-      container.appendChild(box3);
-      container.appendChild(box4);
-      // 添加弹窗到页面中
-      // 添加弹窗到页面中
-      document.body.appendChild(container);
-      // 添加过渡效果的触发
-      setTimeout(() => {
-        container.classList.add("popup-open");
-      }, 10);
-    };
-
-    // 点击其他地方或按下 ESC 键关闭弹窗
-    const closePopup = () => {
-      isContextMenuOpen.value = false; // 更新状态
-      const popup = document.querySelector(".popup");
-      if (popup) {
-        popup.remove(); // 移除下拉列表
-      }
-    };
-
-    // 右键菜单创建一个弹窗容器
-    const handleContextMenu = (
-      event: MouseEvent,
-      gridElement?: HTMLElement
-    ) => {
-      console.log(event, "event");
-      console.log(gridElement, "gridElement");
-      const click = event.currentTarget as HTMLElement; // 获取点击的 DOM 元素（小部件的 DOM 元素）
-      // 可以进一步处理点击的小部件，例如获取其 data-gs-id
-      const gsX = click.getAttribute("gs-x")?.toString() || "";
-      const gsY = click.getAttribute("gs-y")?.toString() || "";
-      const gsId = click.getAttribute("gs-id")?.toString() || "";
-      // clickedItem.value = gridElement as HTMLElement;
-      // console.log(clickedItem.value)
-      console.log("点击了具有 ID " + gsX, gsY + " 的小部件。");
-      clickedItem.el = gridElement;
-      clickedItem.x = gsX;
-      clickedItem.y = gsY;
-      clickedItem.id = gsId;
-      event.preventDefault(); // 阻止默认的右键菜单
-      event.stopPropagation(); // 阻止事件冒泡
-      const posX = event.clientX; // 获取鼠标点击的水平位置
-      const posY = event.clientY; // 获取鼠标点击的垂直位置
-      if (isContextMenuOpen.value) {
-        // 如果已经有弹窗打开，则关闭现有弹窗
-        closePopup();
-        // 如果有点击其他item则打开其他item的props
-        if (onclickItemClass.value) {
-          openContextMenu(posX, posY);
-        }
-      } else {
-        // 否则打开新弹窗
-        openContextMenu(posX, posY);
-      }
-
-      // 按下esc关闭弹窗
-      const closePopupOnEsc = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-          closePopup();
-        }
-      };
-      // 监听点击页面其他地方或按下 ESC 键，关闭弹窗
-      document.addEventListener("click", closePopup);
-      document.addEventListener("keyup", closePopupOnEsc);
-      document.addEventListener("contextmenu", closePopup);
-    };
-
-    /**
-     * 点击日历图标
-     */
-    const calendarClick = () => {
-      console.log("calendarClick!");
-      calendarModal.open();
-    };
-
-    /**
-     * 点击备忘录图标
-     */
-    const memoClick = () => {
-      console.log("memoClick!");
-      // 可以在这里添加更多的处理逻辑
-      memoModal.open();
-    };
-
     const weatherClick = () => {
       console.log("weatherClick!");
       // 可以在这里添加更多的处理逻辑
       weatherModal.open();
-    };
-
-    /**
-     * 点击日历图标
-     */
-    const pictureClick = () => {
-      console.log("pictureClick!");
-      pictureModal.open();
-    };
-    // 点击 icon 的处理函数
-    const iconClick = (event) => {
-      console.log("iconClick!");
-
-      // 获取被点击的 .iconItem 元素
-      const iconItem = event.currentTarget;
-
-      if (iconItem) {
-        // 查找最近的 <a> 标签
-        const anchorElement = iconItem.closest("a");
-
-        if (anchorElement) {
-          // 获取 <a> 标签的 href 属性值
-          const url = anchorElement.getAttribute("href");
-          console.log(url, "URL"); // 输出 href 属性值
-          if (url) {
-            // 在这里处理 href 属性值
-            add_visit({ url }).then((res) => {
-              console.log(res, "res");
-            });
-          }
-        } else {
-          console.log("没有找到最近的 <a> 标签");
-        }
-      }
     };
 
     // 鼠标点击时间
@@ -714,10 +459,6 @@ export default defineComponent({
       haveIcon.value = !haveIcon.value;
     };
 
-    // 日历切换方法
-    const onPanelChange = (value: Dayjs, mode: string) => {};
-
-   
     // 给子组件用的方法
     function addComponent(v: any) {
       console.log(v, "v--");
@@ -729,8 +470,6 @@ export default defineComponent({
       }
       mainIconStore.ADD_ICON(v);
     }
-
-
 
     // 新增天气节点
     function addWeatherItem(v: WeatherItem) {
@@ -786,7 +525,6 @@ export default defineComponent({
         }
       }
     }
-
 
     // 给底部添加icon
     function addBottom(data: any) {
@@ -937,17 +675,29 @@ export default defineComponent({
     };
 
     // 底部菜单栏添加icon
-    const bottomAdd = (num: number) => {
-      console.log(num, "bottomAdd called with num");
-      isBottom.value = num;
+    const bottomAdd = (status: number) => {
+      console.log(status, "bottomAdd called with num");
+      isBottom.value = status;
       iconVisible.value = true;
+      iconMenuList.value = [
+        { title: "快捷方式", key: "1" },
+        { title: "自定义", key: "3" },
+      ];
     };
+
+    function handleAddIcon() {
+      iconVisible.value = true;
+      iconMenuList.value = [
+        { title: "快捷方式", key: "1" },
+        { title: "组件", key: "2" },
+        { title: "自定义", key: "3" },
+      ];
+    }
 
     return {
       addComponent,
       memoVisible,
       calendarValue,
-      onPanelChange,
       ...toRefs(memoState),
       clickTime,
       calendarModal,
@@ -971,6 +721,7 @@ export default defineComponent({
       exportCloudJSON,
       importCloudJSON,
       bottomAdd,
+      handleAddIcon,
     };
   },
 });

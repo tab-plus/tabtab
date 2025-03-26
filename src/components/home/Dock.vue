@@ -24,7 +24,7 @@
             @click="selectIcon(icon)"
             @contextmenu.prevent="handleRightClick(icon.id)"
           />
-    </div>
+        </div>
       </vue-draggable>
     </ContextMenu>
   </div>
@@ -132,7 +132,7 @@ const onAdd = (event) => {
 </script>
   
 
-  <style scoped>
+<style scoped>
 #dock {
   width: 100%;
   display: flex;
