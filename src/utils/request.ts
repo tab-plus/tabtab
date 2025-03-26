@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-08-02 19:39:09
  * @LastEditors: Do not edit
- * @LastEditTime: 2024-09-10 10:37:41
+ * @LastEditTime: 2025-03-26 13:55:36
  * @Description: 封装的请求
  * @FilePath: \ytab-master\src\utils\request.ts
  */
@@ -12,7 +12,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 // 创建 axios 实例
 const service = axios.create({
-    baseURL: "http://127.0.0.1:3034",
+    baseURL: "http://106.52.154.20:3034",
     timeout: 5000, // 超时时间
     headers: {
         "Content-type": "application/json;charset=utf-8" // 默认设置为 JSON
