@@ -143,17 +143,13 @@ const selectIcon = (icon) => {
   console.log(icon);
   if (icon.name === "图库") {
     emit("openPicture");
+  } else if (icon.name === "添加") {
+    emit("openPicture");
   } else if (icon.name === "备忘录") {
-    console.log(111);
-
     emit("openMemo");
   } else if (icon.name === "日历") {
-    console.log(111);
-
     emit("openCalendar");
   } else if (icon.name === "热搜") {
-    console.log(111);
-
     // emit("openCalendar");
   } else {
     window.open(icon.url);
@@ -185,6 +181,7 @@ const selectIcon = (icon) => {
   width: 60px;
   height: 60px;
   border-radius: 5px;
+  /* background-color: rgba(255, 255, 255, 0.4); */
 }
 
 .one-box {

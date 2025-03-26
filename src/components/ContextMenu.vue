@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-08-30 09:38:24
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-24 17:11:14
+ * @LastEditTime: 2025-03-26 15:36:29
  * @Description: 公共组件（右键弹窗，传入菜单项，点击菜单项，返回数据）
  * @FilePath: \ytab-master\src\components\ContextMenu.vue
 -->
@@ -57,10 +57,10 @@ const handleClick = (item: any) => {
 .context-menu {
     position: absolute;
     /* height: 100px; */
-    min-width: 90px;
+    min-width: 70px;
     /* 黑色背景，70% 透明度 */
     background: rgba(0, 0, 0, 0.7);
-    border-radius: 4px;
+    border-radius: 5px;
     /* 边框阴影 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
@@ -79,10 +79,11 @@ const handleClick = (item: any) => {
     align-content: center;
     justify-content: center;
     padding: 5px 10px;
+    font-size: 10px;
 }
 
 .menu-item:hover{
-    background: rgba(0, 0, 0, 0.3);
+background: rgba(211, 211, 211, 0.1);
 }
 </style>
   
