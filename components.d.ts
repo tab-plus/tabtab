@@ -5,7 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AAnchor: typeof import('ant-design-vue/es')['Anchor']
     ABadge: typeof import('ant-design-vue/es')['Badge']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACalendar: typeof import('ant-design-vue/es')['Calendar']
@@ -44,14 +43,14 @@ declare module '@vue/runtime-core' {
     ContentLayout: typeof import('./src/components/ContentLayout.vue')['default']
     ContextMenu: typeof import('./src/components/ContextMenu.vue')['default']
     Dock: typeof import('./src/components/home/Dock.vue')['default']
-    Four: typeof import('./src/components/elements/memo/Four.vue')['default']
+    Four: typeof import('./src/components/elements/calendar/Four.vue')['default']
     GenericModal: typeof import('./src/components/GenericModal.vue')['default']
     HotModal: typeof import('./src/components/home/HotModal.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     MainIcon: typeof import('./src/components/home/MainIcon.vue')['default']
     MemoModal: typeof import('./src/components/home/MemoModal.vue')['default']
     'MemoModal copy': typeof import('./src/components/home/MemoModal copy.vue')['default']
-    One: typeof import('./src/components/elements/memo/One.vue')['default']
+    One: typeof import('./src/components/elements/calendar/One.vue')['default']
     PictureModal: typeof import('./src/components/home/PictureModal.vue')['default']
     Register: typeof import('./src/components/Register.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
