@@ -54,14 +54,19 @@ import { add_visit } from './api';
 
 // 初始化获取登录状态
 import { useUserStore } from '@/store/user';
+import { useMemoStore } from '@/store/memoStore';
 import { useBottomIconStore } from '@/store/bottomIcon';
+const memoStore = useMemoStore();
 const userStore = useUserStore();
+const bottomIconStore = useBottomIconStore();
+
 userStore.INIT_USER();
+memoStore.INIT_LIST();
+// 初始化bottomIcon
+bottomIconStore.INIT_LIST();
+
 const vm = app.use(router).mount('#app');
 
-// 初始化bottomIcon
-const bottomIconStore = useBottomIconStore();
-bottomIconStore.INIT_LIST();
 
 // 访问量加1
 add_visit().then(res => {

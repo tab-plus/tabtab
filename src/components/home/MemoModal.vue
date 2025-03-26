@@ -89,7 +89,7 @@ const emit = defineEmits(); // 声明emit
 // 获取数据
 const memoList = ref<Array<Memo>>([]);
 const getMemoList = () => {
-  memoStore.INIT_LIST();
+  
   memoList.value = memoStore.memoList;
 };
 getMemoList();
@@ -98,7 +98,7 @@ const showInput = ref<Boolean>(false);
 const contextMenuKey = ref("");
 const memoState = reactive({
   collapsed: false,
-  selectedKeys: [memoStore.memoList[0].id],
+  selectedKeys:memoStore.memoList.length>0? [memoStore.memoList[0].id]:"",
 });
 
 const visible = ref(false); //是否打开修改标题输入框
