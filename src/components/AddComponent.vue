@@ -2,128 +2,63 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 16:11:20
+ * @LastEditTime: 2025-03-26 10:18:02
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
 <template>
   <div class="body">
-    <div class="memoComponent boxShadow" @click="addComponent('备忘录')">
-      <div class="memoItemHeader">备忘录</div>
-      <div class="cl-ant-p sg-omit-sm text-white-sm memoItemBody">备忘录</div>
+    <div class="boxShadow" @click="addComponent('备忘录')">
+      <MemoFour></MemoFour>
     </div>
-    <div class="dateComponent boxShadow" @click="addComponent('日历')">
-      <div class="dateItemHeader">2024/7</div>
-      <div class="dateItemBody">
-        <div class="num">23</div>
-        <div class="day">第205天 第30周</div>
-        <div class="week">六月二十八 周二</div>
-      </div>
+    <div class="boxShadow" @click="addComponent('日历')">
+      <CalendarFour></CalendarFour>
     </div>
 
-    <div class="hotSearchComponent boxShadow" @click="addComponent('热搜')">
-      <div class="tab-container">
-        <div class="tab" add-data-tab="add-tab1">百度</div>
-        <div class="tab" add-data-tab="add-tab2">知乎</div>
-        <div class="tab" add-data-tab="add-tab3">微博</div>
-      </div>
-      <div class="tab-content">
-        <div class="add-tab-pane" id="add-tab1">暂无数据</div>
-        <div class="add-tab-pane" id="add-tab2">暂无数据</div>
-        <div class="add-tab-pane" id="add-tab3">暂无数据</div>
-      </div>
-    </div>
-
-    <div class="weatherComponent boxShadow" @click="addComponent('天气')">
-      <div class="flex justify-between">
-        <div>
-          <div class="flex">
-            <div class="place">{{ city }}</div>
-            <div></div>
-          </div>
-          <div class="temperature">{{ weather.temp }}&deg;C</div>
-        </div>
-        <div>
-          <img
-            class="weatherIcon"
-            src="https://files.codelife.cc/itab/weather/icon/104-fill.svg"
-          />
-          <div>{{ weather.text }}</div>
-        </div>
-      </div>
-      <div class="aqi">{{ weather.windDir }}</div>
-      <div class="high">
-        相对湿度:{{ weather.humidity }}，能见度:{{ weather.vis }}
-      </div>
-    </div>
+    <!-- <div class="boxShadow">
+      <HotFour></HotFour>
+    </div> -->
   </div>
 </template>
 
-<script lang="ts">
-// import { add_icon_ByUserId } from '@/api/icon';
-import { ref, defineComponent } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, defineProps, defineEmits } from "vue";
 import { message } from "ant-design-vue";
 import { useMainIconStore } from "@/store/mainIcon";
 import { v4 as uuidv4 } from "uuid";
+import MemoFour from "@/components/elements/memo/Four.vue";
+import CalendarFour from "@/components/elements/calendar/Four.vue";
+import HotFour from "@/components/elements/hot/Four.vue";
+import { useRoute } from "vue-router";
 
-export default defineComponent({
-  emits: ["addNewWidget", "handleClose"], // 声明子组件可以触发的事件
-  setup(props, { emit }: { emit: Function }) {
-    const route = useRoute();
-    const mainIconStore = useMainIconStore();
-    const weather = ref<any>();
-    const city = ref<string>();
-    weather.value = JSON.parse(localStorage.getItem("weather"));
-    city.value = localStorage.getItem("city");
+// 定义子组件触发的事件
+const emit = defineEmits(["addNewWidget", "handleClose"]);
+const route = useRoute();
+const mainIconStore = useMainIconStore();
+const weather = ref<any>();
+const city = ref<string>();
 
-    const addComponent = (name: string) => {
-      const uniqueID = uuidv4();
-      let data = {
-        id: uniqueID,
-        name,
-        size: 4,
-        type: "component",
-      };
-      emit("addNewWidget", data);
-      emit("handleClose");
-      message.success(`添加成功`);
-    };
+weather.value = JSON.parse(localStorage.getItem("weather") || "{}");
+city.value = localStorage.getItem("city") || "";
 
-    return {
-      weather,
-      city,
-      addComponent,
-    };
-  },
-});
+const addComponent = (name: string) => {
+  const uniqueID = uuidv4();
+  let data = {
+    id: uniqueID,
+    name,
+    size: 4,
+    type: "component",
+  };
+  emit("addNewWidget", data);
+  emit("handleClose");
+  message.success(`添加成功`);
+};
 
 onMounted(() => {
-  // 热搜
-  const hotSearchElement = document.querySelector(".hotSearchItem");
-  // hotSearchElement!.addEventListener('click', hotSearchClick);
-  // 获取所有的tab元素
-  const tabs = document.querySelectorAll(".tab");
-  // 获取所有的tab内容元素
-  const tabContents = document.querySelectorAll(".add-tab-pane");
-  // 默认显示第一个tab的内容
-  tabContents[0].classList.add("active");
-  // 为每个tab添加悬浮事件监听
-  tabs.forEach((tab) => {
-    tab.addEventListener("mouseover", () => {
-      const tabId = tab.getAttribute("add-data-tab");
-
-      // 隐藏所有tab内容
-      tabContents.forEach((content) => {
-        content.classList.remove("active");
-      });
-
-      // 显示对应的tab内容
-      const activeContent = document.getElementById(tabId!);
-      activeContent!.classList.add("active");
-    });
-  });
+  // 可以在这里放置需要在组件挂载时执行的代码
 });
 </script>
+
 
 <style scoped lang="scss">
 .body {
@@ -133,83 +68,22 @@ onMounted(() => {
   height: 500px;
   padding: 10px;
 }
-
-.memoComponent {
+.boxShadow {
+  cursor: pointer;
+  padding: 10px;
   border-radius: 20px;
-  background-color: white;
-  height: 200px;
   flex: 0 0 calc(33.33% - 20px);
   transition: box-shadow 0.3s, background-color 0.3s;
-  cursor: pointer;
+  height: 180px;
 }
-
-.dateComponent {
-  border-radius: 20px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  // width: 200px;
-  flex: 0 0 calc(33.33% - 20px);
-  transition: box-shadow 0.3s, background-color 0.3s;
-  cursor: pointer;
-}
-
-/* 热搜 */
-.hotSearchComponent {
-  border-radius: 20px;
-  background: linear-gradient(45deg, #5d616b, #8a94a7);
-  height: 200px;
-  flex: 0 0 calc(33.33% - 20px);
-  transition: box-shadow 0.3s, background-color 0.3s;
-  cursor: pointer;
-}
-
-.add-tab-pane {
-  display: none;
-}
-
-.add-tab-pane.active {
-  display: block;
-}
-
-/* end 热搜 */
-
-.weatherComponent {
-  border-radius: 20px;
-  background: linear-gradient(45deg, #354564, #7f90ad);
-  display: flex;
-  height: 200px;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  color: white;
-  padding: 20px 30px;
-  flex: 0 0 calc(33.33% - 20px);
-  transition: box-shadow 0.3s, background-color 0.3s;
-  cursor: pointer;
-}
-
 .boxShadow:hover {
   box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.2);
   /* 外扩的阴影效果 */
 }
 
-.temperature {
-  font-size: 25px;
-  font-weight: 800;
-}
-
-.high,
-.aqi {
-  display: flex;
-}
-
-.aqi {
-  margin-top: 45px;
-}
-
-.weatherIcon {
-  width: 30px;
-  height: 30px;
+// 覆盖默认样式
+.item {
+  margin: 0px;
+  width: 100%;
 }
 </style>

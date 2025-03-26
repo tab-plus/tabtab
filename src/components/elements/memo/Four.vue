@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 16:30:00
+ * @LastEditTime: 2025-03-26 10:08:03
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\memo\Four.vue
 -->
@@ -57,7 +57,7 @@ getList();
   border: 0px;
 }
 .body {
-    height: 120px;
+  height: 120px;
 }
 
 .memoItem {
@@ -69,22 +69,19 @@ getList();
   justify-content: left;
 }
 
-
-
 .memoItemHeader {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: #ffb716;
-    color: white;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #ffb716;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .memoItem-bgColor {
-    height: 100%;
-    background-color: white;
-    border-radius: 20px;
+  background-color: white;
+  border-radius: 20px;
 }
 </style>
