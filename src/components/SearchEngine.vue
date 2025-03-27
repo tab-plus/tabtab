@@ -1,72 +1,103 @@
 <template>
   <div class="top-search flex justify-between align-center">
-    <a-popover placement="bottomLeft" trigger="click" overlayClassName="poppop" v-model:visible="visible">
+    <a-popover
+      placement="bottomLeft"
+      trigger="click"
+      overlayClassName="poppop"
+      v-model:visible="visible"
+    >
       <template #content>
-        <main class="card-list flex flex-wrap justify-center align-center beautiful-scroll">
-          <div v-for="(item, index) in allSearchEngines" :key="index" class="card flex justify-start align-center shadow"
-            @click="chooseSearch(item)">
-            <SvgIcon :name="item.slinkLogo" style="font-size: 34px; margin-left: 20px;"></SvgIcon>
+        <main
+          class="card-list flex flex-wrap justify-center align-center beautiful-scroll"
+        >
+          <div
+            v-for="(item, index) in allSearchEngines"
+            :key="index"
+            class="card flex justify-start align-center shadow"
+            @click="chooseSearch(item)"
+          >
+            <SvgIcon
+              :name="item.slinkLogo"
+              style="font-size: 34px; margin-left: 20px"
+            ></SvgIcon>
             <div style="margin-left: 15px">{{ item.name }}</div>
           </div>
         </main>
       </template>
       <template #title>
         <header class="card-head flex justify-between">
-          <div class="card-head-left flex align-center justify-center">选择您的默认搜索引擎:</div>
-          <p class="card-head-right flex align-center justify-center cl-ant-p">搜索热词:</p>
+          <div class="card-head-left flex align-center justify-center">
+            选择您的默认搜索引擎:
+          </div>
+          <!-- <p class="card-head-right flex align-center justify-center cl-ant-p">
+            搜索热词:
+          </p> -->
         </header>
       </template>
-      <SvgIcon :name="currentSearchEngine.slinkLogo" style="font-size: 34px; margin-left: 20px;"></SvgIcon>
+      <SvgIcon
+        :name="currentSearchEngine.slinkLogo"
+        style="font-size: 34px; margin-left: 20px; cursor: pointer"
+      ></SvgIcon>
     </a-popover>
-    <input type="text" class="search" :value="searchWord"
-      @input="searchWord = ($event.target as HTMLInputElement).value" style="font-size: 20px"
-      @keyup.enter="enterSubmit" />
+    <input
+      type="text"
+      class="search"
+      :value="searchWord"
+      @input="searchWord = ($event.target as HTMLInputElement).value"
+      style="font-size: 20px"
+      @keyup.enter="enterSubmit"
+    />
     <AntdIcon
       name="SearchOutlined"
-      style="font-size: 30px; margin-right: 20px;"
+      style="font-size: 30px; margin-right: 20px"
       @click.stop="enterSubmit()"
     ></AntdIcon>
   </div>
 </template>
 
 <script lang="ts">
-import { useSearchEngineStore } from '@/store/searchEngine'
-import { SearchEngineTy } from '~/searchEngine'
+import { useSearchEngineStore } from "@/store/searchEngine";
+import { SearchEngineTy } from "~/searchEngine";
 
 export default defineComponent({
   data() {
     return {
       visible: false,
-      searchWord: '',
-    }
+      searchWord: "",
+    };
   },
   methods: {
     chooseSearch(item: SearchEngineTy) {
-      useSearchEngineStore().SET_CURRENTSEARCH_ENGINE(item)
-      this.visible = false
+      useSearchEngineStore().SET_CURRENTSEARCH_ENGINE(item);
+      this.visible = false;
     },
     enterSubmit() {
-      location.href = useSearchEngineStore().getCurrentSearchEngine.frontLink + this.searchWord
-    }
+      const searchUrl =
+        useSearchEngineStore().getCurrentSearchEngine.frontLink +
+        this.searchWord;
+      window.open(searchUrl, "_blank"); // 在新标签页打开链接
+    },
   },
   setup() {
-    const allSearchEngines = useSearchEngineStore().getAllSearchEngines
-    const currentSearchEngine = computed(() => useSearchEngineStore().getCurrentSearchEngine)
+    const allSearchEngines = useSearchEngineStore().getAllSearchEngines;
+    const currentSearchEngine = computed(
+      () => useSearchEngineStore().getCurrentSearchEngine
+    );
 
     return {
       allSearchEngines,
-      currentSearchEngine
-    }
-  }
-})
+      currentSearchEngine,
+    };
+  },
+});
 </script>
 
 <style scoped lang="scss">
 .top-search {
-  width: 706px;
-  height: 54px;
+  width: 700px;
+  height: 50px;
   border-radius: 100px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   position: relative;
 
