@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 15:10:44
+ * @LastEditTime: 2025-03-26 17:25:31
  * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -41,6 +41,14 @@
 
   <a-dropdown :trigger="['contextmenu']">
     <div class="ya-matter flex flex-direction align-center">
+      <!-- 导航栏隐藏 -->
+      <div
+        class="layoutIcon"
+        @click="appStore.CHANGE_LAYOUT()"
+      >
+        <menu-fold-outlined v-show="appStore.haveLayout" :style="{ fontSize: '20px', color: 'white' }" />
+        <menu-unfold-outlined v-show="!appStore.haveLayout" :style="{ fontSize: '20px', color: 'white' }"/>
+      </div>
       <!-- 登录头像 -->
       <div class="loginIcon" @click="loginVisible = true">
         <img style="height: 50px" src="@/assets/user.png" alt="" />
@@ -280,6 +288,7 @@ import {
 } from "@/types/icon";
 import { getCity, getLocation } from "@/utils/getLocation";
 import axios from "axios";
+import { MenuFoldOutlined,MenuUnfoldOutlined } from "@ant-design/icons-vue";
 import useUpdateItem from "@/hooks/useUpdateItem";
 import { useModals } from "@/hooks/useModals";
 import { useWallpaperStore } from "@/store/wallpaper";
@@ -311,6 +320,8 @@ export default defineComponent({
     PictureModal,
     MainIcon,
     Dock,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
     // GenericModal
   },
   setup() {
@@ -327,6 +338,7 @@ export default defineComponent({
     } = useUpdateItem();
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
+    const appStore = useAppStore();
     const bottomIconStore = useBottomIconStore();
     const mainIconStore = useMainIconStore();
 
@@ -722,6 +734,7 @@ export default defineComponent({
       importCloudJSON,
       bottomAdd,
       handleAddIcon,
+      appStore,
     };
   },
 });
@@ -749,6 +762,16 @@ main {
   position: absolute;
   right: 0;
   margin-right: 10px;
+}
+
+.layoutIcon {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  color: red;
+  top: 0;
+  margin: 10px;
+  z-index: 9999;
 }
 
 .bottom {
