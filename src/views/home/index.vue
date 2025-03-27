@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 17:25:31
+ * @LastEditTime: 2025-03-27 17:35:39
  * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -61,6 +61,7 @@
             @openPicture="pictureModal.open()"
             @openMemo="memoModal.open()"
             @openCalendar="calendarModal.open()"
+            @openHot="hotModal.open()"
           ></MainIcon>
         </div>
 
@@ -274,7 +275,6 @@ import {
   WeatherItem,
 } from "@/types/icon";
 import { getCity, getLocation } from "@/utils/getLocation";
-import axios from "axios";
 import { MenuFoldOutlined,MenuUnfoldOutlined } from "@ant-design/icons-vue";
 import useUpdateItem from "@/hooks/useUpdateItem";
 import { useModals } from "@/hooks/useModals";
@@ -339,14 +339,9 @@ export default defineComponent({
     const memoVisible = ref<boolean>(false);
     const iconVisible = ref<boolean>(false); //添加图标弹窗
     const haveIcon = ref<boolean>(true);
-    const isContextMenuOpen = ref<boolean>(false);
     const loginVisible = ref<boolean>(false);
-    // 热搜数据
-    const baiduHotList = ref<Array<any>>();
-    const zhihuHotList = ref<Array<any>>();
-    const weiboHotList = ref<Array<any>>();
+ 
     // const clickedItem = ref<HTMLElement>(); //被点击的el
-    const onclickItemClass = ref<string>(""); //右键的item
     const weather = ref<any>({}); //天气
     // 位置
     const latitude = ref<string>("");
@@ -531,22 +526,7 @@ export default defineComponent({
       bottomIconStore.ADD_ICON(data);
     }
 
-    // 获取热搜数据
-    async function getHotSearch() {
-      try {
-        const res = await axios.get("https://tenapi.cn/v2/baiduhot");
-        console.log(res, 111);
-        baiduHotList.value = res.data.data.slice(0, 4);
-        const res1 = await axios.get("https://tenapi.cn/v2/zhihuhot");
-        console.log(res1, 111);
-        zhihuHotList.value = res1.data.data.slice(0, 4);
-        const res2 = await axios.get("https://tenapi.cn/v2/weibohot");
-        console.log(res2, 111);
-        weiboHotList.value = res2.data.data.slice(0, 4);
-      } catch (error) {
-        console.error("获取热搜数据时出错:", error);
-      }
-    }
+  
     // 切换图片
     function changeBgImg() {
       console.log(wallpaperStore.getAllPictureWallpaper);

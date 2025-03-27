@@ -2,13 +2,13 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 16:32:34
+ * @LastEditTime: 2025-03-27 17:19:44
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\calendar\Four.vue
 -->
 <template>
   <div class="dataItem item">
-    <div class="dateItemHeader">{{ month }}</div>
+    <div class="header">{{ month }}</div>
     <div class="body">
       <div class="num">{{ date }}</div>
       <div class="day">第205天 第30周</div>
@@ -42,6 +42,8 @@ const month = ref(dayjs(new Date()).format("YYYY年M月"));
 .item {
   width: 180px;
   margin: 20px;
+  height: 160px;
+  border-radius: 20px;
 }
 .body {
   height: 120px;
@@ -55,13 +57,13 @@ const month = ref(dayjs(new Date()).format("YYYY年M月"));
 
 
 .dataItem {
-  border-radius: 20px;
   background-color: white;
   display: flex;
   flex-direction: column;
 }
 
-.dateItemHeader {
+.header {
+  height: 40px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background-color: #ff5a5d;

@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 10:18:02
+ * @LastEditTime: 2025-03-27 17:10:24
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -15,9 +15,9 @@
       <CalendarFour></CalendarFour>
     </div>
 
-    <!-- <div class="boxShadow">
+    <div class="boxShadow"  @click="addComponent('热搜')">
       <HotFour></HotFour>
-    </div> -->
+    </div>
   </div>
 </template>
 
