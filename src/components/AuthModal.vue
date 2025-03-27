@@ -1,5 +1,5 @@
 <template>
-    <a-modal v-model:visible="visible" :title="null" :footer="null" :width="500" @cancel="handleCancel">
+    <a-modal v-model:visible="props.visible" :title="null" :footer="null" :width="500" @cancel="handleCancel">
         <a-tabs v-model:activeKey="activeKey" centered>
             <a-tab-pane key="login" tab="登录">
                 <a-form :model="loginState" name="login_form" @finish="handleLogin" @finishFailed="onFinishFailed">
@@ -158,7 +158,8 @@ export default defineComponent({
             handleLogin,
             handleRegister,
             onFinishFailed,
-            handleCancel
+            handleCancel,
+            props
         };
     },
 });
