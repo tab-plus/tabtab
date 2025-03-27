@@ -19,7 +19,8 @@ export const useAppStore = defineStore('app', {
     return {
       cachedViews: [] as Array<string>,
       routes: constantRoutes, //静态路由和动态路由集合
-      isInitAsyncRoutes: false as boolean
+      isInitAsyncRoutes: false as boolean,
+      haveLayout: true as boolean,  //是否旁边的导航路由 true 为有导航路由，false 为没有导航路由
     }
   },
   getters: {
@@ -81,6 +82,10 @@ export const useAppStore = defineStore('app', {
       this.$patch((state) => {
         state.cachedViews = []
       })
+    },
+
+    CHANGE_LAYOUT() {
+      this.haveLayout = !this.haveLayout
     },
   }
 })

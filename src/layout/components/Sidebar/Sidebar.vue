@@ -1,6 +1,5 @@
 <template>
   <div id="sidebar" class="sd flex flex-direction justify-center align-center">
-    <div class="sd-top">111</div>
     <div class="sd-mid flex flex-direction justify-around align-center">
       <Link :to="resolvePath(routes[0].path, item.path)" v-for="item in routes[0].children" :key="item.path">
       <a-dropdown :trigger="['contextmenu']" :overlayStyle="{ 'width': '80px' }">
@@ -8,9 +7,7 @@
           :class="{ active: selectedRouteName === item.name }" @click.stop="chooseBlock(item.name)">
           <AntdIcon :name="item.meta?.icon" :style="atdIconSelected(item.name)"></AntdIcon>
           <span class="sg-omit-sm" :class="{ active: selectedRouteName === item.name }">{{ item.meta?.title }}</span>
-          <div class="sd-top">111</div>
         </div>
-        <div class="sd-top">111</div>
         <template #overlay>
           <a-menu>
             <a-menu-item key="1">编辑</a-menu-item>
@@ -78,7 +75,7 @@ export default defineComponent({
     const appStore = useAppStore();
     const useStore = useUserStore();
     const routes = computed(() => appStore.routes);
-
+    
     // 二级子路由需要拼接path 例如：/noob-guide/account-login
     const resolvePath = (basePath: string, routePath: string) => {
       if (isExternal(routePath)) {
