@@ -8,20 +8,7 @@
 -->
 <template>
   <!-- 登录弹窗 -->
-  <a-drawer
-    v-model:visible="loginVisible"
-    class="custom-class"
-    title="登录"
-    placement="right"
-  >
-    <Login
-      @closeLogin="
-        () => {
-          loginVisible = false;
-        }
-      "
-    ></Login>
-  </a-drawer>
+  <AuthModal v-model:visible="loginVisible" />
 
   <!-- 设置弹窗 -->
   <a-drawer
@@ -270,7 +257,7 @@ import WeatherModal from "@/components/home/WeatherModal.vue";
 import HotModal from "@/components/home/HotModal.vue";
 import PictureModal from "@/components/home/PictureModal.vue";
 import CalendarModal from "@/components/home/CalendarModal.vue";
-import Login from "@/components/Login.vue";
+import AuthModal from "@/components/AuthModal.vue";
 import Dock from "@/components/home/Dock.vue";
 import Setting from "@/components/home/Setting.vue";
 import "@/styles/item.scss";
@@ -310,9 +297,10 @@ export default defineComponent({
     SearchEngine,
     AddComponent,
     AddCustomize,
-    Login,
+    // Login,
     Setting,
     AddIcon,
+    AuthModal,
     MemoModal,
     HotModal,
     WeatherModal,
