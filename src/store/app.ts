@@ -20,7 +20,7 @@ export const useAppStore = defineStore('app', {
       cachedViews: [] as Array<string>,
       routes: constantRoutes, //静态路由和动态路由集合
       isInitAsyncRoutes: false as boolean,
-      haveLayout: false as boolean,  //是否旁边的导航路由
+      haveLayout: true as boolean,  //是否旁边的导航路由 true 为有导航路由，false 为没有导航路由
     }
   },
   getters: {
