@@ -166,6 +166,11 @@ const selectIcon = (icon) => {
 }
 .box {
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.box:hover {
+  transform: translateY(-10px); /* 图标往上移动 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .img-box {
   margin: 20px;
