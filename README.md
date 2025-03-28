@@ -56,12 +56,12 @@
 - hooks：hooks文件夹
 
 ## 更新方向
-- 日历组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null){: width="30" }
-- 备忘录组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
-- 热搜组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
-- 翻译组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
-- AI大模型组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
-- 天气组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
+- 日历组件 √
+- 备忘录组件 √
+- 热搜组件 √
+- 翻译组件 ×
+- AI大模型组件 ×
+- 天气组件 ×
 
 ## git提交规范
 - feat：提交新功能
