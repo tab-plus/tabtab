@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 15:40:20
+ * @LastEditTime: 2025-03-28 19:40:45
  * @Description: 天气组件
  * @FilePath: \ytab-master\src\components\elements\weather\four.vue
 -->
@@ -16,8 +16,8 @@
                 <div class="temperature">{{ weather.temp }}&deg;C</div>
             </div>
             <div>
-                <img class="weather-icon" src="https://files.codelife.cc/itab/weather/icon/104-fill.svg"></img>
-                <div>{{ weather.text }}</div>
+                <img class="weather-icon" :src="getIcon(weather.text)" />
+                <div class="weather-text">{{ weather.text }}</div>
             </div>
         </div>
         <div class="aqi">{{ weather.windDir }}</div>
@@ -26,8 +26,10 @@
 </template>
 
 <script setup lang="ts">
+import getIcon from "@/utils/getWeatherIcon";
 const city = localStorage.getItem("city");
 const weather = JSON.parse(localStorage.getItem("weather"));
+
 </script>
 
 <style scoped>
@@ -52,6 +54,10 @@ const weather = JSON.parse(localStorage.getItem("weather"));
 .weather-icon {
   width: 30px;
   height: 30px;
+}
+
+.weather-text{
+  text-align: center;
 }
 .temperature {
   font-size: 20px;
