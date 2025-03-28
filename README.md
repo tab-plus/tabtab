@@ -110,6 +110,23 @@ Tatab 是一个支持高度个性化定制的浏览器主页，提供多种实�
 - Fork 项目并提交 Pull Request
 - 完善项目文档
 
+  ## 🌟 特别鸣谢 | Special Thanks
+
+### 🏆 贡献者
+- [@PanRunJun](https://github.com/PanRunJun) - 项目创始人 & 核心开发者
+- [@ContributorName](https://github.com/ContributorName) - 功能开发
+
+### 🛠️ 技术依赖
+| 项目 | 用途 | 链接 |
+|------|------|------|
+| Vue | 前端框架 | [https://vuejs.org/](https://vuejs.org/) |
+| Vite | 构建工具 | [https://vitejs.dev/](https://vitejs.dev/) |
+
+### 🙏 特别感谢
+- 感谢所有提交Issue和PR的开发者
+- 感谢提供设计建议的用户群体
+- 感谢开源社区的技术分享
+
 ## 📄 许可证
 MIT License © 2024-Present PanRunJun
 
