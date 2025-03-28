@@ -6,17 +6,31 @@
  * @Description: 
  * @FilePath: \ytab-master\README.md
 -->
-# tatab
-## 项目介绍
-一个支持个性化定制的浏览器网页
-在线地址： http://106.52.154.20/#/home
 
-![image](http://106.52.154.20:9000/tabs/1743055445341-1.png)
+# Tatab - 个性化浏览器主页
+![Project Screenshot](http://106.52.154.20:9000/tabs/1743055445341-1.png)
+
+## 🌟 项目简介
+Tatab 是一个支持高度个性化定制的浏览器主页，提供多种实用组件，帮助您打造专属的上网入口。
+**在线体验**: [http://106.52.154.20/#/home](http://106.52.154.20/#/home)
+
+## 🛠️ 技术栈
+
+| 技术          | 用途               |
+|---------------|--------------------|
+| Vue 3         | 前端框架           |
+| TypeScript    | 类型安全           |
+| Pinia         | 状态管理           |
+| SCSS          | 样式预处理         |
+| Axios         | HTTP 客户端        |
+| Vite          | 构建工具           |
+
+## 🚀 快速开始
 
 ## 如何部署到本地
-> 1.npm i
-
-> 2.最外层文件夹中新建开发环境的配置文件：.env.development
+> 1.克隆仓库
+> 2.npm i
+> 3.最外层文件夹中新建开发环境的配置文件：.env.development
     
     ```
     #开发环境配置文件
@@ -37,35 +51,37 @@
     VITE_WEATHER_BASE_API = 'https://devapi.qweather.com/v7/weather'
 
 
-> 3.运行npm run dev
+> 4.运行npm run dev
 
+## 📂 项目目录结构
 
-## 各文件夹说明
-- api：接口文件夹
-- assets：资源文件夹
-- components：组件文件夹
-- lib：第三方库文件夹
-- store：缓存文件夹
-- utils：工具文件夹
-- views：页面文件夹
-- json：json文件
-- layout：布局文件夹
-- styles：样式文件夹
-- types：类型文件夹
-- router：路由文件夹
-- hooks：hooks文件夹
+| 目录        | 说明                  |
+|-------------|----------------------|
+| `api/`      | 接口请求封装          |
+| `assets/`   | 静态资源（图片/字体等）|
+| `components/` | 公共组件库          |
+| `lib/`      | 第三方依赖库          |
+| `store/`    | 状态管理（Pinia/Vuex）|
+| `utils/`    | 工具函数集合          |
+| `views/`    | 页面级组件            |
+| `json/`     | 本地JSON数据文件      |
+| `layout/`   | 全局布局组件          |
+| `styles/`   | 全局样式文件          |
+| `types/`    | TypeScript类型定义    |
+| `router/`   | 路由配置              |
+| `hooks/`    | 自定义Hooks           |
 
-## 更新方向 Project Components
-| Component       | Status |
-|-----------------|--------|
-| 日历组件        | ✅     |
-| 备忘录组件      | ✅     |
-| 热搜组件        | ✅     |
-| 翻译组件        | TODO   |
-| AI大模型组件    | TODO   |
-| 天气组件        | TODO   |
+## 🧩 功能组件
+| 组件       | 状态 |  版本 | 说明 |
+|-----------------|--------|-----------------|--------|
+| 日历组件        | ✅     | v1.0 | 支持日期查看与事件提醒|
+| 备忘录组件      | ✅     |v1.0 | 支持富文本与分类管理|
+| 热搜组件        | ✅     |v1.0 | 实时显示各平台热搜|
+| 翻译组件        | 🚧   |v1.5 | 开发中|
+| AI大模型组件    | ⏳   |v2.0 | 规划中|
+| 天气组件        | 🚧   |v1.5 | 开发中|
 
-## git提交规范
+## 📝 git提交
 - feat：提交新功能
 - fix：修复了bug
 - docs：只修改了文档
@@ -75,8 +91,24 @@
 - test：添加或修改代码测试
 - chore：对构建流程或辅助工具和依赖库（如文档生成等）的更改
 
-## 开发规范
-- 全局样式放在src/styles/index.scss 统一用 tab-XXX 类名  如：tab-red
-- 判断数据类型建议用 typeof 注意：typeof null === 'object'
+## 样式指南
+- 全局样式定义于 src/styles/index.scss
+- 类名使用 tab- 前缀 (如 .tab-container)
+- 组件样式使用 CSS Modules 或 scoped style
+
+## 最佳实践
+- 使用 TypeScript 进行类型约束
+- 组件按功能划分目录
+- 复杂逻辑抽离为自定义Hook
+- API 请求统一封装管理
+
+## 🤝 参与贡献
+欢迎通过以下方式参与项目：
+- 提交 Issue 报告问题或建议
+- Fork 项目并提交 Pull Request
+- 完善项目文档
+
+## 📄 许可证
+MIT License © 2024-Present PanRunJun
 
 
