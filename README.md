@@ -28,7 +28,7 @@ Tatab 是一个支持高度个性化定制的浏览器主页，提供多种实�
 ## 🚀 快速开始
 
 ## 如何部署到本地
-> 1.克隆仓库
+> 1.克隆仓库 https://github.com/tab-plus/tabtab.git
 
 > 2.npm i
 
