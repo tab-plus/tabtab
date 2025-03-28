@@ -114,7 +114,7 @@ Tatab 是一个支持高度个性化定制的浏览器主页，提供多种实�
 
 ### 🏆 贡献者
 - [@PanRunJun](https://github.com/pan-0909) - 项目创始人 & 核心开发者
-- [@ContributorName](https://github.com/ContributorName) - 功能开发
+- [@zzyyyxxx](https://github.com/zzyyyxxx) - 功能开发
 
 ### 🛠️ 技术依赖
 | 项目 | 用途 | 链接 |
