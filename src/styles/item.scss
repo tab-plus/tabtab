@@ -1,8 +1,5 @@
 
-.bg-weather {
-    background: linear-gradient(45deg, #354564, #7f90ad);
 
-}
 
 
 
@@ -24,43 +21,6 @@
 
 .ant-menu-light {
     max-height: 200px;
-}
-
-
-
-
-
-
-.weatherItem {
-  
-}
-.weatherItemFour{
-    border-radius: 20px;
-    height: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    color: white;
-    padding: 20px 30px;
-}
-
-.temperature {
-    font-size: 25px;
-    font-weight: 800;
-}
-
-.high,
-.aqi {
-    display: flex;
-}
-
-.aqi {
-    margin-top: 45px;
-}
-
-.weatherIcon {
-    width: 30px;
-    height: 30px;
 }
 
 .time {

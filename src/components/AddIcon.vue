@@ -2,45 +2,51 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 21:46:10
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 15:24:57
+ * @LastEditTime: 2025-03-28 14:27:39
  * @Description: 添加快捷方式图标
  * @FilePath: \ytab-master\src\components\AddIcon.vue
 -->
 <template>
   <div class="body">
     <template v-if="iconList.length > 0">
-        <div class="box" v-for="item in iconList" :key="item.key">
-      <div class="flex">
-        <div class="icon">
-          <img
-            style="height: 70px; width: 70px; border-radius: 20px"
-            :src="item.src"
-            alt=""
-          />
-        </div>
-        <div style="width: 100%; margin: 0 10px">
-          <div class="flex justify-between">
-            <div class="title">{{ item.name }}</div>
-            <div>
-              <img
-                style="height: 20px; width: 20px"
-                src="@/assets/link.png"
-                alt=""
-              />
-            </div>
+      <div class="box" v-for="item in iconList" :key="item.key">
+        <div class="flex">
+          <div class="icon">
+            <img
+              style="height: 70px; width: 70px; border-radius: 20px"
+              :src="item.src"
+              alt=""
+            />
           </div>
+          <div style="width: 100%; margin: 0 10px">
+            <div class="flex justify-between">
+              <div class="title">{{ item.name }}</div>
+              <div>
+                <img
+                  style="height: 20px; width: 20px"
+                  src="@/assets/link.png"
+                  alt=""
+                />
+              </div>
+            </div>
 
-          <div class="content">{{ item.content }}</div>
+            <div class="content">{{ item.content }}</div>
+          </div>
         </div>
+        <a-button class="add" size="mini" @click="handleAdd(item)"
+          >添加</a-button
+        >
       </div>
-      <a-button class="add" size="mini" @click="handleAdd(item)">添加</a-button>
-    </div>
     </template>
     <template v-else>
-        <div class="img-box">
-          <img :src="noneImg" style="width: 300px; height: 250px" alt="暂无数据" />
-          <div class="none-title">暂无数据</div>
-        </div>
+      <div class="img-box">
+        <img
+          :src="noneImg"
+          style="width: 300px; height: 250px"
+          alt="暂无数据"
+        />
+        <div class="none-title">暂无数据</div>
+      </div>
     </template>
   </div>
 </template>
@@ -112,7 +118,12 @@ export default defineComponent({
   margin: 10px;
   padding: 10px;
   flex: 0 0 calc(33.33% - 20px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
   /* 每个子元素宽度为33.33%，减去20px的固定间距 */
+}
+.box:hover {
+  transform: translateY(-10px); /* 图标往上移动 */
 }
 
 .title {

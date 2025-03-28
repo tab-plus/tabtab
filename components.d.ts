@@ -38,7 +38,6 @@ declare module '@vue/runtime-core' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     AUpload: typeof import('ant-design-vue/es')['Upload']
-    Auth: typeof import('./src/components/Auth.vue')['default']
     AuthModal: typeof import('./src/components/AuthModal.vue')['default']
     CalendarModal: typeof import('./src/components/home/CalendarModal.vue')['default']
     CodeMirror: typeof import('./src/components/CodeMirror.vue')['default']

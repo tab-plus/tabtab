@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-27 17:10:24
+ * @LastEditTime: 2025-03-28 15:23:03
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -18,6 +18,9 @@
     <div class="boxShadow"  @click="addComponent('热搜')">
       <HotFour></HotFour>
     </div>
+    <div class="boxShadow"  @click="addComponent('天气')">
+      <WeatherFour></WeatherFour>
+    </div>
   </div>
 </template>
 
@@ -29,6 +32,7 @@ import { v4 as uuidv4 } from "uuid";
 import MemoFour from "@/components/elements/memo/Four.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
 import HotFour from "@/components/elements/hot/Four.vue";
+import WeatherFour from "@/components/elements/weather/Four.vue";
 import { useRoute } from "vue-router";
 
 // 定义子组件触发的事件
@@ -72,7 +76,7 @@ onMounted(() => {
   cursor: pointer;
   padding: 10px;
   border-radius: 20px;
-  flex: 0 0 calc(33.33% - 20px);
+  flex: 0 0 calc(25% - 20px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 180px;
 }
@@ -83,6 +87,6 @@ onMounted(() => {
 // 覆盖默认样式
 .item {
   margin: 0px;
-  width: 100%;
+  // width: 100%;
 }
 </style>

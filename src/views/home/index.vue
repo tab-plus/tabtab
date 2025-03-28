@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 17:25:31
+ * @LastEditTime: 2025-03-28 15:46:35
  * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
@@ -62,6 +62,7 @@
             @openMemo="memoModal.open()"
             @openCalendar="calendarModal.open()"
             @openHot="hotModal.open()"
+            @openWeather="weatherModal.open()"
           ></MainIcon>
         </div>
 
@@ -249,7 +250,6 @@
 <script lang="ts">
 import SearchEngine from "@/components/SearchEngine.vue";
 import { GridStack } from "gridstack";
-import { useGridsStore } from "@/store/grids";
 import AddIcon from "@/components/AddIcon.vue";
 import AddComponent from "@/components/AddComponent.vue";
 import AddCustomize from "@/components/AddCustomize.vue";
@@ -268,19 +268,11 @@ import { delete_icon_ByUserId, export_icon, import_icon } from "@/api/icon";
 import { exportMultipleLocalStorageItems } from "@/utils/exportLocalJSON";
 import { importJSONToLocalStorage } from "@/utils/importLocalJSON";
 import { message, UploadProps } from "ant-design-vue";
-import {
-  DateItem,
-  HotSearchItem,
-  PintureItem,
-  WeatherItem,
-} from "@/types/icon";
 import { getCity, getLocation } from "@/utils/getLocation";
 import { MenuFoldOutlined,MenuUnfoldOutlined } from "@ant-design/icons-vue";
-import useUpdateItem from "@/hooks/useUpdateItem";
 import { useModals } from "@/hooks/useModals";
 import { useWallpaperStore } from "@/store/wallpaper";
 import { useAppStore } from "@/store/app";
-import { add_visit } from "@/api";
 import { getWeatherNow } from "@/utils/getWeather";
 import { useUserStore } from "@/store/user";
 // import GenericModal from '@/components/GenericModal';
@@ -313,17 +305,7 @@ export default defineComponent({
     // GenericModal
   },
   setup() {
-    const {
-      updateItemPlace,
-      changeWeather4,
-      changeWeather1,
-      changeHot4,
-      changeHot1,
-      changeDate4,
-      changeDate1,
-      changeMemo4,
-      changeMemo1,
-    } = useUpdateItem();
+
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
     const appStore = useAppStore();
@@ -433,19 +415,8 @@ export default defineComponent({
       } else {
         weather.value = JSON.parse(localStorage.getItem("weather"));
       }
-
-      // 获取热搜（接口卡顿）
-      // await getHotSearch()
-
-      // 初始化icon
-      // initIconList();
     });
 
-    const weatherClick = () => {
-      console.log("weatherClick!");
-      // 可以在这里添加更多的处理逻辑
-      weatherModal.open();
-    };
 
     // 鼠标点击时间
     const clickTime = () => {
@@ -466,60 +437,6 @@ export default defineComponent({
       mainIconStore.ADD_ICON(v);
     }
 
-    // 新增天气节点
-    function addWeatherItem(v: WeatherItem) {
-      if (v.size === 1) {
-        const el = `
-        <div class="grid-stack-item">
-            <div class="weatherItem">
-                  <div class="grid-stack-item-content flex flex-direction justify-around align-center">
-                    <img src="https://files.codelife.cc/itab/weather/icon/104-fill.svg" style="width: 55px; height: 55px; border-radius: 15px;" class="shadow-md" />
-                    <p class="cl-ant-p sg-omit-sm text-white-sm">天气</p>
-                  </div>
-              </div>
-            </div>
-        </div>
-      `;
-        const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
-        if (weatherElements) {
-          weatherElements.forEach((weatherElement) => {
-            // 为每个元素添加点击事件监听器
-            weatherElement.addEventListener("click", weatherClick);
-          });
-        }
-      } else if (v.size === 4) {
-        const el = `
-        <div class="grid-stack-item">
-          <div class="grid-stack-item-content">
-            <div class="weatherItemFour bg-weather weatherItem" >
-              <div class="flex justify-between">
-                <div>
-                  <div class="flex">
-                    <div class="place">${city.value}</div>
-                    <div></div>
-                  </div>
-                  <div class="temperature">${weather.value.temp}&deg;C</div>
-                </div>
-                <div >
-                  <img class="weatherIcon" src="https://files.codelife.cc/itab/weather/icon/104-fill.svg"></img>
-                  <div>${weather.value.text}</div>
-                </div>
-              </div>
-              <div class="aqi">${weather.value.windDir} </div>
-              <div class="high">相对湿度:${weather.value.humidity}，能见度:${weather.value.vis}</div>
-            </div>
-          </div>
-        </div>
-      `;
-        const weatherElements = document.querySelectorAll(".weatherItem"); // 选择所有匹配的元素
-        if (weatherElements) {
-          weatherElements.forEach((weatherElement) => {
-            // 为每个元素添加点击事件监听器
-            weatherElement.addEventListener("click", weatherClick);
-          });
-        }
-      }
-    }
 
     // 给底部添加icon
     function addBottom(data: any) {
