@@ -56,7 +56,7 @@
 - hooks：hooks文件夹
 
 ## 更新方向
-- 日历组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
+- 日历组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null){: width="30" }
 - 备忘录组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
 - 热搜组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
 - 翻译组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
