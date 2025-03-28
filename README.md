@@ -45,7 +45,7 @@
 - assets：资源文件夹
 - components：组件文件夹
 - lib：第三方库文件夹
-- store：vuex文件夹
+- store：缓存文件夹
 - utils：工具文件夹
 - views：页面文件夹
 - json：json文件
@@ -56,11 +56,12 @@
 - hooks：hooks文件夹
 
 ## 更新方向
-- video标签中的poster属性，解决了视频正在下载时显示的图像，直到用户点击播放按钮。这边的优化我后期再做吧。举例：poster="https://files.codelife.cc/itab/defaultWallpaper/videos/00.jpg"
-- 样式调整
-- 组件增加
-
-
+- 日历组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
+- 备忘录组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
+- 热搜组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=greengray.png&version_id=null)
+- 翻译组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
+- AI大模型组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
+- 天气组件 ![image](http://106.52.154.20:9001/api/v1/buckets/tabs/objects/download?preview=true&prefix=gray.png&version_id=null)
 
 ## git提交规范
 - feat：提交新功能
