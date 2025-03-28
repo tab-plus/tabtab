@@ -55,13 +55,15 @@
 - router：路由文件夹
 - hooks：hooks文件夹
 
-## 更新方向
-- 日历组件  ✅
-- 备忘录组件  ✅
-- 热搜组件  ✅
-- 翻译组件  TODO
-- AI大模型组件  TODO
-- 天气组件  TODO
+## 更新方向 Project Components
+| Component       | Status |
+|-----------------|--------|
+| 日历组件        | ✅     |
+| 备忘录组件      | ✅     |
+| 热搜组件        | ✅     |
+| 翻译组件        | TODO   |
+| AI大模型组件    | TODO   |
+| 天气组件        | TODO   |
 
 ## git提交规范
 - feat：提交新功能
