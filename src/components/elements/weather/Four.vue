@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 19:40:45
+ * @LastEditTime: 2025-03-28 19:56:30
  * @Description: 天气组件
  * @FilePath: \ytab-master\src\components\elements\weather\four.vue
 -->
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="aqi">{{ weather.windDir }}</div>
-        <div class="high">相对湿度:{{ weather.humidity }}，能见度:{{ weather.vis }}</div>
+        <div class="high">相对湿度:{{ weather.humidity }} 能见度:{{ weather.vis }}</div>
     </div>
 </template>
 

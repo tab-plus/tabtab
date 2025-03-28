@@ -11,7 +11,11 @@
       @update="onUpdate"
       @remove="onRemove"
     >
-      <div class="icon-box" v-for="icon in iconList" :key="icon.id">
+      <div
+        class="icon-box"
+        v-for="icon in iconList"
+        :key="icon.id"
+      >
         <ContextMenu :menu="menu" @select="getSelect">
           <div
             @click="selectIcon(icon)"
@@ -30,15 +34,18 @@
                 <div v-if="icon.size === 1">
                   <MemoOne></MemoOne>
                 </div>
-                <div v-else-if="icon.size === 4">
-                  <MemoFour></MemoFour>
+                <div v-else-if="icon.size == '2x1'">
+                  <MemoTwoOne></MemoTwoOne>
+                </div>
+                <div v-else-if="icon.size == '2x2'">
+                  <MemoTwo></MemoTwo>
                 </div>
               </div>
               <div v-else-if="icon.name == '日历'">
                 <div v-if="icon.size === 1">
                   <CalendarOne></CalendarOne>
                 </div>
-                <div v-else-if="icon.size === 4">
+                <div v-else-if="icon.size === '2x2'">
                   <CalendarFour></CalendarFour>
                 </div>
               </div>
@@ -46,7 +53,7 @@
                 <div v-if="icon.size === 1">
                   <HotOne></HotOne>
                 </div>
-                <div v-else-if="icon.size === 4">
+                <div v-else-if="icon.size === '2x2'">
                   <HotFour></HotFour>
                 </div>
               </div>
@@ -55,7 +62,7 @@
                 <div v-if="icon.size === 1">
                   <WeatherOne></WeatherOne>
                 </div>
-                <div v-else-if="icon.size === 4">
+                <div v-else-if="icon.size === '2x2'">
                   <WeatherFour></WeatherFour>
                 </div>
               </div>
@@ -75,7 +82,8 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import { message } from "ant-design-vue";
 import { Icon } from "@/types/icon";
 import MemoOne from "@/components/elements/memo/One.vue";
-import MemoFour from "@/components/elements/memo/Four.vue";
+import MemoTwo from "@/components/elements/memo/Two.vue";
+import MemoTwoOne from "@/components/elements/memo/TwoOne.vue";
 
 import CalendarOne from "@/components/elements/calendar/One.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
@@ -105,7 +113,8 @@ const rightId = ref(""); //右键弹窗选择的id
 // 右键点击按钮
 const menu = ref([
   { label: "1x1", icon: "delete" },
-  { label: "4x4", icon: "delete" },
+  { label: "2x1", icon: "delete" },
+  { label: "2x2", icon: "delete" },
   { label: "删除", icon: "delete" },
 ]);
 //移动事件开始
@@ -153,8 +162,10 @@ function getSelect(e) {
     mainIconStore.DELETE_ICON(rightId.value);
   } else if (e.label === "1x1") {
     mainIconStore.UPDATE_ICON_SIZE(rightId.value, 1);
-  } else if (e.label === "4x4") {
-    mainIconStore.UPDATE_ICON_SIZE(rightId.value, 4);
+  } else if (e.label === "2x2") {
+    mainIconStore.UPDATE_ICON_SIZE(rightId.value, "2x2");
+  } else if (e.label === "2x1") {
+    mainIconStore.UPDATE_ICON_SIZE(rightId.value, "2x1");
   }
 }
 

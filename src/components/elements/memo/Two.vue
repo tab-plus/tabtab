@@ -2,9 +2,9 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-27 17:20:25
+ * @LastEditTime: 2025-03-28 21:02:54
  * @Description: 备忘录4x4
- * @FilePath: \ytab-master\src\components\elements\memo\Four.vue
+ * @FilePath: \ytab-master\src\components\elements\memo\Two.vue
 -->
 <template>
   <div class="item memoItem-bgColor">
@@ -70,6 +70,7 @@ const memoStore = useMemoStore();
   display: flex;
   justify-content: center;
   align-items: center;
+  letter-spacing: 2px;
 }
 
 .memoItem-bgColor {

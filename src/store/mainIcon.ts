@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-06 16:52:38
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 15:17:46
+ * @LastEditTime: 2025-03-28 20:58:12
  * @Description: mainIcon store
  * @FilePath: \ytab-master\src\store\mainIcon.ts
  */
@@ -28,7 +28,7 @@ export const useMainIconStore = defineStore('mainIcon', {
             localStorage.setItem(this.routerName, JSON.stringify(this.iconList));
         },
 
-        UPDATE_ICON_SIZE(iconId: string, size: number) {
+        UPDATE_ICON_SIZE(iconId: string, size: number|string) {
             // 找到 id 对应元素的索引
             let index = this.iconList.findIndex(item => item.id === iconId);
 

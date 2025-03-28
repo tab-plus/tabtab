@@ -2,14 +2,14 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 15:23:03
+ * @LastEditTime: 2025-03-28 20:57:35
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
 <template>
   <div class="body">
     <div class="boxShadow" @click="addComponent('备忘录')">
-      <MemoFour></MemoFour>
+      <MemoTwo></MemoTwo>
     </div>
     <div class="boxShadow" @click="addComponent('日历')">
       <CalendarFour></CalendarFour>
@@ -29,7 +29,7 @@ import { ref, onMounted, defineProps, defineEmits } from "vue";
 import { message } from "ant-design-vue";
 import { useMainIconStore } from "@/store/mainIcon";
 import { v4 as uuidv4 } from "uuid";
-import MemoFour from "@/components/elements/memo/Four.vue";
+import MemoTwo from "@/components/elements/memo/Two.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
 import HotFour from "@/components/elements/hot/Four.vue";
 import WeatherFour from "@/components/elements/weather/Four.vue";
@@ -50,7 +50,7 @@ const addComponent = (name: string) => {
   let data = {
     id: uniqueID,
     name,
-    size: 4,
+    size: '2x2',
     type: "component",
   };
   emit("addNewWidget", data);

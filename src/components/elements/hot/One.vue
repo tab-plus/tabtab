@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 16:02:29
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 16:46:55
+ * @LastEditTime: 2025-03-28 20:47:52
  * @Description: 热搜组件
  * @FilePath: \ytab-master\src\components\elements\hot\One.vue
 -->
@@ -13,7 +13,7 @@
         class="flex flex-direction justify-around align-center"
       >
         <img
-          src="https://files.codelife.cc/icons/topsearch.svg"
+          src="http://106.52.154.20:9000/tabs/1743165883199-hot.png"
           style="width: 60px; height: 60px; border-radius: 15px"
           class="shadow-md hotSearchItem-bgColor"
         />
@@ -38,7 +38,8 @@
   border-radius: 20px;
 }
 .hotSearchItem-bgColor {
-  background: linear-gradient(45deg, #5d616b, #8a94a7);
+  /* background: linear-gradient(45deg, #5d616b, #8a94a7); */
+  /* background-color: rgba(255, 255, 255,0.5); */
 }
 
 

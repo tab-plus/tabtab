@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 15:30:00
+ * @LastEditTime: 2025-03-28 20:47:32
  * @Description: 天气组件
  * @FilePath: \ytab-master\src\components\elements\weather\one.vue
 -->
@@ -12,7 +12,7 @@
         class="flex flex-direction justify-around align-center"
       >
         <img
-          src="https://files.codelife.cc/itab/weather/icon/104-fill.svg"
+          src="http://106.52.154.20:9000/tabs/1743162550578-cloud.png"
           style="width: 65px; height: 65px; border-radius: 15px"
           class="shadow-md"
         />
