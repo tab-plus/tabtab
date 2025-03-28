@@ -48,7 +48,7 @@
       @keyup.enter="enterSubmit"
     />
     <AntdIcon
-      name="SearchOutlined"
+      name="SearchOutlined" 
       style="font-size: 30px; margin-right: 20px"
       @click.stop="enterSubmit()"
     ></AntdIcon>

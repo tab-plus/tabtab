@@ -58,6 +58,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SearchEngine: typeof import('./src/components/SearchEngine.vue')['default']
     Setting: typeof import('./src/components/home/Setting.vue')['default']
+    TranslationModal: typeof import('./src/components/home/TranslationModal.vue')['default']
     WeatherModal: typeof import('./src/components/home/WeatherModal.vue')['default']
     'WeatherModal copy': typeof import('./src/components/home/WeatherModal copy.vue')['default']
   }

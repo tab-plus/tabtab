@@ -95,6 +95,7 @@ const emit = defineEmits([
   "openCalendar",
   "openHot",
   "openWeather",
+  "openIndexModal",
 ]);
 
 mainIconStore.INIT_LIST(route.name as string); //初始化
@@ -161,7 +162,7 @@ function getSelect(e) {
 const selectIcon = (icon) => {
   console.log(icon);
   if (icon.name === "图库") {
-    emit("openPicture");
+    emit("openIndexModal",icon.name);
   } else if (icon.name === "添加") {
     emit("openPicture");
   } else if (icon.name === "备忘录") {
@@ -172,7 +173,10 @@ const selectIcon = (icon) => {
     emit("openHot");
   } else if (icon.name === "天气") {
     emit("openWeather");
-  } else {
+  } else if (icon.name === "翻译") {
+    emit("openIndexModal",icon.name);
+  }  
+  else {
     window.open(icon.url);
   }
 };
@@ -195,7 +199,6 @@ const selectIcon = (icon) => {
 }
 .img-box {
   margin: 20px;
-  border-radius: 5px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -206,7 +209,7 @@ const selectIcon = (icon) => {
 .icon-img {
   width: 60px;
   height: 60px;
-  border-radius: 5px;
+  border-radius: 15px;
   /* background-color: rgba(255, 255, 255, 0.4); */
 }
 
