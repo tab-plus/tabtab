@@ -11,12 +11,16 @@
         {{ tab.label }}
       </div>
     </div>
-    <div class="tab-content">
+    <div class="tab-content" v-if="activeData.length > 0">
       <ul>
-        <li v-for="(item) in activeData" :key="item.index">
+        <li v-for="item in activeData" :key="item.index">
           {{ item.index }}. {{ item.title }}
         </li>
       </ul>
+    </div>
+    <div v-else class="img-box">
+      <img :src="noneImg" style="width: 100px; height: 70px" alt="无信息" />
+      <div class="none-title">暂无数据...</div>
     </div>
   </div>
 </template>
@@ -24,15 +28,16 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import axios from "axios";
+import noneImg from "@/assets/images/none.png";
 type HotItem = {
   index: number;
   key: string;
-  desc:string;
-  img:string;
-  url:string;
-  hot:string;
-  title:string;
-}
+  desc: string;
+  img: string;
+  url: string;
+  hot: string;
+  title: string;
+};
 const tabs = ref([
   {
     key: "baidu",
@@ -67,7 +72,9 @@ async function getHotSearch() {
   try {
     const res = await axios.get("https://v2.xxapi.cn/api/baiduhot");
     tabs.value[0].data = res.data.data.slice(0, 4);
-    const res1 = await axios.get("https://api.cenguigui.cn/api/juhe/hotlist.php?type=zhihu");
+    const res1 = await axios.get(
+      "https://api.cenguigui.cn/api/juhe/hotlist.php?type=zhihu"
+    );
     tabs.value[1].data = res1.data.data.slice(0, 4);
     const res2 = await axios.get("https://v2.xxapi.cn/api/weibohot");
     tabs.value[2].data = res2.data.data.slice(0, 4);
@@ -76,7 +83,7 @@ async function getHotSearch() {
   }
 }
 
-getHotSearch()
+getHotSearch();
 </script>
 
 <style scoped>
@@ -131,5 +138,18 @@ getHotSearch()
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.img-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  flex-direction: column;
+}
+.none-title {
+  color: #b8babc;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 </style>
