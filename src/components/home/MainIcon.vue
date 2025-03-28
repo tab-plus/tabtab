@@ -50,6 +50,15 @@
                   <HotFour></HotFour>
                 </div>
               </div>
+
+              <div v-else-if="icon.name == '天气'">
+                <div v-if="icon.size === 1">
+                  <WeatherOne></WeatherOne>
+                </div>
+                <div v-else-if="icon.size === 4">
+                  <WeatherFour></WeatherFour>
+                </div>
+              </div>
             </div>
           </div>
         </ContextMenu>
@@ -73,10 +82,20 @@ import CalendarFour from "@/components/elements/calendar/Four.vue";
 
 import HotOne from "@/components/elements/hot/One.vue";
 import HotFour from "@/components/elements/hot/Four.vue";
+
+import WeatherOne from "@/components/elements/weather/One.vue";
+import WeatherFour from "@/components/elements/weather/Four.vue";
+
 const mainIconStore = useMainIconStore();
 const route = useRoute();
 
-const emit = defineEmits(["openPicture", "openMemo", "openCalendar","openHot"]);
+const emit = defineEmits([
+  "openPicture",
+  "openMemo",
+  "openCalendar",
+  "openHot",
+  "openWeather",
+]);
 
 mainIconStore.INIT_LIST(route.name as string); //初始化
 
@@ -151,6 +170,8 @@ const selectIcon = (icon) => {
     emit("openCalendar");
   } else if (icon.name === "热搜") {
     emit("openHot");
+  } else if (icon.name === "天气") {
+    emit("openWeather");
   } else {
     window.open(icon.url);
   }
