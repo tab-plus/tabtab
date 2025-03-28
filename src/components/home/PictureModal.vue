@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-09-03 10:04:07
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 17:19:38
+ * @LastEditTime: 2025-03-28 18:35:52
  * @Description: 图库的弹窗
  * @FilePath: \ytab-master\src\components\home\PictureModal.vue
 -->
@@ -17,121 +17,126 @@
       @cancel="handleCancel"
       closable
     >
-      <a-layout>
-        <a-layout-sider width="150" class="site-layout-background min-h-500">
-          <a-menu
-            mode="inline"
-            :selected-keys="[current]"
-            @click="handleMenuClick"
-          >
-            <a-menu-item key="1">推荐</a-menu-item>
-            <a-menu-item key="2">我的</a-menu-item>
-            <!-- <a-menu-item key="3">Content 3</a-menu-item> -->
-          </a-menu>
-        </a-layout-sider>
+      <div>
         <a-layout>
-          <a-layout-content>
-            <div v-if="current === '1'">
-              <div class="container">
-                <template
-                  v-for="item in backgroundListByRecommend"
-                  :key="item.name"
-                >
-                  <div class="component">
-                    <img :src="item.url" alt="" />
-                    <div class="mask">
-                      <div class="mask-header">
-                        <div
-                          class="header-component"
-                          @click="handleDownload(item)"
-                        >
-                          <download-outlined
-                            :style="{ fontSize: '15px', color: 'white' }"
-                          />
+          <a-layout-sider width="150" class="site-layout-background min-h-500">
+            <a-menu
+              mode="inline"
+              :selected-keys="[current]"
+              @click="handleMenuClick"
+            >
+              <a-menu-item key="1">推荐</a-menu-item>
+              <a-menu-item key="2">我的</a-menu-item>
+              <!-- <a-menu-item key="3">Content 3</a-menu-item> -->
+            </a-menu>
+          </a-layout-sider>
+          <a-layout>
+            <a-layout-content>
+              <div v-if="current === '1'">
+                <div class="container">
+                  <template
+                    v-for="item in backgroundListByRecommend"
+                    :key="item.name"
+                  >
+                    <div class="component">
+                      <img :src="item.url" alt="" />
+                      <div class="mask">
+                        <div class="mask-header">
+                          <div
+                            class="header-component"
+                            @click="handleDownload(item)"
+                          >
+                            <download-outlined
+                              :style="{ fontSize: '15px', color: 'white' }"
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div class="mask-container">
-                        <div
-                          class="container-component"
-                          @click="handleSelect(item)"
-                        >
-                          <check-outlined
-                            :style="{ fontSize: '20px', color: 'white' }"
-                          />
-                        </div>
-                        <!-- <div class="container-component" @click="handleLike()">
+                        <div class="mask-container">
+                          <div
+                            class="container-component"
+                            @click="handleSelect(item)"
+                          >
+                            <check-outlined
+                              :style="{ fontSize: '20px', color: 'white' }"
+                            />
+                          </div>
+                          <!-- <div class="container-component" @click="handleLike()">
                                             <like-outlined :style="{ fontSize: '20px', color: 'white' }" />
                                         </div> -->
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </template>
+                  </template>
+                </div>
               </div>
-            </div>
-            <div v-if="current === '2'">
-              <div v-show="isLogin">
-                <ContextMenu :menu="menu" @select="getSelect">
-                  <div class="container">
-                    <template
-                      v-for="item in backgroundListByUser"
-                      :key="item.name"
-                    >
-                      <div class="component">
-                        <img :src="item.url" alt="" />
-                        <div class="mask">
-                          <div class="mask-header">
-                            <div
-                              class="header-component"
-                              @click="handleDownload(item)"
-                            >
-                              <download-outlined
-                                :style="{ fontSize: '15px', color: 'white' }"
-                              />
-                            </div>
-                            <a-popconfirm
-                              title="确定要删除这个背景吗?"
-                              ok-text="Yes"
-                              cancel-text="No"
-                              @confirm="deleteConfirm"
-                              @cancel="deleteCancel"
-                            >
+              <div v-if="current === '2'">
+                <div v-show="isLogin">
+                  <ContextMenu :menu="menu" @select="getSelect">
+                    <div class="container">
+                      <template
+                        v-for="item in backgroundListByUser"
+                        :key="item.name"
+                      >
+                        <div class="component">
+                          <img :src="item.url" alt="" />
+                          <div class="mask">
+                            <div class="mask-header">
                               <div
                                 class="header-component"
-                                @click="handleDelete(item)"
+                                @click="handleDownload(item)"
                               >
-                                <minus-outlined
+                                <download-outlined
                                   :style="{ fontSize: '15px', color: 'white' }"
                                 />
                               </div>
-                            </a-popconfirm>
-                          </div>
-                          <div class="mask-container">
-                            <div
-                              class="container-component"
-                              @click="handleSelect(item)"
-                            >
-                              <check-outlined
-                                :style="{ fontSize: '20px', color: 'white' }"
-                              />
+                              <a-popconfirm
+                                title="确定要删除这个背景吗?"
+                                ok-text="Yes"
+                                cancel-text="No"
+                                @confirm="deleteConfirm"
+                                @cancel="deleteCancel"
+                              >
+                                <div
+                                  class="header-component"
+                                  @click="handleDelete(item)"
+                                >
+                                  <minus-outlined
+                                    :style="{
+                                      fontSize: '15px',
+                                      color: 'white',
+                                    }"
+                                  />
+                                </div>
+                              </a-popconfirm>
+                            </div>
+                            <div class="mask-container">
+                              <div
+                                class="container-component"
+                                @click="handleSelect(item)"
+                              >
+                                <check-outlined
+                                  :style="{ fontSize: '20px', color: 'white' }"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </template>
-                  </div>
-                </ContextMenu>
+                      </template>
+                    </div>
+                  </ContextMenu>
+                </div>
+                <div class="loginBox" v-show="!isLogin">
+                  <div>登录后查看我的图库</div>
+                  <a-button type="primary" shape="round" @click="goLogin"
+                    >去登录</a-button
+                  >
+                </div>
               </div>
-              <div class="loginBox" v-show="!isLogin">
-                <div>登录后查看我的图库</div>
-                <a-button type="primary" shape="round" @click="goLogin"
-                  >去登录</a-button
-                >
-              </div>
-            </div>
-            <!-- <div v-if="current === '3'">Content 3 Displayed Here</div> -->
-          </a-layout-content>
+              <!-- <div v-if="current === '3'">Content 3 Displayed Here</div> -->
+            </a-layout-content>
+          </a-layout>
         </a-layout>
-      </a-layout>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -517,9 +522,10 @@ export default defineComponent({
 }
 
 :deep(.ant-modal-content) {
-  /* background-color: rgba(255, 255, 255, 0.3); */
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+ 
+}
+.ant-layout {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 </style>
   

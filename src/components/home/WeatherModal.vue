@@ -1,7 +1,20 @@
 <template>
-    <a-card hoverable>
+    <div ref = "globalModal">
+        <a-modal
+        width="60%"
+        v-model:visible="props.visible"
+        :getContainer="() => $refs.globalModal"
+        footer=""
+        title="天气"
+        closable
+        @cancel="emit('update:visible', false)"
+      >
+      <a-card hoverable>
         <div v-if="isModalVisible" class="echarts_main" ref="weatherMain"></div>
     </a-card>
+      </a-modal>
+    </div>
+   
 </template>
   
 <script lang="ts">
@@ -28,9 +41,14 @@ import zhenxue from "@/assets/images/pest/tianqi-zhenxue.png"
 import zhenyu from "@/assets/images/pest/tianqi-zhenyu.png"
 import zhongxue from "@/assets/images/pest/tianqi-zhongxue.png"
 import zhongyu from "@/assets/images/pest/tianqi-zhongyu.png"
-import { getCity } from '@/utils/getLocation';
-import { loadavg } from 'os';
 export default defineComponent({
+    props: {
+    visible: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ["update:visible"], // 声明子组件可以触发的事件
     setup(props, { emit }) {
         // 定义一个 ref 用于绑定到 DOM 元素
         const weatherMain = ref<HTMLElement | null>(null);
@@ -39,21 +57,20 @@ export default defineComponent({
         const isModalVisible = ref(true);
 
         function getWeather() {
-            let city = localStorage.getItem("city")
             let longitude = localStorage.getItem("longitude")
             let latitude = localStorage.getItem("latitude")
             let url = `https://devapi.qweather.com/v7/weather/7d?key=ac95821472f94d9fbb3f50e93075e1b8&location=${longitude},${latitude}`
             axios(url).then((resp: any) => {
                 console.log(resp.data, "resp");
-                weatherOptions.value = resp.data.daily;
+                weatherOptions.value = resp.data.daily; 
                 weatherOptions.value.map(rr => {
                     rr.windScaleDay = rr.windScaleDay + '级';//风力等级数据处理
                     rr.fxDate = rr.fxDate.substr(5, 11);//日期处理
                 })
-                leftBottomEchart(weatherOptions.value);
+                    leftBottomEchart(weatherOptions.value);
             })
         }
-
+ 
 
         function leftBottomEchart(data, type?) {
 
@@ -1171,6 +1188,8 @@ export default defineComponent({
         return {
             weatherMain,
             isModalVisible,
+            props,
+            emit,
         };
     }
 });

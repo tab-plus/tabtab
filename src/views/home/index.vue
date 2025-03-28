@@ -2,20 +2,36 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 17:22:46
+ * @LastEditTime: 2025-03-28 19:31:27
  * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
 <template>
   <!-- 登录弹窗 -->
-  <AuthModal v-model:visible="loginVisible" style="z-index: 9999;"/>
+  <AuthModal v-model:visible="loginVisible" style="z-index: 9999" />
 
   <!-- 翻译组件弹窗 -->
   <TranslationModal v-model:visible="translationVisible" />
-  
+
   <!-- 图库组件 -->
-   <PictureModal v-model:visible="pictureVisible" @goLogin="goLogin"></PictureModal>
-  <!-- 设置弹窗 --> 
+  <PictureModal
+    v-model:visible="pictureVisible"
+    @goLogin="goLogin"
+  ></PictureModal>
+
+  <!-- 日历 -->
+  <CalendarModal v-model:visible="calendarVisible" />
+
+  <!-- 备忘录 -->
+  <MemoModal v-model:visible="memoVisible" />
+
+  <!-- 天气 -->
+  <WeatherModal v-if="weatherVisible" v-model:visible="weatherVisible" />
+
+  <!-- 热搜 -->
+  <HotModal v-model:visible="hotVisible" />
+
+  <!-- 设置弹窗 -->
   <a-drawer
     v-model:visible="settingVisible"
     class="custom-class"
@@ -66,11 +82,6 @@
       <main v-show="haveIcon">
         <div class="main-icon">
           <MainIcon
-            @openPicture="pictureModal.open()"
-            @openMemo="memoModal.open()"
-            @openCalendar="calendarModal.open()"
-            @openHot="hotModal.open()"
-            @openWeather="weatherModal.open()"
             @openIndexModal="openComponentModal"
           ></MainIcon>
         </div>
@@ -80,58 +91,6 @@
           <Dock @handleAdd="bottomAdd"></Dock>
         </div>
       </main>
-      <!-- 日历 -->
-      <a-modal
-        :destroyOnClose="true"
-        width="1200px"
-        height="500px"
-        v-model:visible="calendarModal.isVisible.value"
-        footer=""
-        title="日历"
-        closable
-        @ok="
-          () => {
-            calendarModal.open();
-          }
-        "
-      >
-        <CalendarModal></CalendarModal>
-      </a-modal>
-
-      <!-- <GenericModal v-model:visible="calendarModal.isVisible.value" title="日历" @ok="() => { calendarModal.open() }">
-      </GenericModal> -->
-
-      <!-- 备忘录 -->
-      <a-modal
-        width="60%"
-        v-model:visible="memoModal.isVisible.value"
-        footer=""
-        title="备忘录"
-        closable
-        @ok="
-          () => {
-            memoModal.open();
-          }
-        "
-      >
-        <MemoModal></MemoModal>
-      </a-modal>
-
-      <!-- 天气 -->
-      <a-modal
-        width="60%"
-        v-model:visible="weatherModal.isVisible.value"
-        footer=""
-        title="天气"
-        closable
-        @ok="
-          () => {
-            weatherModal.open();
-          }
-        "
-      >
-        <WeatherModal></WeatherModal>
-      </a-modal>
 
       <!-- 添加图标 -->
       <div ref="globalModal">
@@ -188,25 +147,6 @@
           </a-layout>
         </a-modal>
       </div>
-
-      <!-- 热搜 -->
-      <a-modal
-        width="60%"
-        v-model:visible="hotModal.isVisible.value"
-        footer=""
-        title="热搜"
-        closable
-        @ok="
-          () => {
-            hotModal.open();
-          }
-        "
-      >
-        <HotModal></HotModal>
-      </a-modal>
-
-      <!-- 图库 -->
-    
     </div>
     <template #overlay>
       <a-menu>
@@ -278,7 +218,6 @@ import { useUserStore } from "@/store/user";
 // import GenericModal from '@/components/GenericModal';
 export const calendarModal = useModals("calendar");
 export const memoModal = useModals("memo");
-export const weatherModal = useModals("weather");
 export const hotModal = useModals("hot");
 export const pictureModal = useModals("pictuer");
 import MainIcon from "@/components/home/MainIcon.vue";
@@ -317,12 +256,16 @@ export default defineComponent({
     const $transBackground = inject("$transBackground") as () => void; //改变背景图
     const route = useRoute();
     // const calendarModal.isVisible = ref<boolean>(false);
-    const memoVisible = ref<boolean>(false);
     const iconVisible = ref<boolean>(false); //添加图标弹窗
     const haveIcon = ref<boolean>(true);
     const loginVisible = ref<boolean>(false);
     const translationVisible = ref<boolean>(false);
     const pictureVisible = ref<boolean>(false); //控制图库弹窗的显示
+    const weatherVisible = ref<boolean>(false);
+    const hotVisible = ref<boolean>(false);
+    const calendarVisible = ref<boolean>(false);
+    const memoVisible = ref<boolean>(false);
+
     // const clickedItem = ref<HTMLElement>(); //被点击的el
     const weather = ref<any>({}); //天气
     // 位置
@@ -569,6 +512,18 @@ export default defineComponent({
         case "图库":
           pictureVisible.value = true;
           break;
+        case "日历":
+          calendarVisible.value = true;
+          break;
+        case "天气":
+          weatherVisible.value = true;
+          break;
+        case "热搜":
+          hotVisible.value = true;
+          break;
+        case "备忘录":
+          memoVisible.value = true;
+          break;
         default:
           break;
       }
@@ -601,7 +556,6 @@ export default defineComponent({
       clickTime,
       calendarModal,
       memoModal,
-      weatherModal,
       pictureModal,
       hotModal,
       haveIcon,
@@ -612,6 +566,9 @@ export default defineComponent({
       loginVisible,
       translationVisible,
       pictureVisible,
+      weatherVisible,
+      hotVisible,
+      calendarVisible,
       settingVisible,
       useStore,
       changeBgImg,
@@ -681,6 +638,7 @@ main {
 :deep(.ant-modal-content) {
   /* background-color: rgba(255, 255, 255, 0.3); */
   border-radius: 20px;
+  padding: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

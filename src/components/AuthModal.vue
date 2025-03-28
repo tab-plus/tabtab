@@ -232,11 +232,11 @@ export default defineComponent({
   background-color: transparent !important;
 } */
 
-:deep(.ant-modal-content) {
-  /* background-color: rgba(255, 255, 255, 0.3); */
+/* :deep(.ant-modal-content) {
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+} */
 
 :deep(.ant-tabs-nav) {
   margin-bottom: 24px;

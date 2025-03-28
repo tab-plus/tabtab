@@ -161,22 +161,12 @@ function getSelect(e) {
 // 选择图标方法
 const selectIcon = (icon) => {
   console.log(icon);
-  if (icon.name === "图库") {
-    emit("openIndexModal",icon.name);
+  const modalIcons = ["图库", "备忘录", "日历", "热搜", "天气", "翻译"];
+  if (modalIcons.includes(icon.name)) {
+    emit("openIndexModal", icon.name);
   } else if (icon.name === "添加") {
     emit("openPicture");
-  } else if (icon.name === "备忘录") {
-    emit("openMemo");
-  } else if (icon.name === "日历") {
-    emit("openCalendar");
-  } else if (icon.name === "热搜") {
-    emit("openHot");
-  } else if (icon.name === "天气") {
-    emit("openWeather");
-  } else if (icon.name === "翻译") {
-    emit("openIndexModal",icon.name);
-  }  
-  else {
+  } else if (icon.url) {
     window.open(icon.url);
   }
 };

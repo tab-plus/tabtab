@@ -2,120 +2,168 @@
  * @Author: panrunjun
  * @Date: 2024-08-30 16:33:34
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-18 16:04:25
+ * @LastEditTime: 2025-03-28 18:45:33
  * @Description: 日历组件
  * @FilePath: \ytab-master\src\components\home\CalendarModal.vue
 -->
 <template>
-  <a-row>
-    <a-col :span="16">
-      <div class="calendar">
-        <a-calendar v-model:value="selectDate" @select="onSelect" @panelChange="onPanelChange">
-          <template #headerRender="{ value: current,  onChange,  }">
-            <div style="padding: 10px">
-              <!-- <div style="margin-bottom: 10px">Custom header</div> -->
-              <a-row type="flex">
-                <a-col>
-                  <a-select size="small" :dropdown-match-select-width="false" class="my-year-select"
-                    :value="String(current.year())" @change="newYear => {
-                      onChange(current.year(+newYear));
-                    }
-                      ">
-                    <a-select-option v-for="val in getYears(current)" :key="String(val)" class="year-item">
-                      {{ val }}
-                    </a-select-option>
-                  </a-select>
-                </a-col>
-                <a-col>
-                  <a-select size="small" :dropdown-match-select-width="false" :value="String(current.month())" @change="selectedMonth => {
-                    onChange(current.month(parseInt(String(selectedMonth), 10)));
-                  }
-                    ">
-                    <a-select-option v-for="(val, index) in getMonths(current)" :key="String(index)" class="month-item">
-                      {{ val }}
-                    </a-select-option>
-                  </a-select>
-                </a-col>
-              </a-row>
-            </div>
-          </template>
-          <template #dateCellRender="{ current }">
-            <ul class="events">
-              <li v-for="item in getListData(current)" :key="item.content">
-                <a-badge status="error" :text="item.content" />
-              </li>
-            </ul>
-          </template>
-          <template #monthCellRender="{ current }">
-            <div v-if="getMonthData(current)" class="notes-month">
-              <section>{{ getMonthData(current) }}</section>
-              <span>Backlog number</span>
-            </div>
-          </template>
-        </a-calendar>
-      </div>
-    </a-col>
-    <a-col :span="8">
-      <div class="right">
-        <div class="right-header">
-          <div class="right-date">
-            <div class="right-date-header">{{ selectYear }}年{{ selectMonth }}月</div>
-            <div class="right-date-body">
-              <div class="num">{{ selectDay }}</div>
-              <div class="day">第205天 第30周</div>
-              <div class="week">六月二十八</div>
-            </div>
+  <div ref="globalModal">
+    <a-modal
+      :destroyOnClose="true"
+      width="1200px"
+      height="500px"
+      v-model:visible="props.visible"
+      footer=""
+      title="日历"
+      closable
+      @cancel="emit('update:visible', false)"
+      :getContainer="() => $refs.globalModal"
+    >
+      <a-row>
+        <a-col :span="16">
+          <div class="calendar">
+            <a-calendar
+              v-model:value="selectDate"
+              @select="onSelect"
+              @panelChange="onPanelChange"
+            >
+              <template #headerRender="{ value: current, onChange }">
+                <div style="padding: 10px">
+                  <!-- <div style="margin-bottom: 10px">Custom header</div> -->
+                  <a-row type="flex">
+                    <a-col>
+                      <a-select
+                        size="small"
+                        :dropdown-match-select-width="false"
+                        class="my-year-select"
+                        :value="String(current.year())"
+                        @change="
+                          (newYear) => {
+                            onChange(current.year(+newYear));
+                          }
+                        "
+                      >
+                        <a-select-option
+                          v-for="val in getYears(current)"
+                          :key="String(val)"
+                          class="year-item"
+                        >
+                          {{ val }}
+                        </a-select-option>
+                      </a-select>
+                    </a-col>
+                    <a-col>
+                      <a-select
+                        size="small"
+                        :dropdown-match-select-width="false"
+                        :value="String(current.month())"
+                        @change="
+                          (selectedMonth) => {
+                            onChange(
+                              current.month(parseInt(String(selectedMonth), 10))
+                            );
+                          }
+                        "
+                      >
+                        <a-select-option
+                          v-for="(val, index) in getMonths(current)"
+                          :key="String(index)"
+                          class="month-item"
+                        >
+                          {{ val }}
+                        </a-select-option>
+                      </a-select>
+                    </a-col>
+                  </a-row>
+                </div>
+              </template>
+              <template #dateCellRender="{ current }">
+                <ul class="events">
+                  <li v-for="item in getListData(current)" :key="item.content">
+                    <a-badge status="error" :text="item.content" />
+                  </li>
+                </ul>
+              </template>
+              <template #monthCellRender="{ current }">
+                <div v-if="getMonthData(current)" class="notes-month">
+                  <section>{{ getMonthData(current) }}</section>
+                  <span>Backlog number</span>
+                </div>
+              </template>
+            </a-calendar>
           </div>
-        </div>
-        <div class="right-bottom">
-          <template v-for="(item, index) in selectedValue" :key="item.id">
-
-            <div class="tab-pointer textBox">
-              <div class="flex">
-                <div class="number">{{ index + 1 }}</div>
-                <span>{{ item.content }}</span>
+        </a-col>
+        <a-col :span="8">
+          <div class="right">
+            <div class="right-header">
+              <div class="right-date">
+                <div class="right-date-header">
+                  {{ selectYear }}年{{ selectMonth }}月
+                </div>
+                <div class="right-date-body">
+                  <div class="num">{{ selectDay }}</div>
+                  <div class="day">第205天 第30周</div>
+                  <div class="week">六月二十八</div>
+                </div>
               </div>
-              <span class="deleteBox" @click="deleteText(item.id)">-</span>
             </div>
-            <a-divider />
-          </template>
-          <a-input v-show="showInput" @blur="handleBlur()" v-model:value="inputValue" placeholder="输出日志" />
-          <div v-show="!showInput">
-            <div class="number tab-pointer" @click="addValue()">
-              <plus-outlined />
+            <div class="right-bottom">
+              <template v-for="(item, index) in selectedValue" :key="item.id">
+                <div class="tab-pointer textBox">
+                  <div class="flex">
+                    <div class="number">{{ index + 1 }}</div>
+                    <span>{{ item.content }}</span>
+                  </div>
+                  <span class="deleteBox" @click="deleteText(item.id)">-</span>
+                </div>
+                <a-divider />
+              </template>
+              <a-input
+                v-show="showInput"
+                @blur="handleBlur()"
+                v-model:value="inputValue"
+                placeholder="输出日志"
+              />
+              <div v-show="!showInput">
+                <div class="number tab-pointer" @click="addValue()">
+                  <plus-outlined />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </a-col>
-  </a-row>
+        </a-col>
+      </a-row>
+    </a-modal>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import dayjs, { Dayjs } from 'dayjs';
-import { useUserStore } from '@/store/user';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  PlusOutlined,
-  MinusOutlined
-} from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
-import { type } from 'os';
+import { defineComponent, ref } from "vue";
+import dayjs, { Dayjs } from "dayjs";
+import { useUserStore } from "@/store/user";
+import { v4 as uuidv4 } from "uuid";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
 export default defineComponent({
-
   components: {
     PlusOutlined,
     MinusOutlined,
   },
-  setup() {
+  props: {
+    visible: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ["update:visible"], // 声明子组件可以触发的事件
+  setup(props,{ emit }) {
     const selectDate = ref<Dayjs>();
-    const selectYear = ref('');
-    const selectMonth = ref('');
-    const selectDay = ref('');
+    const selectYear = ref("");
+    const selectMonth = ref("");
+    const selectDay = ref("");
     const selectedValue = ref([]);
-    const inputValue = ref('')
-    const showInput = ref(false)
-    const eventMap = ref({})
+    const inputValue = ref("");
+    const showInput = ref(false);
+    const eventMap = ref({});
     /**
      * @description: 用于是否要选着push数据进selectValue，解决第二次不能修改slectValue数据的原因
      */
@@ -146,13 +194,16 @@ export default defineComponent({
 
       // 遍历年份、月份和日期
       for (const year in eventMap.value) {
-        if (parseInt(year) === value.year()) { // 匹配年份
+        if (parseInt(year) === value.year()) {
+          // 匹配年份
           const months = eventMap.value[year];
           for (const m in months) {
-            if (parseInt(m) === value.month() + 1) { // 匹配月份
+            if (parseInt(m) === value.month() + 1) {
+              // 匹配月份
               const dates = months[m];
               for (const d in dates) {
-                if (parseInt(d) === value.date()) { // 匹配日期
+                if (parseInt(d) === value.date()) {
+                  // 匹配日期
                   listData = dates[d];
                   break; // 退出日期循环
                 }
@@ -174,12 +225,12 @@ export default defineComponent({
 
     const onSelect = (value: Dayjs) => {
       selectDate.value = value;
-      selectYear.value = value && value.format('YYYY')
-      selectMonth.value = value && value.format('M')
-      selectDay.value = value && value.format('DD')
-      const data = getListData(value)
+      selectYear.value = value && value.format("YYYY");
+      selectMonth.value = value && value.format("M");
+      selectDay.value = value && value.format("DD");
+      const data = getListData(value);
       // selectedValue.value = value;
-      selectedValue.value = data
+      selectedValue.value = data;
       const year = selectYear.value;
       const month = selectMonth.value;
       const date = selectDay.value;
@@ -195,8 +246,7 @@ export default defineComponent({
       if (!eventMap.value[year][month][date]) {
         eventMap.value[year][month][date] = [];
         isPushSelect.value = true;
-      }
-      else {
+      } else {
         isPushSelect.value = false;
       }
 
@@ -208,13 +258,13 @@ export default defineComponent({
     };
 
     const addValue = () => {
-      showInput.value = true
-    }
+      showInput.value = true;
+    };
     /**
      * @description: 输入框失去焦点时
      */
     const handleBlur = () => {
-      if (inputValue.value != '') {
+      if (inputValue.value != "") {
         const uniqueID = uuidv4();
         // 要插入的数据
         const newEvent = { id: uniqueID, content: inputValue.value };
@@ -238,20 +288,20 @@ export default defineComponent({
         eventMap.value[year][month][date].push(newEvent);
         // selectedValue.value.push(newEvent)
         if (isPushSelect.value) {
-          selectedValue.value.push(newEvent)
+          selectedValue.value.push(newEvent);
         }
 
-        inputValue.value = ''
+        inputValue.value = "";
       }
-      showInput.value = false
-    }
+      showInput.value = false;
+    };
 
     /**
      * @description: 删除文本
      * @param {*} id
      */
     const deleteText = (id: string) => {
-      let data = eventMap.value
+      let data = eventMap.value;
 
       for (const year in data) {
         if (data.hasOwnProperty(year)) {
@@ -262,7 +312,9 @@ export default defineComponent({
                   // 获取日期对应的数组
                   const items = data[year][month][day];
                   // 更新数组，删除匹配的项
-                  data[year][month][day] = items.filter(item => item.id !== id);
+                  data[year][month][day] = items.filter(
+                    (item) => item.id !== id
+                  );
                 }
               }
             }
@@ -273,36 +325,32 @@ export default defineComponent({
       // 获取日期对应的数组
       const items = selectedValue.value;
       // 更新数组，删除匹配的项
-      selectedValue.value = items.filter(item => item.id !== id);
+      selectedValue.value = items.filter((item) => item.id !== id);
 
-      eventMap.value = data
-     
-
-    }
-
+      eventMap.value = data;
+    };
 
     // 页面挂载
     onMounted(() => {
       // eventMap.value = JSON.parse(localStorage.getItem('calendarData'));
-      const calendarData = (localStorage.getItem('calendarData'))
+      const calendarData = localStorage.getItem("calendarData");
 
       if (calendarData != "null") {
-        eventMap.value = JSON.parse(calendarData)
+        eventMap.value = JSON.parse(calendarData);
       } else {
-        eventMap.value = {}
+        eventMap.value = {};
       }
-      selectYear.value = dayjs(new Date()).format('YYYY')
-      selectMonth.value = dayjs(new Date()).format('M')
-      selectDay.value = dayjs(new Date()).format('DD')
-      const data = getListData(dayjs(new Date()))
-      selectedValue.value = data
-    })
+      selectYear.value = dayjs(new Date()).format("YYYY");
+      selectMonth.value = dayjs(new Date()).format("M");
+      selectDay.value = dayjs(new Date()).format("DD");
+      const data = getListData(dayjs(new Date()));
+      selectedValue.value = data;
+    });
 
     // 页面卸载
     onBeforeUnmount(() => {
-      console.log('页面卸载', eventMap.value);
-      localStorage.setItem('calendarData', JSON.stringify(eventMap.value))
-
+      console.log("页面卸载", eventMap.value);
+      localStorage.setItem("calendarData", JSON.stringify(eventMap.value));
     });
 
     return {
@@ -322,6 +370,8 @@ export default defineComponent({
       getMonths,
       getYears,
       deleteText,
+      props,
+      emit,
     };
   },
 });
@@ -348,7 +398,6 @@ export default defineComponent({
   background-color: white;
   border-radius: 20px;
 }
-
 
 .right-date-header {
   border-top-left-radius: 20px;
@@ -383,7 +432,6 @@ export default defineComponent({
 
 .week {
   font-size: 14px;
-
 }
 
 .right-bottom {
@@ -393,7 +441,6 @@ export default defineComponent({
 .ant-divider-horizontal {
   margin: 5px;
 }
-
 
 .number {
   background-color: #2395ff;
@@ -454,7 +501,9 @@ export default defineComponent({
   font-size: 28px;
 }
 
-.ant-picker-calendar-full::v-deep .ant-picker-panel .ant-picker-calendar-date-content {
+.ant-picker-calendar-full::v-deep
+  .ant-picker-panel
+  .ant-picker-calendar-date-content {
   max-height: 56px;
 }
 </style>
