@@ -8,20 +8,7 @@
 -->
 <template>
   <!-- 登录弹窗 -->
-  <a-drawer
-    v-model:visible="loginVisible"
-    class="custom-class"
-    title="登录"
-    placement="right"
-  >
-    <Login
-      @closeLogin="
-        () => {
-          loginVisible = false;
-        }
-      "
-    ></Login>
-  </a-drawer>
+  <AuthModal v-model:visible="loginVisible" />
 
   <!-- 设置弹窗 -->
   <a-drawer
@@ -74,6 +61,7 @@
             @openPicture="pictureModal.open()"
             @openMemo="memoModal.open()"
             @openCalendar="calendarModal.open()"
+            @openHot="hotModal.open()"
           ></MainIcon>
         </div>
 
@@ -270,7 +258,7 @@ import WeatherModal from "@/components/home/WeatherModal.vue";
 import HotModal from "@/components/home/HotModal.vue";
 import PictureModal from "@/components/home/PictureModal.vue";
 import CalendarModal from "@/components/home/CalendarModal.vue";
-import Login from "@/components/Login.vue";
+import AuthModal from "@/components/AuthModal.vue";
 import Dock from "@/components/home/Dock.vue";
 import Setting from "@/components/home/Setting.vue";
 import "@/styles/item.scss";
@@ -287,7 +275,6 @@ import {
   WeatherItem,
 } from "@/types/icon";
 import { getCity, getLocation } from "@/utils/getLocation";
-import axios from "axios";
 import { MenuFoldOutlined,MenuUnfoldOutlined } from "@ant-design/icons-vue";
 import useUpdateItem from "@/hooks/useUpdateItem";
 import { useModals } from "@/hooks/useModals";
@@ -310,9 +297,10 @@ export default defineComponent({
     SearchEngine,
     AddComponent,
     AddCustomize,
-    Login,
+    // Login,
     Setting,
     AddIcon,
+    AuthModal,
     MemoModal,
     HotModal,
     WeatherModal,
@@ -351,14 +339,9 @@ export default defineComponent({
     const memoVisible = ref<boolean>(false);
     const iconVisible = ref<boolean>(false); //添加图标弹窗
     const haveIcon = ref<boolean>(true);
-    const isContextMenuOpen = ref<boolean>(false);
     const loginVisible = ref<boolean>(false);
-    // 热搜数据
-    const baiduHotList = ref<Array<any>>();
-    const zhihuHotList = ref<Array<any>>();
-    const weiboHotList = ref<Array<any>>();
+ 
     // const clickedItem = ref<HTMLElement>(); //被点击的el
-    const onclickItemClass = ref<string>(""); //右键的item
     const weather = ref<any>({}); //天气
     // 位置
     const latitude = ref<string>("");
@@ -543,22 +526,7 @@ export default defineComponent({
       bottomIconStore.ADD_ICON(data);
     }
 
-    // 获取热搜数据
-    async function getHotSearch() {
-      try {
-        const res = await axios.get("https://tenapi.cn/v2/baiduhot");
-        console.log(res, 111);
-        baiduHotList.value = res.data.data.slice(0, 4);
-        const res1 = await axios.get("https://tenapi.cn/v2/zhihuhot");
-        console.log(res1, 111);
-        zhihuHotList.value = res1.data.data.slice(0, 4);
-        const res2 = await axios.get("https://tenapi.cn/v2/weibohot");
-        console.log(res2, 111);
-        weiboHotList.value = res2.data.data.slice(0, 4);
-      } catch (error) {
-        console.error("获取热搜数据时出错:", error);
-      }
-    }
+  
     // 切换图片
     function changeBgImg() {
       console.log(wallpaperStore.getAllPictureWallpaper);

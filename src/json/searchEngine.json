@@ -1,6 +1,11 @@
 {
   "searchList": [
     {
+      "name": "hellomiku",
+      "slinkLogo": "miku",
+      "frontLink": "https://hellomiku.com/search?q="
+    },
+    {
       "name": "百度",
       "slinkLogo": "baidu",
       "frontLink": "https://www.baidu.com/s?wd="
@@ -9,11 +14,6 @@
       "name": "谷歌",
       "slinkLogo": "google",
       "frontLink": "https://www.google.com/search?q="
-    },
-    {
-      "name": "hellomiku",
-      "slinkLogo": "hellomiku",
-      "frontLink": "https://hellomiku.com/index"
     },
     {
       "name": "必应",

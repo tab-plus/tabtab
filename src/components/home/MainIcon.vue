@@ -76,7 +76,7 @@ import HotFour from "@/components/elements/hot/Four.vue";
 const mainIconStore = useMainIconStore();
 const route = useRoute();
 
-const emit = defineEmits(["openPicture", "openMemo", "openCalendar"]);
+const emit = defineEmits(["openPicture", "openMemo", "openCalendar","openHot"]);
 
 mainIconStore.INIT_LIST(route.name as string); //初始化
 
@@ -150,7 +150,7 @@ const selectIcon = (icon) => {
   } else if (icon.name === "日历") {
     emit("openCalendar");
   } else if (icon.name === "热搜") {
-    // emit("openCalendar");
+    emit("openHot");
   } else {
     window.open(icon.url);
   }

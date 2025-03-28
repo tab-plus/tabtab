@@ -1,96 +1,155 @@
-<!--
- * @Author: panrunjun
- * @Date: 2025-03-25 13:51:06
- * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-25 17:11:45
- * @Description: 热搜组件
- * @FilePath: \ytab-master\src\components\elements\hot\Four.vue
--->
 <template>
-  <div class="box">
-    <a-tabs v-model:activeKey="activeKey" type="card" size="small">
-      <a-tab-pane key="1" tab="Tab 1">Content of Tab Pane 1</a-tab-pane>
-      <a-tab-pane key="2" tab="Tab 2" force-render
-        >Content of Tab Pane 2</a-tab-pane
+  <div class="hot-tab item">
+    <div class="tabs">
+      <div
+        v-for="tab in tabs"
+        :key="tab.key"
+        class="tab"
+        :class="{ active: activeTab === tab.key }"
+        @mouseover="handleMouseOver(tab.key)"
       >
-      <a-tab-pane key="3" tab="Tab 3">Content of Tab Pane 3</a-tab-pane>
-    </a-tabs>
+        {{ tab.label }}
+      </div>
+    </div>
+    <div class="tab-content" v-if="activeData.length > 0">
+      <ul>
+        <li v-for="item in activeData" :key="item.index">
+          {{ item.index }}. {{ item.title }}
+        </li>
+      </ul>
+    </div>
+    <div v-else class="img-box">
+      <img :src="noneImg" style="width: 100px; height: 70px" alt="无信息" />
+      <div class="none-title">暂无数据...</div>
+    </div>
   </div>
 </template>
-  
+
 <script setup lang="ts">
-const activeKey = ref("1");
-</script>
-  
-<style scoped>
-.box {
-  margin: 20px;
-  background: linear-gradient(45deg, #5d616b, #8a94a7);
-  border-radius: 10px;
-  width: 180px;
-  height: 160px;
+import { ref, computed } from "vue";
+import axios from "axios";
+import noneImg from "@/assets/images/none.png";
+type HotItem = {
+  index: number;
+  key: string;
+  desc: string;
+  img: string;
+  url: string;
+  hot: string;
+  title: string;
+};
+const tabs = ref([
+  {
+    key: "baidu",
+    label: "百度",
+    data: <Array<HotItem>>[],
+  },
+  {
+    key: "zhihu",
+    label: "知乎",
+    data: <Array<HotItem>>[],
+  },
+  {
+    key: "weibo",
+    label: "微博",
+    data: <Array<HotItem>>[],
+  },
+]);
+
+const activeTab = ref("baidu");
+
+const activeData = computed(() => {
+  const tab = tabs.value.find((t) => t.key === activeTab.value);
+  return tab ? tab.data : [];
+});
+
+const handleMouseOver = (key: string) => {
+  activeTab.value = key;
+};
+
+// 获取热搜数据
+async function getHotSearch() {
+  try {
+    const res = await axios.get("https://v2.xxapi.cn/api/baiduhot");
+    tabs.value[0].data = res.data.data.slice(0, 4);
+    const res1 = await axios.get(
+      "https://api.cenguigui.cn/api/juhe/hotlist.php?type=zhihu"
+    );
+    tabs.value[1].data = res1.data.data.slice(0, 4);
+    const res2 = await axios.get("https://v2.xxapi.cn/api/weibohot");
+    tabs.value[2].data = res2.data.data.slice(0, 4);
+  } catch (error) {
+    console.error("获取热搜数据时出错:", error);
+  }
 }
-.hotSearchItem {
-  height: 100%;
+
+getHotSearch();
+</script>
+
+<style scoped>
+.item {
+  width: 180px;
+  margin: 20px;
+  height: 160px;
   border-radius: 20px;
 }
-.hotSearchItem-bgColor {
+.hot-tab {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #313641, #abaeb4);
+}
+
+.tabs {
+  height: 40px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 14px;
+  justify-content: center;
+  align-items: center;
 }
 
 .tab {
-  display: inline-block;
-  margin: 5px 8px;
-  padding: 3px 4px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 15px;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab.active {
   color: white;
+  /* padding: 10px; */
+  border-bottom: 2px solid white;
 }
 
 .tab:hover {
-  background-color: #5d616b;
+  color: white;
 }
 
 .tab-content {
-  color: white;
-  padding: 5px;
-  display: flex;
-  justify-content: left;
+  padding: 0px 10px;
 }
 
-.tab-pane {
-  width: 100%;
-  display: none;
+.tab-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.tab-pane.active {
-  display: block;
-}
-
-.tab-pane-item {
-  border-bottom: 1px solid rgb(225, 220, 220);
-  color: white;
-  padding: 5px;
-  display: flex;
-  justify-content: left;
-  overflow: hidden;
-  /* 确保超出部分被隐藏 */
+.tab-content li {
+  padding: 4px 0;
   white-space: nowrap;
-  /* 不允许换行 */
+  overflow: hidden;
   text-overflow: ellipsis;
-  /* 超出文本用省略号表示 */
 }
 
-a {
-  display: block;
-  text-decoration: none;
-  /* 取消下划线 */
-  color: inherit;
-  /* 使链接颜色继承父元素的颜色 */
-  cursor: pointer;
-  /* 更改鼠标悬停时的光标样式 */
+.img-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  flex-direction: column;
 }
-
-a:hover {
-  /* 悬停时链接颜色保持不变 */
+.none-title {
+  color: #b8babc;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 </style>

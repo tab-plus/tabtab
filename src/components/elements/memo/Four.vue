@@ -2,13 +2,13 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 14:34:28
+ * @LastEditTime: 2025-03-27 17:20:25
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\memo\Four.vue
 -->
 <template>
   <div class="item memoItem-bgColor">
-    <div class="memoItemHeader">备忘录</div>
+    <div class="header">备忘录</div>
     <div class="body">
       <template v-if="memoStore.memoList.length > 0">
         <div
@@ -45,6 +45,7 @@ const memoStore = useMemoStore();
   width: 180px;
   margin: 20px;
   border: 0px;
+  border-radius: 20px;
 }
 .body {
   height: 120px;
@@ -59,7 +60,8 @@ const memoStore = useMemoStore();
   justify-content: left;
 }
 
-.memoItemHeader {
+.header {
+  height: 40px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background-color: #ffb716;
@@ -72,7 +74,7 @@ const memoStore = useMemoStore();
 
 .memoItem-bgColor {
   background-color: white;
-  border-radius: 20px;
+
 }
 
 .img-box {

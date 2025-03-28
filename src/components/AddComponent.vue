@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-26 10:18:02
+ * @LastEditTime: 2025-03-27 17:10:24
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -15,9 +15,9 @@
       <CalendarFour></CalendarFour>
     </div>
 
-    <!-- <div class="boxShadow">
+    <div class="boxShadow"  @click="addComponent('热搜')">
       <HotFour></HotFour>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -73,12 +73,11 @@ onMounted(() => {
   padding: 10px;
   border-radius: 20px;
   flex: 0 0 calc(33.33% - 20px);
-  transition: box-shadow 0.3s, background-color 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 180px;
 }
 .boxShadow:hover {
-  box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.2);
-  /* 外扩的阴影效果 */
+  transform: translateY(-10px); /* 图标往上移动 */
 }
 
 // 覆盖默认样式
