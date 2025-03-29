@@ -89,8 +89,8 @@ getHotSearch();
 <style scoped>
 .item {
   width: 180px;
-  margin: 20px;
-  height: 160px;
+  /* margin: 20px; */
+  height: 180px;
   border-radius: 20px;
 }
 .hot-tab {
@@ -124,7 +124,7 @@ getHotSearch();
 }
 
 .tab-content {
-  padding: 0px 10px;
+  padding: 10px;
 }
 
 .tab-content ul {

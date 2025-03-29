@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 20:47:32
+ * @LastEditTime: 2025-03-29 11:46:39
  * @Description: 天气组件
  * @FilePath: \ytab-master\src\components\elements\weather\one.vue
 -->
@@ -29,6 +29,6 @@
 .box {
   width: 80px;
   border-radius: 5px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 </style>

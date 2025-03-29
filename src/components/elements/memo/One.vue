@@ -12,9 +12,9 @@
 
 <style scoped>
 .box {
-  width: 80px;
+  width: 90px;
   border-radius: 5px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 .memoItemOne-bgColor {
     background-color: #ffb716;

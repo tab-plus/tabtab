@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 21:02:54
+ * @LastEditTime: 2025-03-29 11:42:08
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\memo\Two.vue
 -->
@@ -43,12 +43,11 @@ const memoStore = useMemoStore();
 <style scoped>
 .item {
   width: 180px;
-  margin: 20px;
   border: 0px;
   border-radius: 20px;
 }
 .body {
-  height: 120px;
+  height: 140px;
 }
 
 .memoItem {

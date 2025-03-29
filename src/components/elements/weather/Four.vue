@@ -35,8 +35,8 @@ const weather = JSON.parse(localStorage.getItem("weather"));
 <style scoped>
 .item {
   width: 180px;
-  margin: 20px;
-  height: 160px;
+  /* margin: 20px; */
+  height: 180px;
   border-radius: 20px;
 }
 .weather-item-four {
@@ -44,7 +44,7 @@ const weather = JSON.parse(localStorage.getItem("weather"));
   flex-wrap: nowrap;
   flex-direction: column;
   color: white;
-  padding: 10px;
+  padding: 20px;
 }
 
 .bg-weather {

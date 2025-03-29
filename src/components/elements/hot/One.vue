@@ -30,7 +30,7 @@
 .box {
   width: 80px;
   border-radius: 5px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 
 .hotSearchItem {

@@ -21,7 +21,7 @@
         </template>
         <template v-else>
           <div class="img-box">
-            <img :src="noneImg" style="width: 100px; height: 70px" alt="无信息" />
+            <!-- <img :src="noneImg" style="width: 40px; height: 40px" alt="无信息" /> -->
             <div class="title">暂无备忘录信息</div>
           </div>
         </template>
@@ -43,7 +43,6 @@
   <style scoped>
   .item {
     width: 180px;
-    margin: 20px;
     border: 0px;
     border-radius: 10px;
   }
@@ -82,7 +81,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120px;
+    height: 50px;
     flex-direction: column;
   }
   

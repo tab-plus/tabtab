@@ -44,6 +44,6 @@ const date = ref(dayjs(new Date()).format("DD"));
 .box {
   width: 80px;
   border-radius: 5px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 </style>

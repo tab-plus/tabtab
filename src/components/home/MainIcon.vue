@@ -15,6 +15,7 @@
         class="icon-box"
         v-for="icon in iconList"
         :key="icon.id"
+        :data-size="icon.size"
       >
         <ContextMenu :menu="menu" @select="getSelect">
           <div
@@ -155,6 +156,10 @@ function handleRightClick(id: string) {
   rightId.value = id;
 }
 
+function returnSize(params:string) {
+  
+}
+
 // 右键弹窗的选择
 function getSelect(e) {
   console.log("删除：", e);
@@ -185,11 +190,36 @@ const selectIcon = (icon) => {
 
 <style scoped>
 .icon-container {
-  /* background-color: rgba(200, 200, 200, 0.5); */
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap; /* 超出后换行 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 15px;
 }
+
+.icon-box {
+  /* 默认1x1大小 */
+  width: 80px;
+  height: 80px;
+  /* background-color: red; */
+}
+
+/* 2x1大小的图标 */
+.icon-box[data-size="2x1"] {
+  /* 水平 */
+  grid-column: span 2; 
+  /* 垂直 */
+  grid-row: span 1;
+  width: 180px; 
+  height: 80px; 
+}
+
+/* 2x2大小的图标 */
+.icon-box[data-size="2x2"] {
+  grid-column: span 2;
+  grid-row: span 2;
+  width: 180px; 
+  height: 180px; 
+}
+
 .box {
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -199,12 +229,12 @@ const selectIcon = (icon) => {
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 .img-box {
-  margin: 20px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 80px;
+  height: 80px;
 }
 
 .icon-img {
