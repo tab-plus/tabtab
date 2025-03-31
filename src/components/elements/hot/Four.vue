@@ -14,12 +14,13 @@
     <div class="tab-content" v-if="activeData.length > 0">
       <ul>
         <li v-for="item in activeData" :key="item.index">
-          {{ item.index }}. {{ item.title }}
+          <span class="index">{{ item.index }}.</span>
+          <span class="title">{{ item.title }}</span>
         </li>
       </ul>
     </div>
     <div v-else class="img-box">
-      <img :src="noneImg" style="width: 100px; height: 70px" alt="无信息" />
+      <img :src="noneImg" class="none-img" alt="无信息" />
       <div class="none-title">暂无数据...</div>
     </div>
   </div>
@@ -29,6 +30,7 @@
 import { ref, computed } from "vue";
 import axios from "axios";
 import noneImg from "@/assets/images/none.png";
+
 type HotItem = {
   index: number;
   key: string;
@@ -38,6 +40,7 @@ type HotItem = {
   hot: string;
   title: string;
 };
+
 const tabs = ref([
   {
     key: "baidu",
@@ -67,7 +70,6 @@ const handleMouseOver = (key: string) => {
   activeTab.value = key;
 };
 
-// 获取热搜数据
 async function getHotSearch() {
   try {
     const res = await axios.get("https://v2.xxapi.cn/api/baiduhot");
@@ -89,42 +91,46 @@ getHotSearch();
 <style scoped>
 .item {
   width: 180px;
-  /* margin: 20px; */
   height: 180px;
-  border-radius: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to bottom, #2c3e50, #bdc3c7);
+  color: #282c37;
 }
+
 .hot-tab {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #313641, #abaeb4);
+  font-family: "Roboto", Arial, sans-serif;
 }
 
 .tabs {
-  height: 40px;
+  height: 50px;
   display: flex;
   justify-content: space-around;
-  font-size: 14px;
-  justify-content: center;
   align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #2c3e50;
+
 }
 
 .tab {
-  padding: 5px 10px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: color 0.3s, border-bottom 0.3s;
 }
 
 .tab.active {
-  color: white;
-  /* padding: 10px; */
-  border-bottom: 2px solid white;
+  color: #fff;
+  border-bottom: 2px solid #fff;
 }
 
 .tab:hover {
-  color: white;
+  color: #fff;
 }
 
 .tab-content {
-  padding: 10px;
+  padding:6px 12px;
+  font-size: 13px;
 }
 
 .tab-content ul {
@@ -135,6 +141,22 @@ getHotSearch();
 
 .tab-content li {
   padding: 4px 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-content li:last-child {
+  border-bottom: none;
+}
+
+.index {
+  font-weight: bold;
+  margin-right: 8px;
+  color: #282c37;
+}
+
+.title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,9 +169,17 @@ getHotSearch();
   height: 120px;
   flex-direction: column;
 }
+
+.none-img {
+  width: 80px;
+  height: 60px;
+  opacity: 0.8;
+}
+
 .none-title {
-  color: #b8babc;
+  color: #ecf0f1;
   font-size: 12px;
+  margin-top: 8px;
   letter-spacing: 1px;
 }
 </style>

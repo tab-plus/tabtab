@@ -50,7 +50,6 @@ declare module '@vue/runtime-core' {
     Login: typeof import('./src/components/Login.vue')['default']
     MainIcon: typeof import('./src/components/home/MainIcon.vue')['default']
     MemoModal: typeof import('./src/components/home/MemoModal.vue')['default']
-    'MemoModal copy': typeof import('./src/components/home/MemoModal copy.vue')['default']
     One: typeof import('./src/components/elements/calendar/One.vue')['default']
     PictureModal: typeof import('./src/components/home/PictureModal.vue')['default']
     Register: typeof import('./src/components/Register.vue')['default']
@@ -62,7 +61,6 @@ declare module '@vue/runtime-core' {
     Two: typeof import('./src/components/elements/memo/Two.vue')['default']
     TwoOne: typeof import('./src/components/elements/memo/TwoOne.vue')['default']
     WeatherModal: typeof import('./src/components/home/WeatherModal.vue')['default']
-    'WeatherModal copy': typeof import('./src/components/home/WeatherModal copy.vue')['default']
   }
 }
 
