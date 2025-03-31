@@ -7,8 +7,8 @@
       footer=""
       title="备忘录"
       closable
-       :getContainer="() => $refs.globalModal"
-       @cancel="emit('update:visible', false)"
+      :getContainer="() => $refs.globalModal"
+      @cancel="emit('update:visible', false)"
     >
       <a-layout>
         <a-layout-sider
@@ -102,7 +102,6 @@ const props = defineProps({
     required: true,
   },
 });
-const uniqueID = uuidv4();
 const memoStore = useMemoStore();
 const emit = defineEmits(); // 声明emit
 
@@ -132,7 +131,7 @@ function handleContextMenu(id: string) {
 // 添加备忘录页签
 const addMemoList = () => {
   let data = {
-    id: uniqueID,
+    id: uuidv4(),
     title: "新建备忘录",
     content: "...",
     createDate: dayjs(new Date()).format("YYYY-MM-DD"),

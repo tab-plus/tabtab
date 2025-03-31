@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-29 11:42:08
+ * @LastEditTime: 2025-03-31 15:35:11
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\memo\Two.vue
 -->
@@ -45,18 +45,34 @@ const memoStore = useMemoStore();
   width: 180px;
   border: 0px;
   border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  overflow: hidden; /* 防止内容溢出 */
 }
+
 .body {
   height: 140px;
+  padding: 5px; 
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
 }
 
 .memoItem {
-  /* border-bottom: 1px solid rgb(225, 220, 220); */
   width: 100%;
   color: black;
-  padding: 5px;
+  padding: 5px 10px; 
   display: flex;
   justify-content: left;
+  align-items: center; /* 垂直居中 */
+  background-color: #f9f9f9; /* 添加背景色 */
+  border-radius: 8px; /* 添加圆角 */
+  margin-bottom: 8px; /* 增加间距 */
+  transition: background-color 0.3s; /* 添加交互效果 */
+}
+
+.memoItem:hover {
+  background-color: #ffecd1; /* 悬停效果 */
 }
 
 .header {
@@ -70,11 +86,11 @@ const memoStore = useMemoStore();
   justify-content: center;
   align-items: center;
   letter-spacing: 2px;
+  font-weight: bold; /* 加粗字体 */
 }
 
 .memoItem-bgColor {
   background-color: white;
-
 }
 
 .img-box {
@@ -83,11 +99,23 @@ const memoStore = useMemoStore();
   align-items: center;
   height: 120px;
   flex-direction: column;
+  text-align: center; /* 居中对齐文字 */
+}
+
+.img-box img {
+  border-radius: 10px; /* 图片圆角 */
+  opacity: 0.8; /* 增加透明度 */
+  transition: opacity 0.3s; /* 添加交互效果 */
+}
+
+.img-box img:hover {
+  opacity: 1; /* 悬停时恢复透明度 */
 }
 
 .title {
   color: #b8babc;
   font-size: 12px;
   letter-spacing: 1px;
+  margin-top: 10px; /* 增加间距 */
 }
 </style>

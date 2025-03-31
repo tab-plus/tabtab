@@ -3,7 +3,7 @@
  * @Date: 2025-03-28 14:33:42
  * @LastEditors: Do not edit
  * @LastEditTime: 2025-03-31 15:11:28
- * @Description: 
+ * @Description: 天气组件
  * @FilePath: \ytab-master\src\components\elements\weather\one.vue
 -->
 <template>
