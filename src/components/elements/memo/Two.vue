@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-31 15:35:11
+ * @LastEditTime: 2025-03-31 15:41:12
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\memo\Two.vue
 -->
@@ -15,7 +15,7 @@
           class="cl-ant-p sg-omit-sm text-white-sm memoItem"
           v-for="(item, index) in memoStore.memoList.slice(0, 4)"
           :key="index"
-        > 
+        >
           {{ item.title }}
         </div>
       </template>
@@ -51,7 +51,7 @@ const memoStore = useMemoStore();
 
 .body {
   height: 140px;
-  padding: 5px; 
+  padding: 5px;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -61,7 +61,7 @@ const memoStore = useMemoStore();
 .memoItem {
   width: 100%;
   color: black;
-  padding: 5px 10px; 
+  padding: 5px 10px;
   display: flex;
   justify-content: left;
   align-items: center; /* 垂直居中 */

@@ -199,6 +199,7 @@ const selectIcon = (icon) => {
   /* 默认1x1大小 */
   width: 80px;
   height: 80px;
+   transition: width 0.3s ease, height 0.3s ease;
   /* background-color: red; */
 }
 
