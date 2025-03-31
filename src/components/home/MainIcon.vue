@@ -54,8 +54,11 @@
                 <div v-if="icon.size === 1">
                   <HotOne></HotOne>
                 </div>
+                <div v-else-if="icon.size === '2x1'">
+                  <HotTwoOne></HotTwoOne>
+                </div>
                 <div v-else-if="icon.size === '2x2'">
-                  <HotFour></HotFour>
+                  <HotTwo></HotTwo>
                 </div>
               </div>
 
@@ -90,7 +93,8 @@ import CalendarOne from "@/components/elements/calendar/One.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
 
 import HotOne from "@/components/elements/hot/One.vue";
-import HotFour from "@/components/elements/hot/Four.vue";
+import HotTwo from "@/components/elements/hot/Two.vue";
+import HotTwoOne from "@/components/elements/hot/TwoOne.vue";
 
 import WeatherOne from "@/components/elements/weather/One.vue";
 import WeatherFour from "@/components/elements/weather/Four.vue";

@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 20:57:35
+ * @LastEditTime: 2025-03-31 17:11:32
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
@@ -16,7 +16,7 @@
     </div>
 
     <div class="boxShadow"  @click="addComponent('热搜')">
-      <HotFour></HotFour>
+      <HotTwo></HotTwo>
     </div>
     <div class="boxShadow"  @click="addComponent('天气')">
       <WeatherFour></WeatherFour>
@@ -31,7 +31,7 @@ import { useMainIconStore } from "@/store/mainIcon";
 import { v4 as uuidv4 } from "uuid";
 import MemoTwo from "@/components/elements/memo/Two.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
-import HotFour from "@/components/elements/hot/Four.vue";
+import HotTwo from "@/components/elements/hot/Two.vue";
 import WeatherFour from "@/components/elements/weather/Four.vue";
 import { useRoute } from "vue-router";
 
