@@ -9,9 +9,7 @@
         closable
         @cancel="emit('update:visible', false)"
       >
-      <a-card hoverable>
         <div v-if="isModalVisible" class="echarts_main" ref="weatherMain"></div>
-    </a-card>
       </a-modal>
     </div>
    

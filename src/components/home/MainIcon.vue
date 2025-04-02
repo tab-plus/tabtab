@@ -28,7 +28,9 @@
               class="img-box"
             >
               <img class="icon-img" :src="icon.src" :alt="icon.name" />
-              <p class="cl-ant-p sg-omit-sm text-white-sm">{{ icon.name }}</p>
+              <p class="cl-ant-p sg-omit-sm text-white-sm icon-name">
+                {{ icon.name }}
+              </p>
             </div>
             <div v-else-if="icon.type === 'component'" class="one-box">
               <div v-if="icon.name == '备忘录'">
@@ -160,9 +162,6 @@ function handleRightClick(id: string) {
   rightId.value = id;
 }
 
-function returnSize(params:string) {
-  
-}
 
 // 右键弹窗的选择
 function getSelect(e) {
@@ -201,28 +200,34 @@ const selectIcon = (icon) => {
 
 .icon-box {
   /* 默认1x1大小 */
-  width: 80px;
-  height: 80px;
-   transition: width 0.3s ease, height 0.3s ease;
-  /* background-color: red; */
+  width: 60px;
+  height: 60px;
+  transition: width 0.3s ease, height 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 2x1大小的图标 */
 .icon-box[data-size="2x1"] {
   /* 水平 */
-  grid-column: span 2; 
+  grid-column: span 2;
   /* 垂直 */
   grid-row: span 1;
-  width: 180px; 
-  height: 80px; 
+  width: 180px;
+  height: 80px;
 }
 
 /* 2x2大小的图标 */
 .icon-box[data-size="2x2"] {
   grid-column: span 2;
   grid-row: span 2;
-  width: 180px; 
-  height: 180px; 
+  width: 180px;
+  height: 180px;
+}
+
+.icon-name {
+  text-align: center;
 }
 
 .box {
@@ -234,17 +239,13 @@ const selectIcon = (icon) => {
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 .img-box {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 80px;
-  height: 80px;
+  /* width: 100%;
+  height: 100%; */
 }
 
 .icon-img {
-  width: 60px;
-  height: 60px;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
   /* background-color: rgba(255, 255, 255, 0.4); */
 }

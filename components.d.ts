@@ -58,8 +58,8 @@ declare module '@vue/runtime-core' {
     SearchEngine: typeof import('./src/components/SearchEngine.vue')['default']
     Setting: typeof import('./src/components/home/Setting.vue')['default']
     TranslationModal: typeof import('./src/components/home/TranslationModal.vue')['default']
-    Two: typeof import('./src/components/elements/memo/Two.vue')['default']
-    TwoOne: typeof import('./src/components/elements/memo/TwoOne.vue')['default']
+    Two: typeof import('./src/components/elements/hot/Two.vue')['default']
+    TwoOne: typeof import('./src/components/elements/hot/TwoOne.vue')['default']
     WeatherModal: typeof import('./src/components/home/WeatherModal.vue')['default']
   }
 }
