@@ -42,14 +42,8 @@
                 </div>
               </div>
               <div v-else-if="icon.name == '热搜'">
-                <div v-if="icon.size === 1">
-                  <HotOne></HotOne>
-                </div>
-                <div v-else-if="icon.size === '2x1'">
-                  <HotTwoOne></HotTwoOne>
-                </div>
-                <div v-else-if="icon.size === '2x2'">
-                  <HotTwo></HotTwo>
+                <div>
+                  <Hot :size="icon.size"></Hot>
                 </div>
               </div>
 
@@ -85,7 +79,7 @@ import CalendarOne from "@/components/elements/calendar/One.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
 import Calendar from "@/components/elements/calendar/index.vue";
 
-import HotOne from "@/components/elements/hot/One.vue";
+import Hot from "@/components/elements/hot/index.vue";
 import HotTwo from "@/components/elements/hot/Two.vue";
 import HotTwoOne from "@/components/elements/hot/TwoOne.vue";
 
