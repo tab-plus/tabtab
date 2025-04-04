@@ -54,8 +54,7 @@ const month = ref(today.format("YYYY年M月"));
   <style scoped>
 /* 基础盒子样式 - 添加过渡动画 */
 .calendar-box {
-  transition: width 0.2s ease, height 0.2s ease;
-  /* overflow: hidden; */
+  transition: all 0.3s ease;
   background-color: white;
   border-radius: 20px;
 }
@@ -110,6 +109,7 @@ const month = ref(today.format("YYYY年M月"));
   width: 100%;
   height: 100%;
   display: flex;
+ 
   flex-direction: column;
 }
 
@@ -123,7 +123,7 @@ const month = ref(today.format("YYYY年M月"));
   align-items: center;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  transition: font-size 0.5s ease, height 0.5s ease;
+  overflow: hidden;
 }
 
 .body {
