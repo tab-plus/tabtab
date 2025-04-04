@@ -12,6 +12,16 @@
       </div>
     </div>
 
+    <div v-if="size === '2x1'" class="content-2x1">
+      <div class="flex justify-around align-center">
+        <div class="left-2x1">
+          <div class="week-2x1">{{ dayOfWeekText }}</div>
+          <div class="day">{{ date }}</div>
+        </div>
+        <div class="right-2x1">{{ month }}</div>
+      </div>
+    </div>
+
     <!-- 2x2 布局内容 -->
     <div v-else-if="size === '2x2'" class="content-2x2">
       <div class="header-2x2">{{ month }}</div>
@@ -69,6 +79,14 @@ const month = ref(today.format("YYYY年M月"));
   justify-content: space-around;
   align-items: center;
 }
+/* 2x1 尺寸样式 */
+.calendar-box.size-2x1 {
+  width: 180px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
 /* 2x2 尺寸样式 */
 .calendar-box.size-2x2 {
@@ -111,7 +129,6 @@ const month = ref(today.format("YYYY年M月"));
   width: 100%;
   height: 100%;
   display: flex;
-
   flex-direction: column;
 }
 
@@ -146,6 +163,49 @@ const month = ref(today.format("YYYY年M月"));
 }
 
 /* end--- */
+
+/* 2x1 样式 */
+.content-2x1 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.left-2x1 {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-2x1 {
+  background-color: #f8f8f8;
+  height: 80px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.week-2x1 {
+  font-size: 14px;
+  color: #d83030;
+}
+
+/* 2x1 end */
 
 /* 公共样式 */
 
