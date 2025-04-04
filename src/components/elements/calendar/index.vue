@@ -1,6 +1,6 @@
 <template>
   <!-- 使用同一个盒子容器，通过size控制样式 -->
-  <div class="calendar-box" :class="'size-' + size">
+  <div class="calendar-box" :class="'size-' + props.size">
     <!-- 1x1 布局内容 -->
     <div v-if="size === 1" class="content-1x1">
       <div class="flex flex-direction justify-around align-center">
@@ -34,15 +34,18 @@
   </div>
 </template>
   
-  <script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import dayjs from "dayjs";
 
+import { PropType } from "vue";
+
 const props = defineProps({
   size: {
-    type: String,
+    type: [String, Number] as PropType<string | number>,
     default: "1",
-    validator: (value) => ["1", "2x2"].includes(value),
+    validator: (value: string | number) =>
+      ["1", "2x2"].includes(value.toString()),
   },
 });
 
@@ -61,18 +64,18 @@ const date = ref(today.format("DD"));
 const month = ref(today.format("YYYY年M月"));
 </script>
   
-  <style scoped>
+<style scoped>
 /* 基础盒子样式 - 添加过渡动画 */
 .calendar-box {
   transition: all 0.3s ease;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 20px;
 }
 
 /* 1x1 尺寸样式 */
 .calendar-box.size-1 {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -115,6 +118,7 @@ const month = ref(today.format("YYYY年M月"));
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .week-1x1 {
@@ -162,7 +166,7 @@ const month = ref(today.format("YYYY年M月"));
   font-size: 14px;
 }
 
-/* end--- */
+/* 2x2样式end--- */
 
 /* 2x1 样式 */
 .content-2x1 {

@@ -51,6 +51,7 @@ declare module '@vue/runtime-core' {
     HotModal: typeof import('./src/components/home/HotModal.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     MainIcon: typeof import('./src/components/home/MainIcon.vue')['default']
+    Memo: typeof import('./src/components/elements/memo/index.vue')['default']
     MemoModal: typeof import('./src/components/home/MemoModal.vue')['default']
     One: typeof import('./src/components/elements/calendar/One.vue')['default']
     PictureModal: typeof import('./src/components/home/PictureModal.vue')['default']

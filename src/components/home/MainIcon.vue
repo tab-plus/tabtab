@@ -34,15 +34,7 @@
             </div>
             <div v-else-if="icon.type === 'component'" class="one-box">
               <div v-if="icon.name == '备忘录'">
-                <div v-if="icon.size === 1">
-                  <MemoOne></MemoOne>
-                </div>
-                <div v-else-if="icon.size == '2x1'">
-                  <MemoTwoOne></MemoTwoOne>
-                </div>
-                <div v-else-if="icon.size == '2x2'">
-                  <MemoTwo></MemoTwo>
-                </div>
+                <Memo :size="icon.size"></Memo>
               </div>
               <div v-else-if="icon.name == '日历'">
                 <div>
@@ -87,6 +79,7 @@ import { Icon } from "@/types/icon";
 import MemoOne from "@/components/elements/memo/One.vue";
 import MemoTwo from "@/components/elements/memo/Two.vue";
 import MemoTwoOne from "@/components/elements/memo/TwoOne.vue";
+import Memo from "@/components/elements/memo/index.vue";
 
 import CalendarOne from "@/components/elements/calendar/One.vue";
 import CalendarFour from "@/components/elements/calendar/Four.vue";
