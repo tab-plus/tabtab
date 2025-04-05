@@ -70,7 +70,7 @@
   <style scoped>
   /* 基础盒子样式 - 添加过渡动画 */
   .memo-box {
-    transition: all 0.3s ease;
+    transition: all 5s ease;
     border-radius: 20px;
     overflow: hidden;
   }

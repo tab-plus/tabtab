@@ -1,36 +1,38 @@
 <template>
   <!-- 使用同一个盒子容器，通过size控制样式 -->
   <div class="calendar-box" :class="'size-' + props.size">
-    <!-- 1x1 布局内容 -->
-    <div v-if="size === 1" class="content-1x1">
-      <div class="flex flex-direction justify-around align-center">
-        <div class="background-1x1">
-          <div class="week-1x1">{{ dayOfWeekText }}</div>
-          <div class="day">{{ date }}</div>
+    <transition name="content-fade" mode="out-in">
+      <!-- 1x1 布局内容 -->
+      <div v-if="size === 1" key="1" class="content-1x1">
+        <div class="flex flex-direction justify-around align-center">
+          <div class="background-1x1">
+            <div class="week-1x1">{{ dayOfWeekText }}</div>
+            <div class="day">{{ date }}</div>
+          </div>
+          <p class="cl-ant-p sg-omit-sm text-white-sm">日历</p>
         </div>
-        <p class="cl-ant-p sg-omit-sm text-white-sm">日历</p>
       </div>
-    </div>
 
-    <div v-if="size === '2x1'" class="content-2x1">
-      <div class="flex justify-around align-center">
-        <div class="left-2x1">
-          <div class="week-2x1">{{ dayOfWeekText }}</div>
-          <div class="day">{{ date }}</div>
+      <div v-else-if="size === '2x1'" key="2x1" class="content-2x1">
+        <div class="flex justify-around align-center">
+          <div class="left-2x1">
+            <div class="week-2x1">{{ dayOfWeekText }}</div>
+            <div class="day">{{ date }}</div>
+          </div>
+          <div class="right-2x1">{{ month }}</div>
         </div>
-        <div class="right-2x1">{{ month }}</div>
       </div>
-    </div>
 
-    <!-- 2x2 布局内容 -->
-    <div v-else-if="size === '2x2'" class="content-2x2">
-      <div class="header-2x2">{{ month }}</div>
-      <div class="body-2x2">
-        <div class="num-2x2">{{ date }}</div>
-        <div class="day">第205天 第30周</div>
-        <div class="week-2x2">六月二十八 {{ dayOfWeekText }}</div>
+      <!-- 2x2 布局内容 -->
+      <div v-else-if="size === '2x2'" key="2x2" class="content-2x2">
+        <div class="header-2x2">{{ month }}</div>
+        <div class="body-2x2">
+          <div class="num-2x2">{{ date }}</div>
+          <div class="day">第205天 第30周</div>
+          <div class="week-2x2">六月二十八 {{ dayOfWeekText }}</div>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
   
@@ -65,9 +67,22 @@ const month = ref(today.format("YYYY年M月"));
 </script>
   
 <style scoped>
+/* .content-fade-enter-active,
+.content-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.content-fade-enter-from {
+  opacity: 0;
+  transform: scale(0.9) translateY(10px);
+}
+.content-fade-leave-to {
+  opacity: 0;
+  transform: scale(1.05);
+} */
+
 /* 基础盒子样式 - 添加过渡动画 */
 .calendar-box {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
   /* background-color: white; */
   border-radius: 20px;
 }
@@ -98,6 +113,7 @@ const month = ref(today.format("YYYY年M月"));
   border-radius: 20px;
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 
 /* 1x1 内容布局 */
@@ -178,6 +194,7 @@ const month = ref(today.format("YYYY年M月"));
   align-items: center;
   overflow: hidden;
   border-radius: 15px;
+  background-color: white;
 }
 
 .left-2x1 {
