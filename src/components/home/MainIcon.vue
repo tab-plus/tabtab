@@ -48,11 +48,8 @@
               </div>
 
               <div v-else-if="icon.name == '天气'">
-                <div v-if="icon.size === 1">
-                  <WeatherOne></WeatherOne>
-                </div>
-                <div v-else-if="icon.size === '2x2'">
-                  <WeatherFour></WeatherFour>
+                <div>
+                  <Weather :size="icon.size"></Weather>
                 </div>
               </div>
             </div>
@@ -85,6 +82,7 @@ import HotTwoOne from "@/components/elements/hot/TwoOne.vue";
 
 import WeatherOne from "@/components/elements/weather/One.vue";
 import WeatherFour from "@/components/elements/weather/Four.vue";
+import Weather from "@/components/elements/weather/index.vue";
 
 const mainIconStore = useMainIconStore();
 const route = useRoute();
@@ -146,7 +144,6 @@ function handleRightClick(id: string) {
   console.log(id, 11);
   rightId.value = id;
 }
-
 
 // 右键弹窗的选择
 function getSelect(e) {

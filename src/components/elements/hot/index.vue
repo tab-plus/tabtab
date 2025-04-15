@@ -24,7 +24,7 @@
           :key="tab.key"
           class="tab"
           :class="{ active: activeTab === tab.key }"
-          @click="activeTab = tab.key"
+          @mouseover="handleMouseOver(tab.key)"
         >
           {{ tab.label }}
         </div>
@@ -37,7 +37,7 @@
             class="hot-item"
           >
             <span class="index">{{ index + 1 }}.</span>
-            {{ item.title }}
+            <span class="title">{{ item.title }}</span>
           </div>
         </template>
         <template v-else>
@@ -88,6 +88,11 @@ const activeData = computed(() => {
   const tab = tabs.value.find((t) => t.key === activeTab.value);
   return tab ? tab.data.slice(0, 4) : [];
 });
+
+// 鼠标悬停事件处理函数
+const handleMouseOver = (key: string) => {
+  activeTab.value = key;
+};
 
 async function getHotSearch() {
   try {
@@ -183,17 +188,16 @@ getHotSearch();
   align-items: center;
 }
 
-.img-box-2x1{
-    width: 100%;
+.img-box-2x1 {
+  width: 100%;
 }
 
-.hot-icon-2x1{
-    width: 50px;
-    height: 50px;
+.hot-icon-2x1 {
+  width: 50px;
+  height: 50px;
 }
 
 /* 2x1 内容布局 end */
-
 
 /* 2x2 内容布局 */
 .content-2x2 {
@@ -201,6 +205,7 @@ getHotSearch();
   height: 100%;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(45deg, #2a2f3a, #444a56);
 }
 
 .header-2x2 {
@@ -210,6 +215,7 @@ getHotSearch();
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
+  overflow: hidden;
 }
 
 .tab {
@@ -239,12 +245,15 @@ getHotSearch();
 .hot-item {
   display: flex;
   align-items: center;
-  padding: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px;
+  /* background-color: rgba(255, 255, 255, 0.1); */
   border-radius: 8px;
+}
+
+.title {
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .index {

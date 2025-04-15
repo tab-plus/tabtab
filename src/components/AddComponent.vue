@@ -2,24 +2,24 @@
  * @Author: panrunjun
  * @Date: 2024-07-27 22:58:42
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-31 17:11:32
+ * @LastEditTime: 2025-04-15 15:19:04
  * @Description: 添加小组件
  * @FilePath: \ytab-master\src\components\AddComponent.vue
 -->
 <template>
   <div class="body">
     <div class="boxShadow" @click="addComponent('备忘录')">
-      <MemoTwo></MemoTwo>
+      <Memo :size="size"></Memo>
     </div>
     <div class="boxShadow" @click="addComponent('日历')">
-      <CalendarFour></CalendarFour>
+      <Calendar :size="size"></Calendar>
     </div>
 
-    <div class="boxShadow"  @click="addComponent('热搜')">
-      <HotTwo></HotTwo>
+    <div class="boxShadow" @click="addComponent('热搜')">
+      <Hot :size="size"></Hot>
     </div>
-    <div class="boxShadow"  @click="addComponent('天气')">
-      <WeatherFour></WeatherFour>
+    <div class="boxShadow" @click="addComponent('天气')">
+      <Weather :size="size"></Weather>
     </div>
   </div>
 </template>
@@ -29,10 +29,10 @@ import { ref, onMounted, defineProps, defineEmits } from "vue";
 import { message } from "ant-design-vue";
 import { useMainIconStore } from "@/store/mainIcon";
 import { v4 as uuidv4 } from "uuid";
-import MemoTwo from "@/components/elements/memo/Two.vue";
-import CalendarFour from "@/components/elements/calendar/Four.vue";
-import HotTwo from "@/components/elements/hot/Two.vue";
-import WeatherFour from "@/components/elements/weather/Four.vue";
+import Memo from "@/components/elements/memo/index.vue";
+import Calendar from "@/components/elements/calendar/index.vue";
+import Hot from "@/components/elements/hot/index.vue";
+import Weather from "@/components/elements/weather/index.vue";
 import { useRoute } from "vue-router";
 
 // 定义子组件触发的事件
@@ -41,6 +41,7 @@ const route = useRoute();
 const mainIconStore = useMainIconStore();
 const weather = ref<any>();
 const city = ref<string>();
+const size = ref<string | number>("2x2");
 
 weather.value = JSON.parse(localStorage.getItem("weather") || "{}");
 city.value = localStorage.getItem("city") || "";
@@ -50,7 +51,7 @@ const addComponent = (name: string) => {
   let data = {
     id: uniqueID,
     name,
-    size: '2x2',
+    size: "2x2",
     type: "component",
   };
   emit("addNewWidget", data);

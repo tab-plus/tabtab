@@ -8,7 +8,6 @@ declare module '@vue/runtime-core' {
     ABadge: typeof import('ant-design-vue/es')['Badge']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACalendar: typeof import('ant-design-vue/es')['Calendar']
-    ACard: typeof import('ant-design-vue/es')['Card']
     ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
     ACol: typeof import('ant-design-vue/es')['Col']
     AddComponent: typeof import('./src/components/AddComponent.vue')['default']
@@ -63,6 +62,7 @@ declare module '@vue/runtime-core' {
     TranslationModal: typeof import('./src/components/home/TranslationModal.vue')['default']
     Two: typeof import('./src/components/elements/hot/Two.vue')['default']
     TwoOne: typeof import('./src/components/elements/hot/TwoOne.vue')['default']
+    Weather: typeof import('./src/components/elements/weather/index.vue')['default']
     WeatherModal: typeof import('./src/components/home/WeatherModal.vue')['default']
   }
 }

@@ -67,23 +67,9 @@ const month = ref(today.format("YYYY年M月"));
 </script>
   
 <style scoped>
-/* .content-fade-enter-active,
-.content-fade-leave-active {
-  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
-}
-.content-fade-enter-from {
-  opacity: 0;
-  transform: scale(0.9) translateY(10px);
-}
-.content-fade-leave-to {
-  opacity: 0;
-  transform: scale(1.05);
-} */
-
 /* 基础盒子样式 - 添加过渡动画 */
 .calendar-box {
   transition: all 0.5s ease;
-  /* background-color: white; */
   border-radius: 20px;
 }
 
