@@ -2,13 +2,34 @@
  * @Author: panrunjun
  * @Date: 2024-07-22 21:46:02
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-28 15:46:35
+ * @LastEditTime: 2025-03-28 19:31:27
  * @Description: 首页
  * @FilePath: \ytab-master\src\views\home\index.vue
 -->
 <template>
   <!-- 登录弹窗 -->
-  <AuthModal v-model:visible="loginVisible" />
+  <AuthModal v-model:visible="loginVisible" style="z-index: 9999" />
+
+  <!-- 翻译组件弹窗 -->
+  <TranslationModal v-model:visible="translationVisible" />
+
+  <!-- 图库组件 -->
+  <PictureModal
+    v-model:visible="pictureVisible"
+    @goLogin="goLogin"
+  ></PictureModal>
+
+  <!-- 日历 -->
+  <CalendarModal v-model:visible="calendarVisible" />
+
+  <!-- 备忘录 -->
+  <MemoModal v-model:visible="memoVisible" />
+
+  <!-- 天气 -->
+  <WeatherModal v-if="weatherVisible" v-model:visible="weatherVisible" />
+
+  <!-- 热搜 -->
+  <HotModal v-model:visible="hotVisible" />
 
   <!-- 设置弹窗 -->
   <a-drawer
@@ -29,12 +50,15 @@
   <a-dropdown :trigger="['contextmenu']">
     <div class="ya-matter flex flex-direction align-center">
       <!-- 导航栏隐藏 -->
-      <div
-        class="layoutIcon"
-        @click="appStore.CHANGE_LAYOUT()"
-      >
-        <menu-fold-outlined v-show="appStore.haveLayout" :style="{ fontSize: '20px', color: 'white' }" />
-        <menu-unfold-outlined v-show="!appStore.haveLayout" :style="{ fontSize: '20px', color: 'white' }"/>
+      <div class="layoutIcon" @click="appStore.CHANGE_LAYOUT()">
+        <menu-fold-outlined
+          v-show="appStore.haveLayout"
+          :style="{ fontSize: '20px', color: 'white' }"
+        />
+        <menu-unfold-outlined
+          v-show="!appStore.haveLayout"
+          :style="{ fontSize: '20px', color: 'white' }"
+        />
       </div>
       <!-- 登录头像 -->
       <div class="loginIcon" @click="loginVisible = true">
@@ -58,11 +82,7 @@
       <main v-show="haveIcon">
         <div class="main-icon">
           <MainIcon
-            @openPicture="pictureModal.open()"
-            @openMemo="memoModal.open()"
-            @openCalendar="calendarModal.open()"
-            @openHot="hotModal.open()"
-            @openWeather="weatherModal.open()"
+            @openIndexModal="openComponentModal"
           ></MainIcon>
         </div>
 
@@ -71,143 +91,62 @@
           <Dock @handleAdd="bottomAdd"></Dock>
         </div>
       </main>
-      <!-- 日历 -->
-      <a-modal
-        :destroyOnClose="true"
-        width="1200px"
-        height="500px"
-        v-model:visible="calendarModal.isVisible.value"
-        footer=""
-        title="日历"
-        closable
-        @ok="
-          () => {
-            calendarModal.open();
-          }
-        "
-      >
-        <CalendarModal></CalendarModal>
-      </a-modal>
-
-      <!-- <GenericModal v-model:visible="calendarModal.isVisible.value" title="日历" @ok="() => { calendarModal.open() }">
-      </GenericModal> -->
-
-      <!-- 备忘录 -->
-      <a-modal
-        width="60%"
-        v-model:visible="memoModal.isVisible.value"
-        footer=""
-        title="备忘录"
-        closable
-        @ok="
-          () => {
-            memoModal.open();
-          }
-        "
-      >
-        <MemoModal></MemoModal>
-      </a-modal>
-
-      <!-- 天气 -->
-      <a-modal
-        width="60%"
-        v-model:visible="weatherModal.isVisible.value"
-        footer=""
-        title="天气"
-        closable
-        @ok="
-          () => {
-            weatherModal.open();
-          }
-        "
-      >
-        <WeatherModal></WeatherModal>
-      </a-modal>
 
       <!-- 添加图标 -->
-      <a-modal
-        width="60%"
-        v-model:visible="iconVisible"
-        footer=""
-        title="添加组件"
-        closable
-        @ok="
-          () => {
-            iconVisible = false;
-          }
-        "
-      >
-        <a-layout>
-          <a-layout-sider
-            :style="{ overflow: 'auto' }"
-            v-model:collapsed="collapsed"
-            theme="light"
-          >
-            <a-menu v-model:selectedKeys="selectedKeys" mode="inline">
-              <template v-for="item in iconMenuList" :key="item.key">
-                <a-menu-item>
-                  <pie-chart-outlined />
-                  <span>{{ item.title }}</span>
-                </a-menu-item>
-              </template>
-            </a-menu>
-          </a-layout-sider>
-          <!-- <a-button type="primary" @click="addMemoMenu()"
-            style="position:absolute;bottom: 0;left: 0;margin:10px;">+</a-button> -->
+      <div ref="globalModal">
+        <a-modal
+          :getContainer="() => $refs.globalModal"
+          width="60%"
+          v-model:visible="iconVisible"
+          footer=""
+          title="添加组件"
+          closable
+          @ok="
+            () => {
+              iconVisible = false;
+            }
+          "
+        >
           <a-layout>
-            <div v-if="selectedKeys.includes('1')">
-              <AddIcon
-                @addNewWidget="addComponent"
-                @handleClose="iconVisible = false"
-              ></AddIcon>
-            </div>
-            <div v-if="selectedKeys.includes('2')">
-              <AddComponent
-                @addNewWidget="addComponent"
-                @handleClose="iconVisible = false"
-              ></AddComponent>
-            </div>
-            <div v-if="selectedKeys.includes('3')">
-              <AddCustomize
-                @addNewWidget="addComponent"
-                @handleClose="iconVisible = false"
-              ></AddCustomize>
-            </div>
+            <a-layout-sider
+              :style="{ overflow: 'auto' }"
+              v-model:collapsed="collapsed"
+              theme="light"
+            >
+              <a-menu v-model:selectedKeys="selectedKeys" mode="inline">
+                <template v-for="item in iconMenuList" :key="item.key">
+                  <a-menu-item>
+                    <pie-chart-outlined />
+                    <span>{{ item.title }}</span>
+                  </a-menu-item>
+                </template>
+              </a-menu>
+            </a-layout-sider>
+            <!-- <a-button type="primary" @click="addMemoMenu()"
+            style="position:absolute;bottom: 0;left: 0;margin:10px;">+</a-button> -->
+            <a-layout>
+              <div v-if="selectedKeys.includes('1')">
+                <AddIcon
+                  @addNewWidget="addComponent"
+                  @handleClose="iconVisible = false"
+                ></AddIcon>
+              </div>
+              <div v-if="selectedKeys.includes('2')">
+                <AddComponent
+                  @addNewWidget="addComponent"
+                  @handleClose="iconVisible = false"
+                ></AddComponent>
+              </div>
+              <div v-if="selectedKeys.includes('3')">
+                <AddCustomize
+                  @addNewWidget="addComponent"
+                  @handleClose="iconVisible = false"
+                ></AddCustomize>
+              </div>
+            </a-layout>
           </a-layout>
-        </a-layout>
-      </a-modal>
-
-      <!-- 热搜 -->
-      <a-modal
-        width="60%"
-        v-model:visible="hotModal.isVisible.value"
-        footer=""
-        title="热搜"
-        closable
-        @ok="
-          () => {
-            hotModal.open();
-          }
-        "
-      >
-        <HotModal></HotModal>
-      </a-modal>
-
-      <!-- 图库 -->
-      <a-modal
-        width="60%"
-        v-model:visible="pictureModal.isVisible.value"
-        footer=""
-        title="图库"
-        closable
-        @ok="
-          () => {
-            pictureModal.open();
-          }
-        "
-      >
-        <PictureModal @go-login="goLogin"></PictureModal>
-      </a-modal>
+        </a-modal>
+      </div>
     </div>
     <template #overlay>
       <a-menu>
@@ -259,6 +198,7 @@ import HotModal from "@/components/home/HotModal.vue";
 import PictureModal from "@/components/home/PictureModal.vue";
 import CalendarModal from "@/components/home/CalendarModal.vue";
 import AuthModal from "@/components/AuthModal.vue";
+import TranslationModal from "@/components/home/TranslationModal.vue";
 import Dock from "@/components/home/Dock.vue";
 import Setting from "@/components/home/Setting.vue";
 import "@/styles/item.scss";
@@ -269,7 +209,7 @@ import { exportMultipleLocalStorageItems } from "@/utils/exportLocalJSON";
 import { importJSONToLocalStorage } from "@/utils/importLocalJSON";
 import { message, UploadProps } from "ant-design-vue";
 import { getCity, getLocation } from "@/utils/getLocation";
-import { MenuFoldOutlined,MenuUnfoldOutlined } from "@ant-design/icons-vue";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons-vue";
 import { useModals } from "@/hooks/useModals";
 import { useWallpaperStore } from "@/store/wallpaper";
 import { useAppStore } from "@/store/app";
@@ -278,7 +218,6 @@ import { useUserStore } from "@/store/user";
 // import GenericModal from '@/components/GenericModal';
 export const calendarModal = useModals("calendar");
 export const memoModal = useModals("memo");
-export const weatherModal = useModals("weather");
 export const hotModal = useModals("hot");
 export const pictureModal = useModals("pictuer");
 import MainIcon from "@/components/home/MainIcon.vue";
@@ -305,7 +244,6 @@ export default defineComponent({
     // GenericModal
   },
   setup() {
-
     const wallpaperStore = useWallpaperStore(); //切换背景图
     const useStore = useUserStore();
     const appStore = useAppStore();
@@ -318,11 +256,16 @@ export default defineComponent({
     const $transBackground = inject("$transBackground") as () => void; //改变背景图
     const route = useRoute();
     // const calendarModal.isVisible = ref<boolean>(false);
-    const memoVisible = ref<boolean>(false);
     const iconVisible = ref<boolean>(false); //添加图标弹窗
     const haveIcon = ref<boolean>(true);
     const loginVisible = ref<boolean>(false);
- 
+    const translationVisible = ref<boolean>(false);
+    const pictureVisible = ref<boolean>(false); //控制图库弹窗的显示
+    const weatherVisible = ref<boolean>(false);
+    const hotVisible = ref<boolean>(false);
+    const calendarVisible = ref<boolean>(false);
+    const memoVisible = ref<boolean>(false);
+
     // const clickedItem = ref<HTMLElement>(); //被点击的el
     const weather = ref<any>({}); //天气
     // 位置
@@ -367,15 +310,7 @@ export default defineComponent({
       { title: "自定义", key: "3" },
     ]);
 
-    const calendarValue = ref<Dayjs>();
-    let grid: any;
     onMounted(async () => {
-      grid = GridStack.init({
-        float: false,
-        cellHeight: "50px",
-        minRow: 1,
-      });
-
       // 获取经纬度
       if (
         !localStorage.getItem("latitude") ||
@@ -417,7 +352,6 @@ export default defineComponent({
       }
     });
 
-
     // 鼠标点击时间
     const clickTime = () => {
       console.log("clickTime!");
@@ -437,13 +371,11 @@ export default defineComponent({
       mainIconStore.ADD_ICON(v);
     }
 
-
     // 给底部添加icon
     function addBottom(data: any) {
       bottomIconStore.ADD_ICON(data);
     }
 
-  
     // 切换图片
     function changeBgImg() {
       console.log(wallpaperStore.getAllPictureWallpaper);
@@ -571,6 +503,32 @@ export default defineComponent({
       loginVisible.value = true;
     };
 
+    const openComponentModal = (name: string) => {
+      console.log(name, "openComponentModal");
+      switch (name) {
+        case "翻译":
+          translationVisible.value = true;
+          break;
+        case "图库":
+          pictureVisible.value = true;
+          break;
+        case "日历":
+          calendarVisible.value = true;
+          break;
+        case "天气":
+          weatherVisible.value = true;
+          break;
+        case "热搜":
+          hotVisible.value = true;
+          break;
+        case "备忘录":
+          memoVisible.value = true;
+          break;
+        default:
+          break;
+      }
+    };
+
     // 底部菜单栏添加icon
     const bottomAdd = (status: number) => {
       console.log(status, "bottomAdd called with num");
@@ -594,12 +552,10 @@ export default defineComponent({
     return {
       addComponent,
       memoVisible,
-      calendarValue,
       ...toRefs(memoState),
       clickTime,
       calendarModal,
       memoModal,
-      weatherModal,
       pictureModal,
       hotModal,
       haveIcon,
@@ -608,6 +564,11 @@ export default defineComponent({
       dayjs,
       dayOfWeekText,
       loginVisible,
+      translationVisible,
+      pictureVisible,
+      weatherVisible,
+      hotVisible,
+      calendarVisible,
       settingVisible,
       useStore,
       changeBgImg,
@@ -620,6 +581,7 @@ export default defineComponent({
       bottomAdd,
       handleAddIcon,
       appStore,
+      openComponentModal,
     };
   },
 });
@@ -671,5 +633,12 @@ main {
 
 .main-icon {
   height: 100%;
+}
+
+:deep(.ant-modal-content) {
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

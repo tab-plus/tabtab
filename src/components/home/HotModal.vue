@@ -1,46 +1,58 @@
 
 <template>
-  <a-layout>
-    <a-layout-sider
-      class="min-h-300"
-      :style="{ overflow: 'auto' }"
-      v-model:collapsed="collapsed"
-      theme="light"
+  <div ref="globalModal">
+    <a-modal
+      width="60%"
+      v-model:visible="props.visible"
+      footer=""
+      :getContainer="() => $refs.globalModal"
+      title="热搜"
+      closable
+      @cancel="emit('update:visible', false)"
     >
-      <a-menu v-model:selectedKeys="selectedKeys" mode="inline">
-        <template v-for="item in memoMenuList" :key="item.id">
-          <a-menu-item @contextmenu.prevent="$event.preventDefault()">
-            <span class="mr-1" v-show="!showInput">{{ item.title }}</span>
-          </a-menu-item>
-        </template>
-      </a-menu>
-    </a-layout-sider>
-    <a-layout>
-      <template v-for="item in memoMenuList" :key="item.id">
-        <div v-if="selectedKeys.includes(item.id)">
-          <div v-for="(item2, index) in item.list" :key="index">
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                margin-right: 20px;
-              "
-            >
-              <div class="Box">
-                <div class="number" :style="getBackgroundColor(index)">
-                  {{ index + 1 }}
+      <a-layout>
+        <a-layout-sider
+          class="min-h-300"
+          :style="{ overflow: 'auto' }"
+          v-model:collapsed="collapsed"
+          theme="light"
+        >
+          <a-menu v-model:selectedKeys="selectedKeys" mode="inline">
+            <template v-for="item in memoMenuList" :key="item.id">
+              <a-menu-item @contextmenu.prevent="$event.preventDefault()">
+                <span class="mr-1" v-show="!showInput">{{ item.title }}</span>
+              </a-menu-item>
+            </template>
+          </a-menu>
+        </a-layout-sider>
+        <a-layout>
+          <template v-for="item in memoMenuList" :key="item.id">
+            <div v-if="selectedKeys.includes(item.id)">
+              <div v-for="(item2, index) in item.list" :key="index">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-right: 20px;
+                  "
+                >
+                  <div class="Box">
+                    <div class="number" :style="getBackgroundColor(index)">
+                      {{ index + 1 }}
+                    </div>
+                    <a class="name" :href="item2.url" target="_blank">
+                      {{ item2.title }}
+                    </a>
+                  </div>
+                  <div style="width: 50px">{{ item2.hot }}</div>
                 </div>
-                <a class="name" :href="item2.url" target="_blank">
-                  {{ item2.title }}
-                </a>
               </div>
-              <div style="width: 50px;">{{ item2.hot }}</div>
             </div>
-          </div>
-        </div>
-      </template>
-    </a-layout>
-  </a-layout>
+          </template>
+        </a-layout>
+      </a-layout>
+    </a-modal>
+  </div>
 </template>
 
 <script lang="ts">
@@ -59,7 +71,13 @@ export default defineComponent({
     DeleteOutlined,
     FormOutlined,
   },
-  emits: ["closeMemo"], // 声明子组件可以触发的事件
+  props: {
+    visible: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ["update:visible"], // 声明子组件可以触发的事件
 
   setup(props, { emit }: { emit: Function }) {
     const memoState = reactive({
@@ -112,6 +130,8 @@ export default defineComponent({
       showInput,
       visible,
       visibleInput,
+      props,
+      emit,
       ...toRefs(memoState),
       getBackgroundColor,
     };
@@ -135,7 +155,6 @@ export default defineComponent({
 .name {
   font-size: 20px;
   margin: 5px;
-
 }
 
 .number {
@@ -152,5 +171,8 @@ export default defineComponent({
 
 .ant-layout {
   background: white;
+  height: 600px;
+  overflow: auto;
 }
+
 </style>

@@ -3,13 +3,13 @@
     {
       "name": "iyk1",
       "url": "https://www4.bing.com//th?id=OHR.AlpineLakes_ZH-CN4537389724_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-      "themeColor": "rgb(64,57,51,0.3)",
+      "themeColor": "rgb(255,255,255,0.3)",
       "attribute": "picture"
     },
     {
       "name": "4",
-      "url": "https://files.codelife.cc/wallhaven/full/5g/wallhaven-5ggol7.png?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp",
-      "themeColor": "rgb(213,243,243,0.3)",
+      "url": "http://106.52.154.20:9000/tabs/1742976518671-wallhaven-96kdzx.png",
+      "themeColor": "rgb(0,0,0,0.3)",
       "attribute": "picture"
     }
   ],

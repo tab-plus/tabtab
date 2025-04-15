@@ -2,9 +2,9 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 16:02:29
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-31 15:00:51
+ * @LastEditTime: 2025-03-31 17:18:01
  * @Description: 热搜组件
- * @FilePath: \ytab-master\src\components\elements\hot\One.vue
+ * @FilePath: \ytab-master\src\components\elements\hot\TwoOne.vue
 -->
 <template>
   <div class="box">
@@ -22,24 +22,25 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
+  
+  <script setup lang="ts">
 import hotImg from "@/assets/icon/hotSearch.png";
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .box {
-  width: 80px;
+  width: 180px;
   height: 80px;
   border-radius: 5px;
-  /* margin: 20px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hotSearchItem-bgColor {
-  width: 60px;
+  width: 180px;
   height: 60px;
   background: linear-gradient(45deg, #2a2f3a, #444a56);
   border-radius: 20px;
-  /* background-color: rgba(255, 255, 255,0.5); */
 }
 </style>

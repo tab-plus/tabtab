@@ -2,7 +2,7 @@
  * @Author: panrunjun
  * @Date: 2025-03-25 13:51:06
  * @LastEditors: Do not edit
- * @LastEditTime: 2025-03-27 17:19:44
+ * @LastEditTime: 2025-03-29 11:46:27
  * @Description: 备忘录4x4
  * @FilePath: \ytab-master\src\components\elements\calendar\Four.vue
 -->
@@ -41,8 +41,8 @@ const month = ref(dayjs(new Date()).format("YYYY年M月"));
 <style scoped>
 .item {
   width: 180px;
-  margin: 20px;
-  height: 160px;
+  /* margin: 20px; */
+  height: 180px;
   border-radius: 20px;
 }
 .body {

@@ -15,7 +15,7 @@ export type Icon = {
   name: string,
   src: string,
   id: string,
-  size: number,
+  size: number | string,
   x: number,
   y: number,
   routeName: string
